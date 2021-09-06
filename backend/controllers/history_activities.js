@@ -20,3 +20,5 @@ const listActivities = async (req, res) => {
     return res.status(400).send("no exists Activity");
   return res.status(200).send({ activity });
 };
+
+module.exports={registerActivies,listActivities}
