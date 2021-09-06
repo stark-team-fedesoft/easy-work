@@ -10,4 +10,4 @@ const history_activities = mongoose.model(
   "history_activities",
   history_activitiesSchema
 );
-module.exports = history_activitiesSchema;
+module.exports = history_activities;
