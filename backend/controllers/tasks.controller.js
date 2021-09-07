@@ -3,9 +3,13 @@ const Tasks = require('../models/tasks.model');
 
 const create = async(req, res) => {
     try {
-        if( !req.body.name || !req.body.list_id ) return res.status(400).send('Incomplete data');
+        if( !req.body.name || !req.body.list_id || !req.body.priority ) return res.status(400).send('Incomplete data');
 
         // TODO validar id de lista
+
+        const priority = parseInt( req.body.priority );
+
+        if( priority > 5 || priority < 0 ) return res.status(400).send('Enter a valid priority');
 
         const task = new Tasks({
             name        : req.body.name,
@@ -33,7 +37,11 @@ const list = async(req, res) => {
 
 const update = async(req, res) => {
     try {
-        if( !req.body._id || !req.body.name || !req.body.list_id || !req.body.is_archived ) return res.status(400).send('Incomplete data');
+        if( !req.body._id || !req.body.name || !req.body.list_id || !req.body.is_archived || !req.body.priority ) return res.status(400).send('Incomplete data');
+
+        const priority = parseInt( req.body.priority );
+
+        if( priority > 5 || priority < 0 ) return res.status(400).send('Enter a valid priority');
 
         const result = await Tasks.findByIdAndUpdate(req.body._id, {
             name        : req.body.name,
