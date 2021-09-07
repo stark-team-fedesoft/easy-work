@@ -1,4 +1,5 @@
 const TasksList = require('../models/tasks-list.model');
+const Tasks     = require('../models/tasks.model');
 
 const create = async(req, res) => {
     try {
@@ -55,12 +56,26 @@ const update = async(req, res) => {
 }
 
 const del = async(req, res) => {
-    // TODO validar usuario
-    const result = await TasksList.findByIdAndDelete( req.params._id );
+    try{
+        const tasks = await Tasks.find({ list_id: req.params._id });
 
-    if( !result ) return res.status(400).send('An error ocurred. Please try again later');
+        for(let task of tasks ) {
+            const resTask = await Tasks.findByIdAndDelete( task._id );
+            
+            if( !resTask )  return res.status(400).send('An error ocurred removing tasks of list. Please try again later');
+        }
 
-    return res.status(200).send({ data: req.params._id });
+        const result = await TasksList.findByIdAndDelete( req.params._id );
+        if( !result ) return res.status(400).send('An error ocurred. Please try again later');
+        
+        setTimeout(() => {        
+            return res.status(200).send({ data: req.params._id });
+        }, 2000);
+
+    } catch(e) {
+        console.log(`tasks list controller del error: ${e}`);
+        return res.status(400).send('An error ocurred creating task');
+    }
 }
 
 module.exports = { create, list, update, del };

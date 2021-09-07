@@ -12,8 +12,8 @@ console.log('\x1b[33m%s\x1b[0m', 'Registring tasks routing /api/tasks');
 console.log('[POST] /create ');
 router.post('/create', tasksController.create);
 
-console.log('[GET] /list ');
-router.get('/list', tasksController.list);
+console.log('[GET] /list/:list_id ');
+router.get('/list/:list_id', tasksController.list);
 
 console.log('[PUT] /update ');
 router.put('/update', tasksController.update);

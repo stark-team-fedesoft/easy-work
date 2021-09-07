@@ -1,11 +1,8 @@
-const Tasks = require('../models/tasks.model');
-// TODO agregar modelo de listas
+const Tasks     = require('../models/tasks.model');
 
 const create = async(req, res) => {
     try {
         if( !req.body.name || !req.body.list_id || !req.body.priority ) return res.status(400).send('Incomplete data');
-
-        // TODO validar id de lista
 
         const priority = parseInt( req.body.priority );
 
@@ -31,7 +28,7 @@ const create = async(req, res) => {
 }
 
 const list = async(req, res) => {
-    const tasks = await Tasks.find();
+    const tasks = await Tasks.find({ list_id: req.params.list_id });
     return res.status(200).send({ data: tasks });
 }
 
