@@ -8,8 +8,6 @@ const taskListRoutes = require('./routes/tasks-list.route');
 const Role = require("./routes/role");
 const User = require("./routes/user");
 
-
-
 require("dotenv").config();
 
 const app = express();
