@@ -10,6 +10,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { MainBoardComponent } from './views/board/main-board/main-board.component';
+import { LoginComponent } from './views/home/login/login.component';
+import { RegisterComponent } from './views/home/register/register.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +19,8 @@ import { MainBoardComponent } from './views/board/main-board/main-board.componen
     HeaderComponent,
     FooterComponent,
     MainBoardComponent,
+    LoginComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
