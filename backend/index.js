@@ -7,6 +7,7 @@ const taskRoutes     = require('./routes/tasks.route');
 const taskListRoutes = require('./routes/tasks-list.route');
 const Role = require("./routes/role");
 const User = require("./routes/user");
+const Board = require("./routes/board");
 
 require("dotenv").config();
 
@@ -19,6 +20,7 @@ app.use('/api/tasks', taskRoutes);
 app.use('/api/tasks-list', taskListRoutes);
 app.use("/api/role", Role);
 app.use("/api/user", User);
+app.use("/api/board", Board);
 
 
 
