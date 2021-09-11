@@ -8,6 +8,7 @@ const taskListRoutes = require('./routes/tasks-list.route');
 const Role = require("./routes/role");
 const User = require("./routes/user");
 const Board = require("./routes/board");
+const SpaceWork = require("./routes/spaceWork");
 
 
 
@@ -23,6 +24,7 @@ app.use('/api/tasks-list', taskListRoutes);
 app.use("/api/role", Role);
 app.use("/api/user", User);
 app.use("/api/board", Board);
+app.use("/api/spaceWork", SpaceWork);
 
 
 
