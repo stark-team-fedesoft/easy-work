@@ -5,8 +5,6 @@ const create = async(req, res) => {
     try {
         if( !req.body.name || !req.body.board_id ) return res.status(400).send('Incomplete data');
 
-        // TODO validar board id
-
         const existingList = await TasksList.findOne({ name: req.body.name });
         if( existingList ) return res.status(400).send('Task list already exist');
 
@@ -36,8 +34,6 @@ const list = async(req, res) => {
 const update = async(req, res) => {
     try {
         if( !req.body.name || !req.body.board_id || !req.body.is_archived ) return res.status(400).send('Incomplete data');
-
-        // TODO validar board id
 
         const result = await TasksList.findByIdAndUpdate(req.body._id, {
             name        : req.body.name,
