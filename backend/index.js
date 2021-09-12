@@ -24,7 +24,7 @@ app.use('/api/tasks-list', taskListRoutes);
 app.use("/api/role", Role);
 app.use("/api/user", User);
 app.use("/api/board", Board);
-app.use("/api/spaceWork", SpaceWork);
+app.use("/api/workspaces", SpaceWork);
 
 
 
