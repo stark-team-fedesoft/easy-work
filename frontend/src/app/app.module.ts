@@ -12,7 +12,9 @@ import { FooterComponent } from './components/footer/footer.component';
 import { MainBoardComponent } from './views/board/main-board/main-board.component';
 import { LoginComponent } from './views/home/login/login.component';
 import { RegisterComponent } from './views/home/register/register.component';
+import { BeginComponent } from './views/home/begin/begin.component';
 
+import { UserService } from './services/user.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,6 +23,7 @@ import { RegisterComponent } from './views/home/register/register.component';
     MainBoardComponent,
     LoginComponent,
     RegisterComponent,
+    BeginComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,7 +34,9 @@ import { RegisterComponent } from './views/home/register/register.component';
     MaterialModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    UserService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
