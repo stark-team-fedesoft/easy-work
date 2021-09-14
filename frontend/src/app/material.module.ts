@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatListModule } from '@angular/material/list';
 
 const modules = [
   MatToolbarModule,
@@ -19,6 +20,7 @@ const modules = [
   MatProgressBarModule,
   MatSnackBarModule,
   MatDialogModule,
+  MatListModule,
 ]
 
 @NgModule({

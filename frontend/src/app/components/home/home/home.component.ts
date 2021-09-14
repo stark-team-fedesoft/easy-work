@@ -1,5 +1,9 @@
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { WorkspaceI } from 'src/app/interfaces/workspace';
+import { SnackbarService } from 'src/app/services/snackbar.service';
+import { WorkspacesService } from 'src/app/services/workspaces.service';
 import { CreateWorkspaceComponent } from '../../dialogs/create-workspace/create-workspace.component';
 
 @Component({
@@ -9,7 +13,15 @@ import { CreateWorkspaceComponent } from '../../dialogs/create-workspace/create-
 })
 export class HomeComponent implements OnInit {
 
-  constructor(public dialog: MatDialog) { }
+  workspaces: WorkspaceI[];
+
+  constructor(
+    public dialog: MatDialog,
+    private workspaceSvc: WorkspacesService,
+    private snackSvc: SnackbarService
+  ) {
+    this.getWorkspaces();
+  }
 
   ngOnInit(): void {
   }
@@ -20,10 +32,20 @@ export class HomeComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe( res => {
-      console.log('cerrado');
-      console.log(res);
-      
-    });
+      this.getWorkspaces();
+    })
+  }
+
+  getWorkspaces() {
+    this.workspaceSvc.list().subscribe(
+      (res: any) => {
+        this.workspaces = res.data;
+        
+      },
+      (err: HttpErrorResponse) => {
+        this.snackSvc.opensnack(err.error);
+      }
+    )
   }
 
 }
