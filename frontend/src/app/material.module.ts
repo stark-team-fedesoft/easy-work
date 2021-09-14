@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
 
 const modules = [
   MatToolbarModule,
@@ -17,6 +18,7 @@ const modules = [
   MatIconModule,
   MatProgressBarModule,
   MatSnackBarModule,
+  MatDialogModule,
 ]
 
 @NgModule({

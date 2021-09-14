@@ -11,6 +11,7 @@ import { RegisterComponent } from './components/auth/register/register.component
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './components/home/home/home.component';
+import { CreateWorkspaceComponent } from './components/dialogs/create-workspace/create-workspace.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { HomeComponent } from './components/home/home/home.component';
     HeaderComponent,
     LoginComponent,
     RegisterComponent,
-    HomeComponent
+    HomeComponent,
+    CreateWorkspaceComponent
   ],
   imports: [
     BrowserModule,
