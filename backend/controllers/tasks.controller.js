@@ -25,6 +25,20 @@ const create = async(req, res) => {
         const priority = parseInt( req.body.priority );
 
         if( priority > 5 || priority < 0 ) return res.status(400).send('Enter a valid priority');
+        
+        let end_date = new Date().setDate( new Date().getDate() + 30 );
+        
+        end_date = new Date(end_date);
+        
+        if( req.body.end_date ) {
+            const arr_date = req.body.end_date.split("-");
+            const current  = new Date().getTime(); // current timestamp
+            const end      = new Date(arr_date[0], arr_date[1] - 1, arr_date[2]).getTime(); // user req timestamp
+            
+            if( current > end ) return res.status(400).send('The end date is greather than current date');
+            
+            end_date = new Date(arr_date[0], arr_date[1] - 1, arr_date[2]);
+        }
 
         const task = new Tasks({
             name        : req.body.name,
@@ -32,6 +46,7 @@ const create = async(req, res) => {
             is_archived : false,
             list_id     : req.body.list_id,
             priority,
+            end_date,
         });
 
         const result = await task.save();
@@ -95,11 +110,27 @@ const update = async(req, res) => {
 
         if( priority > 5 || priority < 0 ) return res.status(400).send('Enter a valid priority');
 
+        let end_date = new Date().setDate( new Date().getDate() + 30 );
+        
+        end_date = new Date(end_date);
+        
+        if( req.body.end_date ) {
+            const arr_date = req.body.end_date.split("-");
+            const current  = new Date().getTime(); // current timestamp
+            const end      = new Date(arr_date[0], arr_date[1] - 1, arr_date[2]).getTime(); // user req timestamp
+            
+            if( current > end ) return res.status(400).send('The end date is greather than current date');
+            
+            end_date = new Date(arr_date[0], arr_date[1] - 1, arr_date[2]);
+        }
+
         const task = await Tasks.findByIdAndUpdate(req.body._id, {
             name        : req.body.name,
             description : req.body.description,
             is_archived : req.body.is_archived,
             list_id     : req.body.list_id,
+            priority,
+            end_date,
         });
 
         const result = await task.save();
