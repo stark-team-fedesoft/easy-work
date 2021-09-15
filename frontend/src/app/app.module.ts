@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { HeaderComponent } from './components/layout/header/header.component';
 import { MaterialModule } from './material.module';
 import { LoginComponent } from './components/auth/login/login.component';
@@ -13,7 +14,10 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HomeComponent } from './components/home/home/home.component';
 import { CreateWorkspaceComponent } from './components/dialogs/create-workspace/create-workspace.component';
 import { TokenInterceptorService } from './services/token-interceptor.service';
+import { FooterComponent } from './components/footer/footer.component';
+import { BeginComponent } from './components/auth/begin/begin.component';
 
+import { UserService } from './services/user.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +25,9 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
     LoginComponent,
     RegisterComponent,
     HomeComponent,
-    CreateWorkspaceComponent
+    CreateWorkspaceComponent,
+    BeginComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +43,9 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,
       multi: true,
-    }
+    },
+    UserService
+
   ],
   bootstrap: [AppComponent]
 })

@@ -1,0 +1,15 @@
+h2{
+    height: 230px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    color: #000000;
+    font-size: 120px;
+  }
+h3{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    color: #000000;
+    font-size: 15px;
+}
