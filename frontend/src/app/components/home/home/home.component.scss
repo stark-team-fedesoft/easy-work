@@ -1,10 +1,10 @@
 div.panels {
     width: 80%;
-    border: 2px solid red;
     margin: 0 auto;
-    margin-top: 50px;
+    margin-top: 30px;
     padding: 5px;
     min-height: 80vh;
+    display: flex;
 }
 
 div.workspaces {
@@ -17,4 +17,32 @@ div.workspaces {
         text-align: center;
         font-weight: 700;
     }
+}
+
+div.boards {
+    width: 80%;
+    padding: 50px 40px 40px 40px;
+    h3{
+        font-weight: 500;
+    }
+    div.no-workspace {
+        padding: 20px 50px;
+        font-size: 1.2rem;
+    }
+
+    div.boards-list {
+        padding-top: 20px;
+        mat-card {
+            width: 20%;
+            height: 50px;
+            font-weight: 600;
+        }
+        mat-card.new-board {
+            background-color: #ccc;
+        }
+    }
+}
+
+.actived {
+    background-color: #ccc;
 }
