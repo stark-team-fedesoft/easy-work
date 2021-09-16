@@ -15,6 +15,8 @@ import { CreateWorkspaceComponent } from './components/dialogs/create-workspace/
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { CreateBoardComponent } from './components/dialogs/create-board/create-board.component';
 import { BoardComponent } from './components/home/board/board.component';
+import { ActivitiesComponent } from './components/activities/activities.component';
+import { ActivitiesService } from "./services/activities.service";
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import { BoardComponent } from './components/home/board/board.component';
     HomeComponent,
     CreateWorkspaceComponent,
     CreateBoardComponent,
-    BoardComponent
+    BoardComponent,
+    ActivitiesComponent
   ],
   imports: [
     BrowserModule,
@@ -37,6 +40,7 @@ import { BoardComponent } from './components/home/board/board.component';
     HttpClientModule,
   ],
   providers: [
+    ActivitiesService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,
