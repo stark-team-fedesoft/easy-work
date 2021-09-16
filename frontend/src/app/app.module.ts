@@ -8,6 +8,9 @@ import { HeaderComponent } from './components/layout/header/header.component';
 import { MaterialModule } from './material.module';
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
+import { UserService } from './services/user.service';
+import { BeginComponent } from './components/auth/begin/begin.component';
+import { FooterComponent } from './components/footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HomeComponent } from './components/home/home/home.component';
@@ -21,7 +24,9 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
     LoginComponent,
     RegisterComponent,
     HomeComponent,
-    CreateWorkspaceComponent
+    CreateWorkspaceComponent,
+    BeginComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +42,8 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,
       multi: true,
-    }
+    },
+    UserService
   ],
   bootstrap: [AppComponent]
 })

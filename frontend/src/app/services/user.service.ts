@@ -10,15 +10,15 @@ export class UserService {
   private env: string;
 
   constructor(private _http: HttpClient, private _router: Router) {
-    this.env = environment.apiURL;
+    this.env = environment.BASE_URL;
   }
 
   registerUser(user: any) {
-    return this._http.post<any>(this.env + 'user/registerUser', user);
+    return this._http.post<any>(this.env + '/user/registerUser', user);
   }
 
   login(user: any) {
-    return this._http.post<any>(this.env + 'user/login', user);
+    return this._http.post<any>(this.env + '/user/login', user);
   }
 
   loggedIn() {
@@ -40,22 +40,22 @@ export class UserService {
   }
 
   getRole(email: string) {
-    return this._http.get<any>(this.env + 'user/getRole/' + email);
+    return this._http.get<any>(this.env + '/user/getRole/' + email);
   }
 
   listUser(name: string) {
-    return this._http.get<any>(this.env + 'user/listUser/' + name);
+    return this._http.get<any>(this.env + '/user/listUser/' + name);
   }
 
   updateUser(user: any) {
-    return this._http.put<any>(this.env + 'user/updateUser', user);
+    return this._http.put<any>(this.env + '/user/updateUser', user);
   }
 
   deleteUser(user: any) {
-    return this._http.put<any>(this.env + 'user/deleteUser', user);
+    return this._http.put<any>(this.env + '/user/deleteUser', user);
   }
 
   registerAdmin(user: any) {
-    return this._http.post<any>(this.env + 'user/registerAdmin', user);
+    return this._http.post<any>(this.env + '/user/registerAdmin', user);
   }
 }

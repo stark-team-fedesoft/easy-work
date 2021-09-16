@@ -1,55 +1,75 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../../../services/user.service';
 import { Router } from '@angular/router';
-import { UserI } from 'src/app/interfaces/user';
-import { AuthService } from 'src/app/services/auth.service';
-import { SnackbarService } from 'src/app/services/snackbar.service';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
-
-  user: UserI;
-  loading = false;
+  registerData: any;
+  message: string = '';
+  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
+  durationInSeconds: number = 2;
 
   constructor(
-    private snackSvc: SnackbarService,
-    private authSvc: AuthService,
-    private router: Router
+    private _userService: UserService,
+    private _router: Router,
+    private _snackBar: MatSnackBar
   ) {
-    this.clearData();
+    this.registerData = {};
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  private clearData() {
-    this.user = {
-      email: '',
-      password: '',
+  registerUser() {
+    if (
+      !this.registerData.name ||
+      !this.registerData.email ||
+      !this.registerData.password
+    ) {
+      this.message = 'Failed process: Imcomplete data';
+      this.openSnackBarError();
+      this.registerData = {};
+    } else {
+      this._userService.registerUser(this.registerData).subscribe(
+        (res) => {
+          localStorage.setItem('token', res.jwtToken);
+          this._router.navigate(['/home']);
+          this.message = 'Successfull user registration';
+          this.openSnackBarSuccesfull();
+          this.registerData = {};
+        },
+        (err) => {
+          this.message = err.error;
+          this.openSnackBarError();
+        }
+      );
     }
   }
 
-  register(ev: Event): void {
-    ev.preventDefault();
-    
-    if( !this.user.name || !this.user.email || !this.user.password ) return this.snackSvc.opensnack('Complete todos los datos');
-
-    this.loading = true;
-    this.authSvc.register(this.user).subscribe(
-      (res: any) => {
-        this.loading = false;
-        this.snackSvc.opensnack('Registro correcto');
-        this.clearData();
-        this.router.navigate(['/login']);
-      },
-      (err: any) => {
-        this.loading = false;
-        this.snackSvc.opensnack(`Registro incorrecto ${ err.error }`);
-      }
-    )
+  openSnackBarSuccesfull() {
+    this._snackBar.open(this.message, 'X', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      duration: this.durationInSeconds * 1000,
+      panelClass: ['style-snackBarTrue'],
+    });
   }
 
+  openSnackBarError() {
+    this._snackBar.open(this.message, 'X', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      duration: this.durationInSeconds * 1000,
+      panelClass: ['style-snackBarFalse'],
+    });
+  }
 }

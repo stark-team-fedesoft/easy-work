@@ -1,33 +1,50 @@
-<div>
-    <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
-    <mat-card>
-        <mat-card-title>Registrarse</mat-card-title>
-
+<div class="flip-card">
+    <div class="flip-card-inner">
+      <div class="flip-card-front">
+        <img src="../../../../assets/img/registe.png" alt="Avatar" class="img">
+      </div>
+      <div class="flip-card-back">
+      <mat-card class="card">
+        <mat-card-title>Sign up</mat-card-title>
         <mat-card-content>
-            <form (ngSubmit)="register($event)" id="register">
-                <mat-form-field appearance="outline">
-                    <mat-label>Nombre</mat-label>
-                    <mat-icon matPrefix>person</mat-icon>
-                    <input matInput [(ngModel)]="user.name" name="name" required autofocus>
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                    <mat-label>Correo electronico</mat-label>
-                    <mat-icon matPrefix>email</mat-icon>
-                    <input matInput [(ngModel)]="user.email" name="email" required>
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                    <mat-label>Contraseña</mat-label>
-                    <mat-icon matPrefix>vpn_key</mat-icon>
-                    <input type="password" matInput [(ngModel)]="user.password" name="password" required>
-                </mat-form-field>
-            </form>
+          <div class="container">
+            <mat-form-field>
+              <input
+                [(ngModel)]="registerData.name"
+                matInput
+                placeholder="Name and lastname"
+                required
+                autofocus
+              />
+            </mat-form-field>
+            <mat-form-field>
+              <input
+                [(ngModel)]="registerData.email"
+                type="email"
+                matInput
+                placeholder="Email"
+                required
+              />
+            </mat-form-field>
+            <mat-form-field>
+              <input
+                [(ngModel)]="registerData.password"
+                type="password"
+                matInput
+                placeholder="Password"
+                required
+                (keyup.enter)="registerUser()"
+              />
+            </mat-form-field>
+          </div>
         </mat-card-content>
-
         <mat-card-actions>
-            <button type="submit" mat-raised-button form="register" style="width: 100%;" color="primary" [disabled]="loading"> Registrarse </button>
-            <button type="button" mat-button style="width: 100%; margin-top: 10px;" color="primary" routerLink="/login"> Iniciar sesión </button>
+          <button (click)="registerUser()" class="button" mat-raised-button>
+            Sign up
+          </button>
         </mat-card-actions>
-    </mat-card>
-</div>
+      </mat-card>
+      </div>
+    </div>
+  </div>
+  

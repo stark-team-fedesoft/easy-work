@@ -1,56 +1,81 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../../../services/user.service';
 import { Router } from '@angular/router';
-import { UserI } from 'src/app/interfaces/user';
-import { AuthService } from 'src/app/services/auth.service';
-import { SnackbarService } from 'src/app/services/snackbar.service';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
+
+import {FormControl, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-
-  user: UserI;
-  loading = false;
+  loginData: any;
+  message: string = '';
+  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
+  durationInSeconds: number = 2;
+  
+  emailFormControl = new FormControl('', [
+    Validators.required,
+    Validators.email,
+  ]);
 
   constructor(
-    private authSvc: AuthService,
-    private snackSvc: SnackbarService,
-    private router: Router
+    private _userService: UserService,
+    private _router: Router,
+    private _snackBar: MatSnackBar
   ) {
-    this.clearData();
+    this.loginData = {};
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  private clearData() {
-    this.user = {
-      email: '',
-      password: '',
+  login() {
+    if (!this.loginData.email || !this.loginData.password) {
+      this.message = 'Failed process: Imcomplete data';
+      this.openSnackBarError();
+      this.loginData = {};
+    } else {
+      this._userService.login(this.loginData).subscribe(
+        (res) => {
+          localStorage.setItem('token', res.jwtToken);
+          this._router.navigate(['/home']);
+          this.getRole(this.loginData.email);
+          this.loginData = {};
+        },
+        (err) => {
+          this.message = err.error;
+          this.openSnackBarError();
+        }
+      );
     }
   }
 
-  login(ev: Event): void {
-    ev.preventDefault();
-    
-    if( !this.user.email || !this.user.password ) return this.snackSvc.opensnack('Complete todos los datos');
-
-    this.loading = true;
-    this.authSvc.login(this.user).subscribe(
-      (res: any) => {
-        this.loading = false;
-        this.snackSvc.opensnack('Bienvenido');
-        this.clearData();
-        this.authSvc.setToken(res.jwtToken);
-        this.router.navigate(['/home']);
+  getRole(email: string) {
+    this._userService.getRole(email).subscribe(
+      (res) => {
+        localStorage.setItem('role', res.role);
       },
-      (err: any) => {
-        this.loading = false;
-        this.snackSvc.opensnack(`${ err.error }`);
+      (err) => {
+        console.log(err);
       }
-    )
+    );
   }
 
+  openSnackBarError() {
+    this._snackBar.open(this.message, 'X', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      duration: this.durationInSeconds * 1000,
+      panelClass: ['style-snackBarFalse'],
+    });
+  }
+  
 }
+
