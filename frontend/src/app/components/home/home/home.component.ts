@@ -62,7 +62,8 @@ export class HomeComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe( res => {
-      this.router.navigate(['/boards', dialogRef.componentInstance.boardCreated._id]);
+      if( dialogRef.componentInstance.boardCreated._id )
+        this.router.navigate(['/boards', dialogRef.componentInstance.boardCreated._id]);
     });
   }
 
