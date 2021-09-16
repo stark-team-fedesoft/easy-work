@@ -1,0 +1,26 @@
+<mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+<h1 mat-dialog-title>Crear espacio de trabajo</h1>
+<hr>
+
+<div mat-dialog-content>
+    <h2>Crear un espacio de trabajo</h2>
+    <p>Proporciona los siguientes datos y continue para crear el primer tablero.</p>
+
+    <form (ngSubmit)="createWorkspace($event)" id="workspace">
+        <mat-form-field appearance="outline" class="name">
+            <mat-label>Nombre</mat-label>
+            <mat-icon matPrefix>light</mat-icon>
+            <input matInput [(ngModel)]="workspace.name" name="name" required autofocus>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="description">
+            <mat-label>Descripción</mat-label>
+            <textarea matInput [(ngModel)]="workspace.description" name="description"></textarea>
+        </mat-form-field>
+    </form>
+</div>
+
+<div mat-dialog-actions style="justify-content: flex-end;">
+    <button type="button" mat-raised-button (click)="onNoClick()" [disabled]="loading">Cancelar</button>
+    <button type="submit" form="workspace" mat-raised-button color="primary" [disabled]="loading">Continuar</button>
+</div>

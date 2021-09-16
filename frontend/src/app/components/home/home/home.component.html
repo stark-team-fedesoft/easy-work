@@ -1,0 +1,16 @@
+<div>
+    <div class="panels">
+        <div class="workspaces">
+            <h3>ESPACIOS DE TRABAJO</h3>
+            <hr/>
+            <button mat-button (click)="openCrateWorkspaceDialog()">
+                <mat-icon>add</mat-icon>
+                Agregar espacio de trabajo
+            </button>
+
+            <mat-list>
+                <mat-list-item *ngFor="let workspace of workspaces"> {{ workspace.name }} </mat-list-item>
+            </mat-list>
+        </div>
+    </div>
+</div>

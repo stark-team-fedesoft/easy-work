@@ -5,9 +5,11 @@ const {dbconnection} = require('./db/db');
 const History_activities = require("./routes/history_activities");
 const taskRoutes     = require('./routes/tasks.route');
 const taskListRoutes = require('./routes/tasks-list.route');
-const Role = require("./routes/role");
-const User = require("./routes/user");
-const Board = require("./routes/board");
+const Role           = require("./routes/role");
+const User           = require("./routes/user");
+const Board          = require("./routes/board");
+const SpaceWork      = require("./routes/spaceWork");
+const commentRoutes  = require("./routes/comments.route");
 
 require("dotenv").config();
 
@@ -21,8 +23,8 @@ app.use('/api/tasks-list', taskListRoutes);
 app.use("/api/role", Role);
 app.use("/api/user", User);
 app.use("/api/board", Board);
-
-
+app.use("/api/workspaces", SpaceWork);
+app.use("/api/task-comments", commentRoutes);
 
 app.listen( process.env.PORT, () =>
     console.log("Backend server running on port: " + process.env.PORT )

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const history_activitiesSchema = new mongoose.Schema({
-  idUser: { type: mongoose.Schema.ObjectId, ref: "User" },
+  idUser: { type: mongoose.Schema.ObjectId, ref: "user" },
   description: String,
   date: { type: Date, default: Date.now },
 });

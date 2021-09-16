@@ -3,22 +3,21 @@ const router  = express.Router();
 // controller
 const tasksListController = require('../controllers/tasks-list.controller');
 // Middleware
-// const auth         = require('../middleware/auth');
-// const validateUser = require('../middleware/validateUser');
-// const upload       = require('../middleware/file');
+const auth         = require('../middleware/auth');
+const validateUser = require('../middleware/validateUser');
 
 console.log('\x1b[33m%s\x1b[0m', 'Registring tasks routing /api/tasks-list');
 
 console.log('[POST] /create ');
-router.post('/create', tasksListController.create);
+router.post('/create', auth, validateUser, tasksListController.create);
 
 console.log('[GET] /list/:board_id ');
-router.get('/list/:board_id', tasksListController.list);
+router.get('/list/:board_id', auth, validateUser, tasksListController.list);
 
 console.log('[PUT] /update ');
-router.put('/update', tasksListController.update);
+router.put('/update', auth, validateUser, tasksListController.update);
 
 console.log('[DELETE] /delete/:_id ');
-router.delete('/delete/:_id', tasksListController.del);
+router.delete('/delete/:_id', auth, validateUser, tasksListController.del);
 
 module.exports = router;
