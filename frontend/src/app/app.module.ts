@@ -13,6 +13,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HomeComponent } from './components/home/home/home.component';
 import { CreateWorkspaceComponent } from './components/dialogs/create-workspace/create-workspace.component';
 import { TokenInterceptorService } from './services/token-interceptor.service';
+import { CreateBoardComponent } from './components/dialogs/create-board/create-board.component';
+import { BoardComponent } from './components/home/board/board.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
     LoginComponent,
     RegisterComponent,
     HomeComponent,
-    CreateWorkspaceComponent
+    CreateWorkspaceComponent,
+    CreateBoardComponent,
+    BoardComponent
   ],
   imports: [
     BrowserModule,
