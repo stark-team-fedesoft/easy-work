@@ -1,9 +1,21 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
+import { LoginComponent } from './components/auth/login/login.component';
+import { RegisterComponent } from './components/auth/register/register.component';
+import { BoardComponent } from './components/home/board/board.component';
+import { HomeComponent } from './components/home/home/home.component';
+import { AuthGuard } from './guards/auth.guard';
 import { MainBoardComponent } from './views/board/main-board/main-board.component';
 
+
 const routes: Routes = [
-  {path: 'board', component: MainBoardComponent}
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'home/:workspace_id', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'boards/:board_is', component: BoardComponent, canActivate: [AuthGuard] },
+  { path: 'board', component: MainBoardComponent },
 ];
 
 @NgModule({

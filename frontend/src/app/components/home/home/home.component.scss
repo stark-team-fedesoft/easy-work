@@ -1,0 +1,65 @@
+div.panels {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 30px;
+    padding: 5px;
+    min-height: 80vh;
+    display: flex;
+}
+
+div.workspaces {
+    width: 20%;
+    background-color: rgb(240, 240, 240);
+    border-right: 1px solid #ccc;
+    padding: 5px;
+    min-height: 40rem;
+    h3 {
+        text-align: center;
+        font-weight: 700;
+    }
+}
+
+div.boards {
+    width: 80%;
+    padding: 50px 40px 40px 40px;
+    h3{
+        font-weight: 500;
+    }
+    div.no-workspace {
+        padding: 20px 50px;
+        font-size: 1.2rem;
+    }
+
+    div.boards-list {
+        padding-top: 20px;
+        width: 100%;
+        mat-card {
+            width: 20%;
+            height: 50px;
+            display: inline-block;
+            margin: 7px;
+            h4 {
+                white-space: nowrap;
+                width: 80%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-weight: 600;
+            }
+
+            p {
+                white-space: nowrap;
+                width: 85%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-weight: 100;
+            }
+        }
+        mat-card.new-board {
+            background-color: #ccc;
+        }
+    }
+}
+
+.actived {
+    background-color: #ccc;
+}

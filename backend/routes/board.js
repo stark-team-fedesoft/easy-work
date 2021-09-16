@@ -9,6 +9,7 @@ const mult = multiparty();
 
 router.post("/create", Auth, ValidateUser, BoardController.create);
 router.post("/createImgBack", mult, Upload, Auth, ValidateUser, BoardController.createImgBack);
-router.get("/list", Auth, ValidateUser, BoardController.list);
+router.get("/list/:workspace_id", Auth, ValidateUser, BoardController.list);
+router.put("/update", Auth, ValidateUser, BoardController.update);
 
 module.exports = router;

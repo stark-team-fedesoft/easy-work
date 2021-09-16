@@ -1,0 +1,23 @@
+<div class="toolbar">
+    <!-- [style]="isLoggedIn ? 'width: 17px' : ''" -->
+    <div class="item left">
+        <div *ngIf="isLoggedIn">
+            <a mat-button routerLink="/home"> <mat-icon>home</mat-icon> </a>
+        </div>
+    </div>
+
+    <div class="item logo">
+        <h1>
+            <a class="logo" routerLink="/">easy work</a>
+        </h1>
+    </div>
+
+    <div class="item right">
+        <ul *ngIf="!isLoggedIn">
+            <li> <a mat-raised-button color="warn" routerLink="/register"> Registrarse </a> </li>
+            <li> <a mat-raised-button color="warn" routerLink="/login"> Ingresar </a> </li>
+        </ul>
+
+        <button *ngIf="isLoggedIn" mat-raised-button color="warn" (click)="logout()"> Salir </button>
+    </div>
+</div>
