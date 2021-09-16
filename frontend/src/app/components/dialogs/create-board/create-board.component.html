@@ -1,0 +1,22 @@
+<mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+<h1 mat-dialog-title>Crear tablero en {{ data.workspace_name }}</h1>
+
+<div mat-dialog-content>
+    <form (ngSubmit)="createBoard($event)" id="board">
+        <mat-form-field appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <mat-icon matPrefix>light</mat-icon>
+            <input matInput [(ngModel)]="board.name" name="name" required autofocus>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Descripción</mat-label>
+            <textarea matInput [(ngModel)]="board.description" name="description"></textarea>
+        </mat-form-field>
+    </form>
+</div>
+
+<div mat-dialog-actions class="justify-end">
+    <button type="button" mat-raised-button (click)="onNoClick()" [disabled]="loading">Cancelar</button>
+    <button type="submit" form="board" mat-raised-button color="primary" [disabled]="loading">Continuar</button>
+</div>

@@ -7,6 +7,7 @@ import { WorkspaceI } from 'src/app/interfaces/workspace';
 import { BoardService } from 'src/app/services/board.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { WorkspacesService } from 'src/app/services/workspaces.service';
+import { CreateBoardComponent } from '../../dialogs/create-board/create-board.component';
 import { CreateWorkspaceComponent } from '../../dialogs/create-workspace/create-workspace.component';
 
 @Component({
@@ -26,7 +27,8 @@ export class HomeComponent implements OnInit {
     private workspaceSvc: WorkspacesService,
     private boardSvc: BoardService,
     private snackSvc: SnackbarService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router,
   ) {
     this.getWorkspaces();
     
@@ -51,6 +53,17 @@ export class HomeComponent implements OnInit {
     dialogRef.afterClosed().subscribe( res => {
       this.getWorkspaces();
     })
+  }
+
+  openCrateBoardDialog(): void {
+    const dialogRef = this.dialog.open(CreateBoardComponent, {
+      width: '30%',
+      data: { workspace_id: this.workspace._id, workspace_name: this.workspace.name },
+    });
+
+    dialogRef.afterClosed().subscribe( res => {
+      this.router.navigate(['/boards', dialogRef.componentInstance.boardCreated._id]);
+    });
   }
 
   getWorkspaces() {

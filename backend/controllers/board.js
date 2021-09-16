@@ -9,16 +9,20 @@ const create = async (req, res) => {
     try {
         if( !req.body.name || !req.body.workspace_id ) return res.status(400).send('iIncomplete data');
 
-        const existingBoard = await Board.findOne({ name : req.body.name });
+        const existingBoard = await Board.findOne({
+            name         : req.body.name,
+            workspace_id : req.body.workspace_id,
+        });
 
         if( existingBoard ) return res.status(400).send('The board already exist');
-
+        
         const space = await Workpspace.findOne({
             user_id: req.user._id,
             _id: req.body.workspace_id,
         });
 
         if( !space ) return res.status(400).send('Enter valid workspace');
+
 
         const board = new Board({
             name         : req.body.name, 

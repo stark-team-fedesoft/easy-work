@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { BoardI } from '../interfaces/board';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +13,9 @@ export class BoardService {
 
   constructor( private http: HttpClient ) { }
 
-  // create( workspace: WorkspaceI ): Observable<any> {
-  //   return this.http.post<any>(`${ this.api }/workspaces/create`, workspace);
-  // }
+  create( board: BoardI ): Observable<any> {
+    return this.http.post<any>(`${ this.api }/board/create`, board);
+  }
 
   list( workspace_id: string): Observable<any> {
     return this.http.get<any>(`${ this.api }/board/list/${ workspace_id }`);
