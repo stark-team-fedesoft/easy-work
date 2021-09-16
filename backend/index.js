@@ -24,6 +24,8 @@ app.use("/api/role", Role);
 app.use("/api/user", User);
 app.use("/api/board", Board);
 
+app.use("/uploads", express.static("uploads"));
+
 
 
 app.listen( process.env.PORT, () =>

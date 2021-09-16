@@ -21,4 +21,6 @@ router.put('/update', tasksListController.update);
 console.log('[DELETE] /delete/:_id ');
 router.delete('/delete/:_id', tasksListController.del);
 
+//task list temporal (Cambiar a la lista por board)
+router.get('/list/', tasksListController.listTemp);
 module.exports = router;

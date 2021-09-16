@@ -5,16 +5,16 @@ const path = require("path");
 const moment = require("moment");
 
 const create = async (req, res) => {
-    let validId = mongoose.Types.ObjectId.isValid(req.body.creatorId);
+    let validId = mongoose.Types.ObjectId.isValid(req.user._id);
     if (!validId) return res.status(400).send("Invalid id user");
-    if (!req.body.name || !req.body.description || !req.body.permisos || !req.body.creatorId)
+    if (!req.body.name || !req.body.description || !req.body.permisos || !req.user._id)
         return res.status(400).send("Incomplete data");
     const board = new Board({
         name: req.body.name,
         description: req.body.description,
         permisos: req.body.permisos,
-        creatorId: req.body.creatorId,
-        imageBackUrl: req.body.imageBackUrl ? req.body.imageBackUrl : 'defaultImgBack.jpg',
+        creatorId: req.user._id,
+        imageBackUrl: 'defaultImgBack.jpg',
     });
     const result = await board.save();
     if (!result) return res.status(400).send("Error registering board");

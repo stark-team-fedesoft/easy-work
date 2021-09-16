@@ -1,1 +1,80 @@
-<p>main-board works!</p>
+<div class="imgBack" [ngStyle]="{'background-image': 'url(' + board.imageBackUrl + ')'}">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <h1 class="title">{{board.name}}</h1>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div cdkDropListGroup class="accordion_display caja-grid">
+                        <table class="table table-borderless table-responsive-xxl">
+                            <thead>
+                                <tr>
+                                    <th scope="col" *ngFor="let list of listTask; index as i">
+                                        <div class="cabecera">
+                                            <h2 class="text-white text-center ">{{list.name}}</h2>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody >
+                                <tr class="grid-lists">
+                                    <td *ngFor="let list of listTask;index as z" class="td-body">
+                                        <div class="example-container">
+
+                                            <div cdkDropList [cdkDropListData]="list.tasks"
+                                                (cdkDropListDropped)="drop($event, z)"
+                                                *ngIf="list?.tasks?.length">
+                                                <mat-accordion class="example-box" *ngFor="let task of list.tasks"
+                                                    multi="true" cdkDrag>
+                                                    <mat-expansion-panel hideToggle="false">
+                                                        <mat-expansion-panel-header>
+                                                            <mat-panel-title>
+                                                                <span>{{ task.name }}</span>
+                                                                <span class="spacer"></span>
+                                                                <button class="btnDone" *ngIf="task.priority == '1'"
+                                                                    mat-raised-button>
+                                                                    Alta
+                                                                </button>
+                                                                <button class="btnInProgress"
+                                                                    *ngIf="task.priority == '2'" mat-raised-button>
+                                                                    Media
+                                                                </button>
+                                                                <button class="btnToDo" *ngIf="task.priority > '2'"
+                                                                    mat-raised-button>
+                                                                    Baja
+                                                                </button>
+                                                            </mat-panel-title>
+                                                        </mat-expansion-panel-header>
+                                                        <mat-panel-description>
+                                                            {{ task.description }}
+                                                        </mat-panel-description>
+                                                        <mat-panel-description>
+                                                            <img class="card-img-top image_center"
+                                                                src="{{ task.imageUrl }}" />
+                                                        </mat-panel-description>
+                                                        <mat-action-row>
+                                                            <button *ngFor="let listB of listTask; index as y" class="btnSelectTodo" mat-button
+                                                                (click)="updateTask(task, y)">
+                                                                {{listB.name}}
+                                                            </button>
+                                                            
+                                                            <span class="spacer"></span>
+                                                            <mat-icon color="primary" (click)="deleteTask(task, z)">delete
+                                                            </mat-icon>
+                                                        </mat-action-row>
+                                                    </mat-expansion-panel>
+                                                </mat-accordion>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

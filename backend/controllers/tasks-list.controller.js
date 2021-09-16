@@ -77,5 +77,8 @@ const del = async(req, res) => {
         return res.status(400).send('An error ocurred creating task');
     }
 }
-
-module.exports = { create, list, update, del };
+const listTemp = async(req, res) => {
+    const lists = await TasksList.find();
+    return res.status(200).send({ data: lists });
+}
+module.exports = { create, list, update, del, listTemp };

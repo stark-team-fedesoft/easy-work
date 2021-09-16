@@ -8,6 +8,7 @@ const tasksController = require('../controllers/tasks.controller');
 // const upload       = require('../middleware/file');
 
 console.log('\x1b[33m%s\x1b[0m', 'Registring tasks routing /api/tasks');
+router.get('/list', tasksController.listAll);
 
 console.log('[POST] /create ');
 router.post('/create', tasksController.create);

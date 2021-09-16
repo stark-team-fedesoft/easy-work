@@ -13,6 +13,7 @@ const create = async(req, res) => {
             description : req.body.description,
             is_archived : false,
             list_id     : req.body.list_id,
+            priority    : req.body.priority,
         });
 
         const result = await task.save();
@@ -31,11 +32,15 @@ const list = async(req, res) => {
     const tasks = await Tasks.find({ list_id: req.params.list_id });
     return res.status(200).send({ data: tasks });
 }
-
+const listAll = async(req, res) => {
+    const tasks = await Tasks.find();
+    return res.status(200).send({ data: tasks });
+}
 const update = async(req, res) => {
-    try {
-        if( !req.body._id || !req.body.name || !req.body.list_id || !req.body.is_archived || !req.body.priority ) return res.status(400).send('Incomplete data');
-
+    console.log(req.body);
+/*         if( !req.body._id || !req.body.name || !req.body.list_id || !req.body.is_archived ||
+            !req.body.priority ) return res.status(400).send('Incomplete data');
+ */
         const priority = parseInt( req.body.priority );
 
         if( priority > 5 || priority < 0 ) return res.status(400).send('Enter a valid priority');
@@ -49,7 +54,10 @@ const update = async(req, res) => {
 
         if( !result ) return res.status(400).send('An error ocurred updating task');
 
-        return res.status(200).send({ data: task });
+        return res.status(200).send({ data: result });
+    
+    try {
+        
 
     } catch (e) {
         console.log(`tasks controller update error: ${e}`);
@@ -72,4 +80,4 @@ const del = async(req, res) => {
     }
 }
 
-module.exports = { create, list, update, del };
+module.exports = { create, list, update, del, listAll };
