@@ -6,6 +6,7 @@ const registerActivies = async (req, res) => {
 
   const activity = new history_activities({
     idUser: req.user._id,
+    idBoard:req.body.idBoard,
     description: req.user.name + " ha " +  req.body.description,
   });
 

@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const history_activitiesSchema = new mongoose.Schema({
   idUser: { type: mongoose.Schema.ObjectId, ref: "user" },
+  idBoard:{ type: mongoose.Schema.ObjectId, ref: "board" },
   description: String,
   date: { type: Date, default: Date.now },
 });
