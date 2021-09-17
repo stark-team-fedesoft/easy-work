@@ -1,1 +1,71 @@
-<p>board works!</p>
+<mat-progress-bar mode="indeterminate" *ngIf="loading" class="w-full"></mat-progress-bar>
+<div class="main flex justify-between align-center">
+    <div class="nav-buttons">
+        <button (click)="controlScroll('left')" mat-icon-button>
+            <mat-icon>arrow_back_ios_new</mat-icon>
+        </button>
+    </div>
+
+    <div class="list-tasks" id="list-tasks">
+        <div *ngFor="let list of lists" class="list-container">
+            <mat-progress-bar mode="indeterminate" *ngIf="list.loading"></mat-progress-bar>
+    
+            <h2> {{ list.name }} </h2>
+            
+            <div class="list mb-2">
+                <div class="box">
+                    <button mat-button class="w-full" (click)="openCrateTaskDialog(list)">
+                        <mat-icon>add</mat-icon>
+                        Agregar tarea
+                    </button>
+                </div>
+            </div>
+    
+            <div
+                class="list"
+                cdkDropList
+                id="list-{{ list._id }}"
+                [cdkDropListData]="list.tasks"
+                [cdkDropListConnectedTo]="getDifferentList(list._id)"
+                (cdkDropListDropped)="drop($event)"
+            >
+                <div class="box" *ngFor="let task of list.tasks" cdkDrag>
+                    {{ task.name }}
+                </div>
+            </div>
+        </div>
+    
+        <!-- crear lista  -->
+        <div class="list-container">
+            <button *ngIf="!showForm" mat-button class="w-full" (click)="showForm = true;" >
+                <mat-icon>add</mat-icon>
+                Agregar lista
+            </button>
+    
+            <form *ngIf="showForm" id="add-list" (ngSubmit)="createList($event)">
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Nombre</mat-label>
+                    <mat-icon matPrefix>edit</mat-icon>
+                    <input matInput [(ngModel)]="newList.name" name="name" required autofocus>
+                </mat-form-field>
+    
+                <div class="flex justify-between">
+                    <button type="button" mat-raised-button  (click)="showForm = false;" [disabled]="loading">
+                        Cancelar
+                    </button>
+                    
+                    <button type="submit" mat-raised-button color="primary" [disabled]="loading">
+                        <mat-icon>add</mat-icon>
+                        Agregar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="nav-buttons">
+        <button (click)="controlScroll('right')" mat-icon-button>
+            <mat-icon>arrow_forward_ios_new</mat-icon>
+        </button>
+    </div>
+</div>

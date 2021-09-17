@@ -18,14 +18,17 @@ const create = async(req, res) => {
 
         if( !space ) return res.status(400).send('Enter a valid board');
 
-        const existingList = await TasksList.findOne({ name: req.body.name });
+        const existingList = await TasksList.findOne({ name: req.body.name, board_id: req.body.board_id });
 
         if( existingList ) return res.status(400).send('Task list already exist');
+
+        const lists = await TasksList.find({ board_id: req.body.board_id });
 
         const taskList = new TasksList({
             name        : req.body.name,
             is_archived : false,
-            board_id    : req.body.board_id
+            board_id    : req.body.board_id,
+            priority    : lists.length + 1,
         });
 
         const result = await taskList.save();

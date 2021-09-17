@@ -5,7 +5,7 @@ const Workspaces = require('../models/spaceWork');
 
 const create = async(req, res) => {
     try {
-        if( !req.body.name || !req.body.list_id || !req.body.priority ) return res.status(400).send('Incomplete data');
+        if( !req.body.name || !req.body.list_id ) return res.status(400).send('Incomplete data');
 
         const list = await TasksList.findById(req.body.list_id);
 
@@ -21,10 +21,6 @@ const create = async(req, res) => {
         });
 
         if( !space ) return res.status(400).send('Enter a valid board');
-
-        const priority = parseInt( req.body.priority );
-
-        if( priority > 5 || priority < 0 ) return res.status(400).send('Enter a valid priority');
         
         let end_date = new Date().setDate( new Date().getDate() + 30 );
         
@@ -40,12 +36,14 @@ const create = async(req, res) => {
             end_date = new Date(arr_date[0], arr_date[1] - 1, arr_date[2]);
         }
 
+        const tks = await Tasks.find({ list_id: req.body.list_id });
+
         const task = new Tasks({
             name        : req.body.name,
             description : req.body.description,
             is_archived : false,
             list_id     : req.body.list_id,
-            priority,
+            priority    : tks.length + 1,
             end_date,
         });
 
@@ -78,7 +76,12 @@ const list = async(req, res) => {
 
         if( !space ) return res.status(400).send('Enter a valid board');
 
-        const tasks = await Tasks.find({ list_id: req.params.list_id });
+        const tasks = await Tasks
+            .find({ list_id: req.params.list_id })
+            .sort( { "priority": "asc" } )
+            .exec();
+
+            // console.log(tasks);
         return res.status(200).send({ data: tasks });
 
     } catch (e) {

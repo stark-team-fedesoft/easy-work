@@ -15,6 +15,7 @@ import { CreateWorkspaceComponent } from './components/dialogs/create-workspace/
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { CreateBoardComponent } from './components/dialogs/create-board/create-board.component';
 import { BoardComponent } from './components/home/board/board.component';
+import { CreateTaskComponent } from './components/dialogs/create-task/create-task.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { BoardComponent } from './components/home/board/board.component';
     HomeComponent,
     CreateWorkspaceComponent,
     CreateBoardComponent,
-    BoardComponent
+    BoardComponent,
+    CreateTaskComponent
   ],
   imports: [
     BrowserModule,
