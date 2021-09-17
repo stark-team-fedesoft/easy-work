@@ -6,8 +6,8 @@
         </button>
     </div>
 
-    <div class="list-tasks" id="list-tasks">
-        <div *ngFor="let list of lists" class="list-container">
+    <div cdkDropList cdkDropListOrientation="horizontal" class="list-tasks" id="list-tasks" (cdkDropListDropped)="dropList($event)">
+        <div *ngFor="let list of lists" class="list-container" cdkDrag>
             <mat-progress-bar mode="indeterminate" *ngIf="list.loading"></mat-progress-bar>
     
             <h2> {{ list.name }} </h2>

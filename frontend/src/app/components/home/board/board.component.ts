@@ -41,10 +41,6 @@ export class BoardComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<string[]>) {
-    // console.log(event.previousContainer);
-    // console.log(event.container);
-
-    
     if (event.previousContainer === event.container) {      
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
       this.updateTaskPriority(event.previousContainer.data[0]['list_id']);
@@ -55,9 +51,7 @@ export class BoardComponent implements OnInit {
         event.previousIndex,
         event.currentIndex
       );
-
-      // event.container.data[0]['list_id'],      
-
+      
       this.updateTaskPriority(
         event.previousContainer.element.nativeElement.id.substring(5),
         event.container.element.nativeElement.id.substring(5),
@@ -65,6 +59,11 @@ export class BoardComponent implements OnInit {
       );
          
     }
+  }
+
+  dropList(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.lists, event.previousIndex, event.currentIndex);
+    this.updateListPriority();
   }
 
   private clearData() {
@@ -210,6 +209,30 @@ export class BoardComponent implements OnInit {
     if( dir === "left" ) listTasks.scrollLeft -= 20;
     console.log(listTasks.scrollWidth);
     
+  }
+
+  private updateListPriority() {
+    this.lists.forEach((list, index) => {
+      const newList: ListI = {
+        ...list,
+        priority: index + 1,
+      }
+      this.uupdateList(newList);
+    });
+  }
+
+  private uupdateList(list: ListI): void {
+    this.loading = true;
+    this.listSvc.update(list).subscribe(
+      (res: any) => {
+        this.loading = false;
+        // this.getLists();
+      },
+      (err: HttpErrorResponse) => {
+        this.loading = false;
+        this.snackSvc.opensnack(err.error);
+      }
+    )
   }
 
 }

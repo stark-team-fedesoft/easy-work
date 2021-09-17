@@ -7,4 +7,5 @@ export class ListI {
     board_id: string;
     tasks?: TaskI[];
     loading? = false;
+    priority?: number;
 }
