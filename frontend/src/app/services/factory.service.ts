@@ -26,5 +26,8 @@ export class FactoryService {
   delete(model: string, data?: any): any {
     return this._http.delete(this.env.apiURL + model);
   }
-  
+
+  post(model: string, data: any): any {
+    return this._http.post(this.env.apiURL + model, data);
+  }
 }

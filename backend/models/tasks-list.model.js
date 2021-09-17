@@ -5,6 +5,7 @@ const tasksListSchema = new mongoose.Schema({
   is_archived : { type : Boolean, required: true },
   board_id    : { type: mongoose.Schema.ObjectId, ref: "boards" },
   date        : { type: Date, default: Date.now },
+  color       : { type: String, default: null }
 });
 
 const TasksList = mongoose.model("tasks_list", tasksListSchema);

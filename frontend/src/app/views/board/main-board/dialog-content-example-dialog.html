@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>Editar</h2>
+<mat-dialog-content class="mat-typography">
+  <mat-form-field>
+    <input style="display: none" matInput [ngxMatColorPicker]="picker" [formControl]="colorCtr">
+    <ngx-mat-color-toggle  matSuffix [for]="picker"></ngx-mat-color-toggle>
+    <ngx-mat-color-picker #picker [touchUi]="touchUi" [color]="color"></ngx-mat-color-picker>
+</mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Guardar</button>
+</mat-dialog-actions>

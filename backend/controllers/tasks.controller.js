@@ -15,12 +15,12 @@ const create = async(req, res) => {
 
         if( !board ) return res.status(400).send('Enter a valid board');
 
-        const space = await Workspaces.findOne({
+        /* const space = await Workspaces.findOne({
             user_id: req.user._id,
             _id: board.workspace_id,
         });
 
-        if( !space ) return res.status(400).send('Enter a valid board');
+        if( !space ) return res.status(400).send('Enter a valid board'); */
 
         const priority = parseInt( req.body.priority );
 

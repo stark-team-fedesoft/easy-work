@@ -16,10 +16,13 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
 import { CreateBoardComponent } from './components/dialogs/create-board/create-board.component';
 import { BoardComponent } from './components/home/board/board.component';
 import { ActivitiesComponent } from './components/activities/activities.component';
-import { ActivitiesService } from "./services/activities.service";
-import { MainBoardComponent } from './views/board/main-board/main-board.component';
+import { ActivitiesService } from './services/activities.service';
+import { DialogContentExampleDialog, MainBoardComponent } from './views/board/main-board/main-board.component';
+import { MAT_COLOR_FORMATS, NgxMatColorPickerModule, NGX_MAT_COLOR_FORMATS } from '@angular-material-components/color-picker';
+
 
 @NgModule({
+  entryComponents: [DialogContentExampleDialog],
   declarations: [
     AppComponent,
     HeaderComponent,
@@ -30,7 +33,8 @@ import { MainBoardComponent } from './views/board/main-board/main-board.componen
     CreateBoardComponent,
     BoardComponent,
     ActivitiesComponent,
-    MainBoardComponent
+    MainBoardComponent,
+    DialogContentExampleDialog
   ],
   imports: [
     BrowserModule,
@@ -40,6 +44,7 @@ import { MainBoardComponent } from './views/board/main-board/main-board.componen
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    NgxMatColorPickerModule,
   ],
   providers: [
     ActivitiesService,
@@ -47,7 +52,8 @@ import { MainBoardComponent } from './views/board/main-board/main-board.componen
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,
       multi: true,
-    }
+    },
+    { provide: MAT_COLOR_FORMATS, useValue: NGX_MAT_COLOR_FORMATS }
   ],
   bootstrap: [AppComponent]
 })
