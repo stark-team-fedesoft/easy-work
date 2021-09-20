@@ -25,6 +25,9 @@ export class MainBoardComponent implements OnInit {
   public disabledU = false;
   public colorU: ThemePalette = 'primary';
   public touchUiU = false;
+  opened=false;
+  showFiller = false;
+  idBoard : string;
 
   colorCtr: AbstractControl = new FormControl(null);
   colorCtrUpdate: AbstractControl = new FormControl(null);
@@ -32,7 +35,8 @@ export class MainBoardComponent implements OnInit {
   constructor(
     private _factory: FactoryService,
     private _toast: ToastService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    
   ) {
     this.taskData = {};
     this.registerList = {};
@@ -44,6 +48,7 @@ export class MainBoardComponent implements OnInit {
       imageBackUrl: this.env.uploadURL + 'img/boards/' + 'defaultImgBack.jpg'
     };
     this.listTask = [];
+    this.idBoard = this.board._id;
   }
 
   ngOnInit(): void {
@@ -193,6 +198,11 @@ export class MainBoardComponent implements OnInit {
         this._toast.openSnackBarError();
       }
     );
+  }
+
+  listarActividades(){
+    console.log("test id es board " + this.board._id);
+    this.showFiller=true;
   }
 }
 

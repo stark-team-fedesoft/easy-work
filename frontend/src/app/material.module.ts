@@ -17,6 +17,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 const modules = [
   MatToolbarModule,
@@ -45,6 +46,7 @@ const modules = [
   DragDropModule,
   MatMenuModule,
   MatDialogModule,
+  MatSidenavModule,
 ];
 
 @NgModule({

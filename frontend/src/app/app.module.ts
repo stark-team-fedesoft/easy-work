@@ -34,7 +34,7 @@ import { MAT_COLOR_FORMATS, NgxMatColorPickerModule, NGX_MAT_COLOR_FORMATS } fro
     BoardComponent,
     ActivitiesComponent,
     MainBoardComponent,
-    DialogContentExampleDialog
+    DialogContentExampleDialog,
   ],
   imports: [
     BrowserModule,

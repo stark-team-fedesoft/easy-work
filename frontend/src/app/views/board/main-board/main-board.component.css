@@ -196,9 +196,9 @@
 .task{
   background-color: cornflowerblue;
   position: absolute;
-  top: 13%;
+  top: 5%;
   /* right: 9%; */
-  left: 2%;
+  left: 13%;
 }
 
 .mat-expansion-panel{
@@ -398,3 +398,22 @@ div {
   height: 470px;
   overflow: scroll;
 } */
+
+mat-drawer-container{
+  height: 100%;
+}
+
+mat-drawer,mat-drawer-content{
+  padding: 5%;
+}
+
+
+.menu{
+  background-color: cornflowerblue;
+  position: absolute;
+  top: 5%;
+  left: 4%;
+}
+mat-drawer p{
+  color: black;
+}

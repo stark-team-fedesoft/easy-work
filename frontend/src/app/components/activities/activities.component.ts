@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,Input} from '@angular/core';
+import { ActivitiesService } from '../../services/activities.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-activities',
@@ -6,10 +8,27 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./activities.component.scss']
 })
 export class ActivitiesComponent implements OnInit {
-
-  constructor() { }
+   @Input() idBoard: string;
+  activityData: any;
+  constructor(
+    private _activityService: ActivitiesService,
+    private _router: Router,
+  ) {
+    this.activityData = {};
+    
+   }
 
   ngOnInit(): void {
+    console.log("este es el id " + this.idBoard);
+    
+    this._activityService.listActivities(this.idBoard).subscribe(
+      (res) => {
+        this.activityData = res.activity;
+      },
+      (err) => {
+        console.log(err.error);
+      }
+    );
   }
 
 }
