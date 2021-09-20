@@ -3,13 +3,14 @@ const cors           = require('cors');
 const {dbconnection} = require('./db/db');
 // rutas
 const History_activities = require("./routes/history_activities");
-const taskRoutes     = require('./routes/tasks.route');
-const taskListRoutes = require('./routes/tasks-list.route');
-const Role           = require("./routes/role");
-const User           = require("./routes/user");
-const Board          = require("./routes/board");
-const SpaceWork      = require("./routes/spaceWork");
-const commentRoutes  = require("./routes/comments.route");
+const taskRoutes         = require('./routes/tasks.route');
+const taskListRoutes     = require('./routes/tasks-list.route');
+const Role               = require("./routes/role");
+const User               = require("./routes/user");
+const Board              = require("./routes/board");
+const SpaceWork          = require("./routes/spaceWork");
+const commentRoutes      = require("./routes/comments.route");
+const wallpaperRoutes    = require("./routes/wallpaper.route");
 
 require("dotenv").config();
 
@@ -25,6 +26,7 @@ app.use("/api/user", User);
 app.use("/api/board", Board);
 app.use("/api/workspaces", SpaceWork);
 app.use("/api/task-comments", commentRoutes);
+app.use("/api/wallpapers", wallpaperRoutes);
 
 app.listen( process.env.PORT, () =>
     console.log("Backend server running on port: " + process.env.PORT )

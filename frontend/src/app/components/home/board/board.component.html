@@ -1,4 +1,12 @@
 <mat-progress-bar mode="indeterminate" *ngIf="loading" class="w-full"></mat-progress-bar>
+
+<div class="board-options flex justify-between align-center">
+    <h1 >{{ board.name }}</h1>
+    <button mat-icon-button matTooltipPosition="left" matTooltip="Opciones del tablero">
+        <mat-icon>more_horiz</mat-icon>
+    </button>
+</div>
+
 <div class="main flex justify-between align-center">
     <div class="nav-buttons">
         <button (click)="controlScroll('left')" mat-icon-button>

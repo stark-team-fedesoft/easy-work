@@ -31,9 +31,6 @@ export class HomeComponent implements OnInit {
     private router: Router,
   ) {
     this.getWorkspaces();
-    
-    
-
     this.route.params.subscribe( (val) => {
       setTimeout(() => {
         if(val.workspace_id) this.getBoards(val.workspace_id);      
@@ -57,7 +54,8 @@ export class HomeComponent implements OnInit {
 
   openCrateBoardDialog(): void {
     const dialogRef = this.dialog.open(CreateBoardComponent, {
-      width: '30%',
+      width: '50%',
+      height: '70%',
       data: { workspace_id: this.workspace._id, workspace_name: this.workspace.name },
     });
 
@@ -71,7 +69,6 @@ export class HomeComponent implements OnInit {
     this.workspaceSvc.list().subscribe(
       (res: any) => {
         this.workspaces = res.data;
-        
       },
       (err: HttpErrorResponse) => {
         this.snackSvc.opensnack(err.error);

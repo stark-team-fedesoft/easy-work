@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BoardI } from 'src/app/interfaces/board';
 import { BoardService } from 'src/app/services/board.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { WallpaperService } from 'src/app/services/wallpaper.service';
 
 @Component({
   selector: 'app-create-board',
@@ -15,17 +16,35 @@ export class CreateBoardComponent {
   board: BoardI;
   loading = false;
   boardCreated: BoardI;
+  query = 'nature';
+  wallpapers: any[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<CreateBoardComponent>,
     private snackSvc: SnackbarService,
     private boardSvc: BoardService,
+    private wallpaperSvc: WallpaperService,
     @Inject(MAT_DIALOG_DATA) public data
   ) {
     this.clearData();
+    this.getWallpapers();
   }
 
   ngOnInit(): void {
+  }
+
+  getWallpapers(): void {
+    this.loading = true;
+    this.wallpaperSvc.list( this.query ).subscribe(
+      (res: any) => {
+        this.loading = false;
+        this.wallpapers = res.data;
+      },
+      (err: HttpErrorResponse) => {
+        this.loading = false;
+        this.snackSvc.opensnack(err.error);
+      }
+    )
   }
 
   private clearData(): void {
@@ -33,6 +52,7 @@ export class CreateBoardComponent {
       name: '',
       status: true,
       workspace_id: this.data.workspace_id,
+      imageBackUrl: '',
     }
   }
 

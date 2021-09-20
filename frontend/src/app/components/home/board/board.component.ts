@@ -3,8 +3,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
+import { BoardI } from 'src/app/interfaces/board';
 import { ListI } from 'src/app/interfaces/list';
 import { TaskI } from 'src/app/interfaces/task';
+import { BoardService } from 'src/app/services/board.service';
 import { ListsService } from 'src/app/services/lists.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { TasksService } from 'src/app/services/tasks.service';
@@ -18,7 +20,7 @@ import { CreateTaskComponent } from '../../dialogs/create-task/create-task.compo
 export class BoardComponent implements OnInit {
 
   newList: ListI;
-  boardId: string;
+  board: BoardI;
   lists: ListI[] = [];
   showForm = false;
   loading = false;
@@ -27,17 +29,39 @@ export class BoardComponent implements OnInit {
     private route: ActivatedRoute,
     private listSvc: ListsService,
     private taskSvc: TasksService,
+    private boardSvc: BoardService,
     private snackSvc: SnackbarService,
     public dialog: MatDialog,
   ) {
+    this.clearBoardData();
     this.route.params.subscribe((val) => {
-      this.boardId = val.board_id;
-      this.clearData();
+      this.getBoard(val.board_id);
     });
-    this.getLists();
+    
   }
 
   ngOnInit(): void {
+  }
+
+  private getBoard( board_id: string ): void {
+    this.loading = true;
+    this.boardSvc.getById(board_id).subscribe(
+      (res: any) => {
+        this.loading = false;
+        this.board = res.data;
+        this.clearData();
+        this.getLists();
+        this.setBodyImage(this.board.imageBackUrl);
+      },
+      (err: HttpErrorResponse) => {
+        this.loading = false;
+        this.snackSvc.opensnack(err.error);
+      }
+    )
+  }
+
+  private setBodyImage(src: string): void {
+    document.body.style.backgroundImage = `url(${ src })`;
   }
 
   drop(event: CdkDragDrop<string[]>) {
@@ -70,10 +94,18 @@ export class BoardComponent implements OnInit {
     this.newList = {
       name: '',
       is_archived: false,
-      board_id: this.boardId,
+      board_id: this.board._id,
       loading: false
     }
   }
+
+  private clearBoardData(): void {
+    this.board = {
+      name: '',
+      status: true,
+      workspace_id: '',
+    }
+  };
 
   createList(ev: Event):void {
     ev.preventDefault();
@@ -96,7 +128,7 @@ export class BoardComponent implements OnInit {
 
   private getLists() {
     this.loading = true;
-    this.listSvc.list(this.boardId).subscribe(
+    this.listSvc.list(this.board._id).subscribe(
       (res: any) => {
         this.loading = false;
         this.lists = res.data;

@@ -20,4 +20,8 @@ export class BoardService {
   list( workspace_id: string): Observable<any> {
     return this.http.get<any>(`${ this.api }/board/list/${ workspace_id }`);
   }
+
+  getById(board_id: string): Observable<any> {
+    return this.http.get<any>(`${ this.api }/board/get/${ board_id }`);
+  }
 }

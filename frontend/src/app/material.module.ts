@@ -11,6 +11,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
 import { MatRippleModule } from '@angular/material/core';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatDividerModule } from '@angular/material/divider';
 
 const modules = [
   MatToolbarModule,
@@ -25,6 +28,9 @@ const modules = [
   MatListModule,
   MatRippleModule,
   DragDropModule,
+  MatTooltipModule,
+  MatRadioModule,
+  MatDividerModule,
 ]
 
 @NgModule({

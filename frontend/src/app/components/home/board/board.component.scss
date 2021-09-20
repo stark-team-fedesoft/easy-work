@@ -1,3 +1,9 @@
+div.board-options {
+    background-color: rgba(0, 0, 0, .1);
+    margin-bottom: 1%;
+    padding: 0px 10px;
+}
+
 div.main{
     width: 100%;
     margin: 0 auto;
@@ -8,7 +14,7 @@ div.nav-buttons{
 }
 
 div.list-tasks {
-    height: 86vh;
+    height: 84vh;
     display: flex;
     flex-wrap: nowrap;
     overflow-y: hidden;
