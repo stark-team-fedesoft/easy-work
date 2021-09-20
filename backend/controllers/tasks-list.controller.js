@@ -18,15 +18,18 @@ const create = async(req, res) => {
 
         if( !space ) return res.status(400).send('Enter a valid board'); */
 
-        const existingList = await TasksList.findOne({ name: req.body.name });
+        const existingList = await TasksList.findOne({ name: req.body.name, board_id: req.body.board_id });
 
         if( existingList ) return res.status(400).send('Task list already exist');
+
+        const lists = await TasksList.find({ board_id: req.body.board_id });
 
         const taskList = new TasksList({
             name        : req.body.name,
             is_archived : false,
             board_id    : req.body.board_id,
             color       : req.body.color,
+            priority    : lists.length + 1,
         });
 
         const result = await taskList.save();
@@ -54,7 +57,7 @@ const list = async(req, res) => {
 
         if( !space ) return res.status(400).send('Enter a valid board'); */
 
-        const lists = await TasksList.find({ board_id: req.params.board_id });
+        const lists = await TasksList.find({ board_id: req.params.board_id }).sort({priority: "asc"});
         return res.status(200).send({ data: lists });
 
     } catch(e) {
@@ -65,7 +68,7 @@ const list = async(req, res) => {
 
 const update = async(req, res) => {
     try {
-        if( !req.body._id || !req.body.name || !req.body.board_id ) return res.status(400).send('Incomplete data');
+        if( !req.body._id || !req.body.name || !req.body.board_id || !req.body.priority ) return res.status(400).send('Incomplete data');
 
         const board = await Boards.findById( req.body.board_id );
 
@@ -82,6 +85,7 @@ const update = async(req, res) => {
             name        : req.body.name,
             is_archived : req.body.is_archived,
             color       : req.body.color,
+            priority    : req.body.priority,
         });
 
         if( !result ) return res.status(400).send('An error ocurred. Please try again later');

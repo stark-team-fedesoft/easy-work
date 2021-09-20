@@ -26,7 +26,7 @@ const create = async (req, res) => {
 
         const board = new Board({
             name         : req.body.name, 
-            imageBackUrl : 'defaultImgBack.jpg', 
+            imageBackUrl : req.body.imageBackUrl, 
             description  : req.body.description,
             status       : true,
             workspace_id : req.body.workspace_id,
@@ -92,6 +92,26 @@ const list = async (req, res) => {
     }
 };
 
+const getById = async(req, res) => {
+    try{
+        const board = await Board.findById(req.params.board_id);
+
+        if( !board ) return res.status(400).send('enter a valid board');
+
+        const space = await Workpspace.findOne({
+            _id: board.workspace_id,
+            user_id: req.user._id,
+        });
+
+        if( !space ) return res.status(400).send('Enter a valid board');
+
+        return res.status(200).send({ data : board });
+    } catch(e) {
+        console.log(`board controller getBtId error ${e}`);
+        return res.status(400).send('An error ocurred please try agian later');
+    }
+}
+
 const update = async (req, res) => {
     try {
         if( !req.body._id || !req.body.name || !req.body.workspace_id || req.body.status ) return res.status(400).send('iIncomplete data');
@@ -127,5 +147,6 @@ module.exports = {
     create,
     createImgBack,
     list,
+    getById,
     update,
 };

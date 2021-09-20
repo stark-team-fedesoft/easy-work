@@ -15,7 +15,6 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'home/:workspace_id', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'boards/:board_is', component: MainBoardComponent, canActivate: [AuthGuard] },
-  { path: 'board', component: MainBoardComponent },
 ];
 
 @NgModule({

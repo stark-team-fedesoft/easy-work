@@ -20,6 +20,7 @@ import { ActivitiesService } from './services/activities.service';
 import { DialogContentExampleDialog, MainBoardComponent } from './views/board/main-board/main-board.component';
 import { MAT_COLOR_FORMATS, NgxMatColorPickerModule, NGX_MAT_COLOR_FORMATS } from '@angular-material-components/color-picker';
 
+import { CreateTaskComponent } from './components/dialogs/create-task/create-task.component';
 
 @NgModule({
   entryComponents: [DialogContentExampleDialog],
@@ -34,7 +35,8 @@ import { MAT_COLOR_FORMATS, NgxMatColorPickerModule, NGX_MAT_COLOR_FORMATS } fro
     BoardComponent,
     ActivitiesComponent,
     MainBoardComponent,
-    DialogContentExampleDialog
+    DialogContentExampleDialog,
+    CreateTaskComponent,
   ],
   imports: [
     BrowserModule,
