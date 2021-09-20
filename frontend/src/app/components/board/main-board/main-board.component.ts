@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
 import { ToastService } from 'src/app/services/toast.service';
 import { FactoryService } from 'src/app/services/factory.service';
 import { environment } from 'src/environments/environment';
 import { AbstractControl, FormControl } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
-import {MatDialog} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-main-board',
@@ -30,8 +34,8 @@ export class MainBoardComponent implements OnInit {
   colorCtrUpdate: AbstractControl = new FormControl(null);
 
   constructor(
-    private _factory: FactoryService,
-    private _toast: ToastService,
+    private factory: FactoryService,
+    private toast: ToastService,
     public dialog: MatDialog
   ) {
     this.taskData = {};
@@ -41,7 +45,7 @@ export class MainBoardComponent implements OnInit {
     this.board = {
       _id: '613bd32f864bca0a68a8644b',
       name: 'Board 1',
-      imageBackUrl: this.env.uploadURL + 'img/boards/' + 'defaultImgBack.jpg'
+      imageBackUrl: this.env.uploadURL + 'img/boards/' + 'defaultImgBack.jpg',
     };
     this.listTask = [];
   }
@@ -50,7 +54,7 @@ export class MainBoardComponent implements OnInit {
     this.cargarLists();
   }
   cargarLists(): void {
-    this._factory.getAll('api/tasks-list/list/' + this.board._id).subscribe(
+    this.factory.getAll('api/tasks-list/list/' + this.board._id).subscribe(
       (res: any) => {
         this.listTask = res.data;
         console.log('lista de tareas', this.listTask);
@@ -60,30 +64,30 @@ export class MainBoardComponent implements OnInit {
         console.log('Tareas finales', this.listTask);
       },
       (err: any) => {
-        this._toast.message = err.error;
-        this._toast.openSnackBarError();
+        this.toast.message = err.error;
+        this.toast.openSnackBarError();
       }
     );
   }
   cargarTasks(list: any): void {
-    this._factory.getAll('api/tasks/list/' + list._id).subscribe(
+    this.factory.getAll('api/tasks/list/' + list._id).subscribe(
       (res: any) => {
         console.log('Tareas', res);
         list.tasks = res.data;
       },
       (err: any) => {
-        this._toast.message = err.error;
-        this._toast.openSnackBarError();
+        this.toast.message = err.error;
+        this.toast.openSnackBarError();
       }
     );
   }
 
   updateTask(task: any, indice: any, indicePre?: any) {
     let templist = task.list_id;
-    console.log('Lista temporal',templist);
+    console.log('Lista temporal', templist);
     task.list_id = this.listTask[indice]._id;
     console.log(task);
-    this._factory.update('api/tasks/update', task).subscribe(
+    this.factory.update('api/tasks/update', task).subscribe(
       (res: any) => {
         task.list_id = this.listTask[indice]._id;
         /* this.cargarLists(); */
@@ -94,43 +98,49 @@ export class MainBoardComponent implements OnInit {
       (err: any) => {
         task.list_id = templist;
         console.log(err);
-        this._toast.message = err.error;
-        this._toast.openSnackBarError();
+        this.toast.message = err.error;
+        this.toast.openSnackBarError();
       }
     );
   }
 
   deleteTask(task: any, indice: any) {
-    this._factory.delete('api/tasks/delete/' + task._id, task).subscribe(
+    this.factory.delete('api/tasks/delete/' + task._id, task).subscribe(
       (res: any) => {
         let index = this.listTask[indice].tasks.indexOf(task);
         if (index > -1) {
           this.listTask[indice].tasks.splice(index, 1);
-          this._toast.message = res.message;
-          this._toast.openSnackBarSuccesfull();
+          this.toast.message = res.message;
+          this.toast.openSnackBarSuccesfull();
         }
       },
       (err: any) => {
-        this._toast.message = err.error;
-        this._toast.openSnackBarError();
+        this.toast.message = err.error;
+        this.toast.openSnackBarError();
       }
     );
   }
   drop(event: CdkDragDrop<string[]>, list?: any) {
     if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
     } else {
-      transferArrayItem(event.previousContainer.data,
-                        event.container.data,
-                        event.previousIndex,
-                        event.currentIndex);
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
     }
     this.updateTask(event.container.data[event.currentIndex], list);
   }
   openDialog() {
     const dialogRef = this.dialog.open(DialogContentExampleDialog);
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
   }
@@ -139,41 +149,41 @@ export class MainBoardComponent implements OnInit {
     this.registerList.action = action;
   }
   saveList(): void {
-    if(!this.registerList.name) {
-      this._toast.message = 'Datos incompletos';
-      this._toast.openSnackBarError();
+    if (!this.registerList.name) {
+      this.toast.message = 'Datos incompletos';
+      this.toast.openSnackBarError();
     }
-    if(this.registerList.action === 'update') {
+    if (this.registerList.action === 'update') {
       return this.updateList();
     }
     this.registerList.color = this.colorCtr.value?.hex;
     this.registerList.board_id = this.board._id;
-    this._factory.post('api/tasks-list/create', this.registerList).subscribe(
+    this.factory.post('api/tasks-list/create', this.registerList).subscribe(
       (res: any) => {
         this.cargarLists();
         console.log('Register list', res);
-        this._toast.message = 'Registro exitoso';
-        this._toast.openSnackBarSuccesfull();
+        this.toast.message = 'Registro exitoso';
+        this.toast.openSnackBarSuccesfull();
       },
       (err: any) => {
-        this._toast.message = err.error;
-        this._toast.openSnackBarError();
+        this.toast.message = err.error;
+        this.toast.openSnackBarError();
       }
     );
   }
   updateList(): any {
     this.registerList.color = this.colorCtr.value?.hex;
     this.registerList.board_id = this.board._id;
-    this._factory.update('api/tasks-list/update', this.registerList).subscribe(
+    this.factory.update('api/tasks-list/update', this.registerList).subscribe(
       (res: any) => {
         this.cargarLists();
         console.log('Update list', res);
-        this._toast.message = 'Actualizacion exitoso';
-        this._toast.openSnackBarSuccesfull();
+        this.toast.message = 'Actualizacion exitoso';
+        this.toast.openSnackBarSuccesfull();
       },
       (err: any) => {
-        this._toast.message = err.error;
-        this._toast.openSnackBarError();
+        this.toast.message = err.error;
+        this.toast.openSnackBarError();
       }
     );
   }
@@ -181,16 +191,16 @@ export class MainBoardComponent implements OnInit {
     this.registerTask.list_id = id;
   }
   newTask() {
-    this._factory.post('api/tasks/create', this.registerTask).subscribe(
+    this.factory.post('api/tasks/create', this.registerTask).subscribe(
       (res: any) => {
         this.cargarLists();
         console.log('Create task', res);
-        this._toast.message = 'Registro exitoso';
-        this._toast.openSnackBarSuccesfull();
+        this.toast.message = 'Registro exitoso';
+        this.toast.openSnackBarSuccesfull();
       },
       (err: any) => {
-        this._toast.message = err.error;
-        this._toast.openSnackBarError();
+        this.toast.message = err.error;
+        this.toast.openSnackBarError();
       }
     );
   }

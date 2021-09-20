@@ -5,7 +5,7 @@ import { RegisterComponent } from './components/auth/register/register.component
 import { BoardComponent } from './components/home/board/board.component';
 import { HomeComponent } from './components/home/home/home.component';
 import { AuthGuard } from './guards/auth.guard';
-import { MainBoardComponent } from './views/board/main-board/main-board.component';
+import { MainBoardComponent } from './components/board/main-board/main-board.component';
 
 
 const routes: Routes = [

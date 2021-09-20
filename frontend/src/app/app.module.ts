@@ -17,7 +17,7 @@ import { CreateBoardComponent } from './components/dialogs/create-board/create-b
 import { BoardComponent } from './components/home/board/board.component';
 import { ActivitiesComponent } from './components/activities/activities.component';
 import { ActivitiesService } from './services/activities.service';
-import { DialogContentExampleDialog, MainBoardComponent } from './views/board/main-board/main-board.component';
+import { DialogContentExampleDialog, MainBoardComponent } from './components/board/main-board/main-board.component';
 import { MAT_COLOR_FORMATS, NgxMatColorPickerModule, NGX_MAT_COLOR_FORMATS } from '@angular-material-components/color-picker';
 
 import { CreateTaskComponent } from './components/dialogs/create-task/create-task.component';
