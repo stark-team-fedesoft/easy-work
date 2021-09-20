@@ -50,7 +50,7 @@ export class MainBoardComponent implements OnInit {
     this.cargarLists();
   }
   cargarLists(): void {
-    this._factory.getAll('api/tasks-list/list').subscribe(
+    this._factory.getAll('api/tasks-list/list/' + this.board._id).subscribe(
       (res: any) => {
         this.listTask = res.data;
         console.log('lista de tareas', this.listTask);

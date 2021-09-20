@@ -47,12 +47,12 @@ const list = async(req, res) => {
 
         if( !board ) return res.status(400).send('Enter a valid board');
 
-        const space = await Workspaces.findOne({
+        /* const space = await Workspaces.findOne({
             user_id: req.user._id,
             _id: board.workspace_id,
         });
 
-        if( !space ) return res.status(400).send('Enter a valid board');
+        if( !space ) return res.status(400).send('Enter a valid board'); */
 
         const lists = await TasksList.find({ board_id: req.params.board_id });
         return res.status(200).send({ data: lists });

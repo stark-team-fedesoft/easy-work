@@ -24,7 +24,8 @@
                           {{list.name}}
                           <mat-icon (click)="selectList(list, 'update')" data-bs-toggle="modal" data-bs-target="#modalList">edit</mat-icon>
                         </div>
-                        <button mat-raised-button color="accent" (click)="selectNewTask(list._id)" data-bs-toggle="modal" data-bs-target="#modalTask">Create new task
+                        <button mat-raised-button color="accent" (click)="selectNewTask(list._id)" data-bs-toggle="modal" data-bs-target="#modalTask">
+                          <mat-icon>add</mat-icon>
                         </button>
                       </h2>
                     </th>
