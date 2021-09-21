@@ -61,7 +61,9 @@ export class MainBoardComponent implements OnInit {
     this.factory.getAll('api/board/get/' + this.board._id).subscribe((res: any) => {
       console.log('Board', res);
       this.board = res.data;
-      this.board.imageBackUrl = this.env.uploadURL + 'img/boards/' + this.board.imageBackUrl;
+      if ( this.board.imageBackUrl === 'defaultImgBack.jpg') {
+        this.board.imageBackUrl = this.env.uploadURL + 'img/boards/' + this.board.imageBackUrl;
+      }
     });
   }
   loadLists(): void {
