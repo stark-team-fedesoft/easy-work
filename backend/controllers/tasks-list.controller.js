@@ -57,7 +57,7 @@ const list = async(req, res) => {
 
         if( !space ) return res.status(400).send('Enter a valid board'); */
 
-        const lists = await TasksList.find({ board_id: req.params.board_id }).sort('priority');
+        const lists = await TasksList.find({ board_id: req.params.board_id, is_archived : false }).sort({priority: "asc"});
         return res.status(200).send({ data: lists });
 
     } catch(e) {

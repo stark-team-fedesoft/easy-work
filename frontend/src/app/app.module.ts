@@ -24,6 +24,10 @@ import { CreateTaskComponent } from './components/dialogs/create-task/create-tas
 import { CreateListComponent } from './components/dialogs/create-list/create-list.component';
 import { EditBoardComponent } from './components/dialogs/edit-board/edit-board.component';
 import { AddUsersComponent } from './components/dialogs/add-users/add-users.component';
+import { EditTaskComponent } from './components/dialogs/edit-task/edit-task.component';
+import { ArchiveComponent } from './components/dialogs/archive/archive.component';
+import { DeleteComponent } from './components/dialogs/delete/delete.component';
+import { EditListComponent } from './components/dialogs/edit-list/edit-list.component';
 
 
 @NgModule({
@@ -44,7 +48,11 @@ import { AddUsersComponent } from './components/dialogs/add-users/add-users.comp
     CreateListComponent,
     CreateTaskComponent,
     EditBoardComponent,
-    AddUsersComponent
+    AddUsersComponent,
+    EditTaskComponent,
+    ArchiveComponent,
+    DeleteComponent,
+    EditListComponent
   ],
   imports: [
     BrowserModule,

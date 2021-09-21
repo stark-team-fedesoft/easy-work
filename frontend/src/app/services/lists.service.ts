@@ -24,4 +24,8 @@ export class ListsService {
   update( list: ListI ): Observable<any> {
     return this.http.put<any>(`${ this.api }/tasks-list/update`, list);
   }
+
+  delete( list_id: string ): Observable<any> {
+    return this.http.delete<any>(`${ this.api }/tasks-list/delete/${ list_id }`);
+  }
 }

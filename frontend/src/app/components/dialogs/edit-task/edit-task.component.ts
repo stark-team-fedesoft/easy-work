@@ -6,23 +6,20 @@ import { SnackbarService } from 'src/app/services/snackbar.service';
 import { TasksService } from 'src/app/services/tasks.service';
 
 @Component({
-  selector: 'app-create-task',
-  templateUrl: './create-task.component.html',
-  styleUrls: ['./create-task.component.scss']
+  selector: 'app-edit-task',
+  templateUrl: './edit-task.component.html',
+  styleUrls: ['./edit-task.component.scss']
 })
-export class CreateTaskComponent implements OnInit {
+export class EditTaskComponent implements OnInit {
 
-  task: TaskI;
   loading = false;
-  taskCreated: TaskI;
 
   constructor(
-    public dialogRef: MatDialogRef<CreateTaskComponent>,
+    public dialogRef: MatDialogRef<EditTaskComponent>,
     private snackSvc: SnackbarService,
-    @Inject(MAT_DIALOG_DATA) public data,
+    @Inject(MAT_DIALOG_DATA) public task: TaskI,
     private taskSvc: TasksService,
   ) {
-    this.clearData();
   }
 
   ngOnInit(): void {
@@ -32,21 +29,7 @@ export class CreateTaskComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  private clearData() {
-    const now = new Date();
-    const end = now.setDate(now.getDate() + 30); // thirty expiration dates
-    const end_obj = new Date( new Date(end) );
-
-    this.task = {
-      is_archived: false,
-      list_id: this.data.list._id,
-      name: '',
-      priority: 1,
-      end_date: end_obj,
-    }
-  }
-
-  createTask(ev: Event) {
+  updateTask(ev: Event): void {
     ev.preventDefault();
 
     const now = new Date();
@@ -76,11 +59,9 @@ export class CreateTaskComponent implements OnInit {
       end_date : end_date_str,
     }
 
-    this.taskSvc.create( payload ).subscribe(
+    this.taskSvc.update( payload ).subscribe(
       (res: any) => {
         this.loading = false;
-        this.taskCreated = res.data;
-        this.clearData();
         this.onNoClick();
       },
       (err: HttpErrorResponse) => {
