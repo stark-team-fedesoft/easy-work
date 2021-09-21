@@ -1,7 +1,10 @@
-const User = require("../models/user");
-const Board = require("../models/board");
-const mongoose = require("mongoose");
+const User      = require("../models/user");
+const Board     = require("../models/board");
+const Lists     = require("../models/tasks-list.model");
+const Tasks     = require("../models/tasks.model");
 const SpaceWork = require("../models/spaceWork");
+
+const mongoose = require("mongoose");
 
 const registerSpaceWork = async (req, res) => {
   try {
@@ -88,17 +91,40 @@ const updateSpaceWork = async (req, res) => {
 const deleteSpaceWork = async(req, res) => {
   try {
     const space = await SpaceWork.findOne({
-      user_id: req.user._id,
       _id: req.params._id,
+      user_id : req.user._id
     });
+
+    if( !space ) return res.status(400).send('Enter a valid workspace');
     
-    if( !space ) return res.status(400).send("Enter a valid space work");
+    const boards = await Board.find({ workspace_id: req.params._id });
 
-    const result = await SpaceWork.findByIdAndDelete(req.params._id);
+    for( let board of boards ) {
+      const lists = await Lists.find({ board_id: board._id });
 
-    if( !result ) return res.status(400).send('An error ocurred deleting task');
+      for(let list of lists) {
+        const tasks = await Tasks.find({ list_id: list._id });
+        
+        for(let task of tasks ) {
+            const resTask = await Tasks.findByIdAndDelete( task._id );
+            if( !resTask )  return res.status(400).send('An error ocurred removing tasks of list. Please try again later');
+        }
 
-    return res.status(200).send({ data: req.params._id });
+        const resList = await Lists.findByIdAndDelete( list._id );
+        if( !resList )  return res.status(400).send('An error ocurred removing lists of board. Please try again later');
+      }
+
+      const boardRes = await Board.findByIdAndDelete( board._id );
+        if( !boardRes )  return res.status(400).send('An error ocurred removing lists of board. Please try again later');
+
+    }
+
+    const result = await SpaceWork.findByIdAndDelete( req.params._id );
+    if( !result ) return res.status(400).send('An error ocurred. Please try again later');
+    
+    setTimeout(() => {        
+        return res.status(200).send({ data: req.params._id });
+    }, 2000);
 
   } catch (e) {
     console.log(`spaceWorks controller del error: ${e}`);

@@ -2,10 +2,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TaskI } from 'src/app/interfaces/task';
+import { WorkspaceI } from 'src/app/interfaces/workspace';
 import { BoardService } from 'src/app/services/board.service';
 import { ListsService } from 'src/app/services/lists.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { TasksService } from 'src/app/services/tasks.service';
+import { WorkspacesService } from 'src/app/services/workspaces.service';
 
 @Component({
   selector: 'app-delete',
@@ -15,6 +17,7 @@ import { TasksService } from 'src/app/services/tasks.service';
 export class DeleteComponent implements OnInit {
 
   loading = false;
+  deleted_id: string = '';
 
   constructor(
     public dialogRef: MatDialogRef<DeleteComponent>,
@@ -23,6 +26,7 @@ export class DeleteComponent implements OnInit {
     private taskSvc: TasksService,
     private listSvc: ListsService,
     private boardSvc: BoardService,
+    private spaceSvc: WorkspacesService,
   ) {
 
   }
@@ -38,6 +42,7 @@ export class DeleteComponent implements OnInit {
     if( this.data.module === 'tasks' ) this.deleteTask();
     if( this.data.module === 'lists' ) this.deleteList();
     if( this.data.module === 'boards' ) this.deleteBoard();
+    if( this.data.module === 'workspaces' ) this.deleteWorkspace();
   }
 
   private deleteTask():void {
@@ -45,6 +50,7 @@ export class DeleteComponent implements OnInit {
     this.taskSvc.delete(this.data.data._id).subscribe(
       (res: any) => {
         this.loading = false;
+        this.deleted_id = this.data.data._id;
         this.onNoClick();
       },
       (err: HttpErrorResponse) => {
@@ -59,6 +65,7 @@ export class DeleteComponent implements OnInit {
     this.listSvc.delete(this.data.data._id).subscribe(
       (res: any) => {
         this.loading = false;
+        this.deleted_id = this.data.data._id;
         this.onNoClick();
       },
       (err: HttpErrorResponse) => {
@@ -73,6 +80,22 @@ export class DeleteComponent implements OnInit {
     this.boardSvc.delete(this.data.data._id).subscribe(
       (res: any) => {
         this.loading = false;
+        this.deleted_id = this.data.data._id;
+        this.onNoClick();
+      },
+      (err: HttpErrorResponse) => {
+        this.loading = false;
+        this.snackSvc.opensnack(err.error);
+      }
+    )
+  }
+
+  private deleteWorkspace():void {
+    this.loading = true;
+    this.spaceSvc.delete(this.data.data._id).subscribe(
+      (res: any) => {
+        this.loading = false;
+        this.deleted_id = this.data.data._id;
         this.onNoClick();
       },
       (err: HttpErrorResponse) => {
