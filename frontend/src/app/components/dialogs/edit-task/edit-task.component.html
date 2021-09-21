@@ -1,8 +1,8 @@
 <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
-<h1 mat-dialog-title> Crear tarea en {{ data.list.name }}</h1>
+<h1 mat-dialog-title> Modificar tarea </h1>
 
 <div mat-dialog-content>
-    <form (ngSubmit)="createTask($event)" id="task">
+    <form (ngSubmit)="updateTask($event)" id="task">
         <mat-form-field appearance="outline" class="w-full">
             <mat-label>Nombre</mat-label>
             <mat-icon matPrefix>light</mat-icon>
@@ -19,7 +19,7 @@
             <input matInput [matDatepicker]="picker" disabled [(ngModel)]="task.end_date" name="end_date">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker disabled="false"></mat-datepicker>
-          </mat-form-field>
+        </mat-form-field>
     </form>
 </div>
 

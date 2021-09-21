@@ -1,0 +1,8 @@
+<mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+<h1 mat-dialog-title *ngIf="!task.is_archived"> ¿Está seguro que desea archivar la tarea {{task.name}}? </h1>
+<h1 mat-dialog-title *ngIf="task.is_archived"> ¿Está seguro que desea sacar del archivo a la tarea {{task.name}}? </h1>
+
+<div mat-dialog-actions class="justify-end">
+    <button type="button" mat-raised-button (click)="onNoClick()" [disabled]="loading">Cancelar</button>
+    <button type="button" mat-raised-button color="primary" (click)="toggleArchiveTask()" [disabled]="loading">Archivar</button>
+</div>

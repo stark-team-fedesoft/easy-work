@@ -22,7 +22,7 @@
                 <mat-icon>group_add</mat-icon>
                 Agregar usuarios
             </button>
-          </mat-menu>
+        </mat-menu>
     </div>
     
 </div>
@@ -58,7 +58,32 @@
                 (cdkDropListDropped)="drop($event)"
             >
                 <div class="box" *ngFor="let task of list.tasks" cdkDrag>
-                    {{ task.name }}
+                    <div class="flex justify-between align-center">
+                        <span> {{ task.name }} </span>
+
+                        <div>
+                            <button mat-icon-button [matMenuTriggerFor]="taskMenu">
+                                <mat-icon>more_horiz</mat-icon>
+                            </button>
+
+                            <mat-menu #taskMenu="matMenu">
+                                <button mat-menu-item (click)="openEditTaskDialog(task)">
+                                    <mat-icon>edit</mat-icon>
+                                    Modificar tarea
+                                </button>
+
+                                <button mat-menu-item (click)="openArchiveTaskDialog(task)">
+                                    <mat-icon>inventory_2</mat-icon>
+                                    Archivar Tarea
+                                </button>
+
+                                <button mat-menu-item (click)="openDeleteDialog('tasks',task)" >
+                                    <mat-icon color="warn">delete</mat-icon>
+                                    <span color="warn"> Eliminar Tarea </span>
+                                </button>
+                            </mat-menu>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -18,6 +18,9 @@ import { BoardComponent } from './components/home/board/board.component';
 import { CreateTaskComponent } from './components/dialogs/create-task/create-task.component';
 import { EditBoardComponent } from './components/dialogs/edit-board/edit-board.component';
 import { AddUsersComponent } from './components/dialogs/add-users/add-users.component';
+import { EditTaskComponent } from './components/dialogs/edit-task/edit-task.component';
+import { ArchiveTaskComponent } from './components/dialogs/archive-task/archive-task.component';
+import { DeleteComponent } from './components/dialogs/delete/delete.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,10 @@ import { AddUsersComponent } from './components/dialogs/add-users/add-users.comp
     BoardComponent,
     CreateTaskComponent,
     EditBoardComponent,
-    AddUsersComponent
+    AddUsersComponent,
+    EditTaskComponent,
+    ArchiveTaskComponent,
+    DeleteComponent
   ],
   imports: [
     BrowserModule,

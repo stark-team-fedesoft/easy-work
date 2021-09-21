@@ -11,8 +11,11 @@ import { ListsService } from 'src/app/services/lists.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { TasksService } from 'src/app/services/tasks.service';
 import { AddUsersComponent } from '../../dialogs/add-users/add-users.component';
+import { ArchiveTaskComponent } from '../../dialogs/archive-task/archive-task.component';
 import { CreateTaskComponent } from '../../dialogs/create-task/create-task.component';
+import { DeleteComponent } from '../../dialogs/delete/delete.component';
 import { EditBoardComponent } from '../../dialogs/edit-board/edit-board.component';
+import { EditTaskComponent } from '../../dialogs/edit-task/edit-task.component';
 
 @Component({
   selector: 'app-board',
@@ -297,4 +300,36 @@ export class BoardComponent implements OnInit, OnDestroy {
     });
   }
 
+  openEditTaskDialog(task: TaskI): void {
+    const dialogRef = this.dialog.open(EditTaskComponent, {
+      width: '50%',
+      data: task,
+    });
+
+    dialogRef.afterClosed().subscribe( res => {
+      
+    });
+  }
+
+  openArchiveTaskDialog(task: TaskI): void {
+    const dialogRef = this.dialog.open(ArchiveTaskComponent, {
+      width: '30%',
+      data: task,
+    });
+
+    dialogRef.afterClosed().subscribe( res => {
+      this.getLists();
+    });
+  }
+
+  openDeleteDialog(module: string, data: TaskI): void {
+    const dialogRef = this.dialog.open(DeleteComponent, {
+      width: '30%',
+      data: { module, data },
+    });
+
+    dialogRef.afterClosed().subscribe( res => {
+      this.getLists();
+    });
+  }
 }

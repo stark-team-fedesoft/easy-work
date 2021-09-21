@@ -77,7 +77,7 @@ const list = async(req, res) => {
         if( !space ) return res.status(400).send('Enter a valid board');
 
         const tasks = await Tasks
-            .find({ list_id: req.params.list_id })
+            .find({ list_id: req.params.list_id, is_archived: false })
             .sort( { "priority": "asc" } )
             .exec();
 

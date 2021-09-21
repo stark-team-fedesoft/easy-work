@@ -44,15 +44,21 @@ div.list-tasks {
 .box {
     height: 50px;
     padding: 10px 40px 10px 10px;
-    white-space: pre;
     border-bottom: solid 1px #ccc;
     color: rgba(0, 0, 0, 0.87);
-    box-sizing: border-box;
     cursor: pointer;
     background: #FFF;
     font-size: .9rem;
-    text-overflow: ellipsis;
-    overflow: hidden;
+    
+    div {
+        span {
+            width: 80%;
+            text-overflow: ellipsis;
+            white-space: pre;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+    }
 }
   
 .cdk-drag-preview {
