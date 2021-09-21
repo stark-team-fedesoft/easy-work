@@ -1,0 +1,15 @@
+<mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+<h1 mat-dialog-title *ngIf="!data.data.is_archived">
+    <span> ¿Está seguro que desea </span>
+    <span *ngIf="!data.data.is_archived"> archivar </span>
+    <span *ngIf="data.data.is_archived"> sacar del archvivo </span>
+    <span *ngIf="data.module === 'tasks'"> la tarea </span>
+    <span *ngIf="data.module === 'lists'"> la lista </span>
+    <span> {{ data.data.name }}? </span>
+</h1>
+
+
+<div mat-dialog-actions class="justify-end">
+    <button type="button" mat-raised-button (click)="onNoClick()" [disabled]="loading">Cancelar</button>
+    <button type="button" mat-raised-button color="primary" (click)="archive()" [disabled]="loading">Archivar</button>
+</div>

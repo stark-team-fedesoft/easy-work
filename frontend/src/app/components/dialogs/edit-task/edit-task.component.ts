@@ -20,7 +20,6 @@ export class EditTaskComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public task: TaskI,
     private taskSvc: TasksService,
   ) {
-
   }
 
   ngOnInit(): void {

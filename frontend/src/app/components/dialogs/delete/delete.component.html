@@ -2,6 +2,7 @@
 <h1 mat-dialog-title>
     <span>¿Está seguro que desea eliminar</span>
     <span *ngIf="data.module === 'tasks'">la tarea</span>
+    <span *ngIf="data.module === 'lists'">la lista</span>
     <span> {{data.data.name}}? </span>
 
 </h1>

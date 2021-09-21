@@ -1,24 +1,25 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ListI } from 'src/app/interfaces/list';
 import { TaskI } from 'src/app/interfaces/task';
 import { ListsService } from 'src/app/services/lists.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { TasksService } from 'src/app/services/tasks.service';
 
 @Component({
-  selector: 'app-delete',
-  templateUrl: './delete.component.html',
-  styleUrls: ['./delete.component.scss']
+  selector: 'app-archive-task',
+  templateUrl: './archive.component.html',
+  styleUrls: ['./archive.component.scss']
 })
-export class DeleteComponent implements OnInit {
+export class ArchiveComponent implements OnInit {
 
   loading = false;
 
   constructor(
-    public dialogRef: MatDialogRef<DeleteComponent>,
+    public dialogRef: MatDialogRef<ArchiveComponent>,
     private snackSvc: SnackbarService,
-    @Inject(MAT_DIALOG_DATA) public data,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private taskSvc: TasksService,
     private listSvc: ListsService,
   ) {
@@ -32,15 +33,26 @@ export class DeleteComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  delete(): void {
-    if( this.data.module === 'tasks' ) this.deleteTask();
-    if( this.data.module === 'lists' ) this.deleteList();
+  archive() {
+    if( this.data.module === 'tasks' ) return this.toggleArchiveTask();
+    if( this.data.module === 'lists' ) return this.toggleArchiveList();
   }
 
-  deleteTask():void {
+  toggleArchiveTask(): void {
     this.loading = true;
-    this.taskSvc.delete(this.data.data._id).subscribe(
-      (res: any) => {
+
+    const end_date = this.data.data.end_date;
+
+    const end_date_str = end_date.substring(0, 10);
+    
+    const payload: TaskI = {
+      ...this.data.data,
+      is_archived : !this.data.data.is_archived,
+      end_date    : end_date_str,
+    }
+
+    this.taskSvc.update(payload).subscribe(
+      (res:any) => {
         this.loading = false;
         this.onNoClick();
       },
@@ -49,12 +61,19 @@ export class DeleteComponent implements OnInit {
         this.snackSvc.opensnack(err.error);
       }
     )
+
   }
 
-  deleteList():void {
+  toggleArchiveList():void {
     this.loading = true;
-    this.listSvc.delete(this.data.data._id).subscribe(
-      (res: any) => {
+    
+    const payload: ListI = {
+      ...this.data.data,
+      is_archived : !this.data.data.is_archived,
+    }
+
+    this.listSvc.update(payload).subscribe(
+      (res:any) => {
         this.loading = false;
         this.onNoClick();
       },
@@ -63,6 +82,7 @@ export class DeleteComponent implements OnInit {
         this.snackSvc.opensnack(err.error);
       }
     )
+
   }
 
 }
