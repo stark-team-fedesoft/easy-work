@@ -11,6 +11,7 @@ import { AbstractControl, FormControl } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-main-board',
@@ -58,13 +59,16 @@ export class MainBoardComponent implements OnInit {
     this.loadLists();
   }
   loadBoard(): void {
-    this.factory.getAll('api/board/get/' + this.board._id).subscribe((res: any) => {
-      console.log('Board', res);
-      this.board = res.data;
-      if ( this.board.imageBackUrl === 'defaultImgBack.jpg') {
-        this.board.imageBackUrl = this.env.uploadURL + 'img/boards/' + this.board.imageBackUrl;
-      }
-    });
+    this.factory
+      .getAll('api/board/get/' + this.board._id)
+      .subscribe((res: any) => {
+        console.log('Board', res);
+        this.board = res.data;
+        if (this.board.imageBackUrl === 'defaultImgBack.jpg') {
+          this.board.imageBackUrl =
+            this.env.uploadURL + 'img/boards/' + this.board.imageBackUrl;
+        }
+      });
   }
   loadLists(): void {
     this.factory.getAll('api/tasks-list/list/' + this.board._id).subscribe(
@@ -74,7 +78,6 @@ export class MainBoardComponent implements OnInit {
         this.listTask.forEach((element: any) => {
           this.cargarTasks(element);
         });
-        console.log('Tareas finales', this.listTask);
       },
       (err: any) => {
         this.toast.message = err.error;
@@ -83,6 +86,7 @@ export class MainBoardComponent implements OnInit {
     );
   }
   cargarTasks(list: any): void {
+    if (!list) { return; }
     this.factory.getAll('api/tasks/list/' + list._id).subscribe(
       (res: any) => {
         console.log('Tareas', res);
@@ -133,6 +137,9 @@ export class MainBoardComponent implements OnInit {
       }
     );
   }
+  dropList(event: CdkDragDrop<string[]>, list?: any) {
+    moveItemInArray(this.listTask, event.previousIndex, event.currentIndex);
+  }
   drop(event: CdkDragDrop<string[]>, list?: any) {
     if (event.previousContainer === event.container) {
       moveItemInArray(
@@ -157,9 +164,11 @@ export class MainBoardComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
   }
-  selectList(list: any, action: string) {
+  selectList(list: any, action: string, indice?: any) {
     this.registerList = list;
     this.registerList.action = action;
+    this.registerList.priority = indice;
+    console.log(indice);
   }
   saveList(): void {
     if (!this.registerList.name) {
@@ -217,12 +226,47 @@ export class MainBoardComponent implements OnInit {
       }
     );
   }
+  deleteList(indice: any): void {
+    console.log('Eliminar', this.listTask[indice].tasks);
+    if (this.listTask[indice].tasks.length > 0) {
+      Swal.fire(
+        '¡Lista con elementos!',
+        'La lista que desea eliminar tiene elementos',
+        'warning'
+      );
+    }
+    Swal.fire({
+      title: '¿Estas seguro?',
+      text: 'Seguro que desea eliminar la lista!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.factory
+          .delete('api/tasks-list/delete/' + this.listTask[indice]._id)
+          .subscribe(
+            (res: any) => {
+              this.loadLists();
+              Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+            },
+            (err: any) => {
+              Swal.fire('Error', err.message);
+            }
+          );
+      }
+    });
+  }
 }
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'dialog-content-example-dialog',
   templateUrl: 'dialog-content-example-dialog.html',
 })
+// tslint:disable-next-line:component-class-suffix
 export class DialogContentExampleDialog {
   public disabled = false;
   public color: ThemePalette = 'primary';

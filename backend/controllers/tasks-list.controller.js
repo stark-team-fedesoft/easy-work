@@ -29,7 +29,7 @@ const create = async(req, res) => {
             is_archived : false,
             board_id    : req.body.board_id,
             color       : req.body.color,
-            priority    : lists.length + 1,
+            priority    : req.body.priority,
         });
 
         const result = await taskList.save();
@@ -57,7 +57,7 @@ const list = async(req, res) => {
 
         if( !space ) return res.status(400).send('Enter a valid board'); */
 
-        const lists = await TasksList.find({ board_id: req.params.board_id }).sort({priority: "asc"});
+        const lists = await TasksList.find({ board_id: req.params.board_id }).sort('priority');
         return res.status(200).send({ data: lists });
 
     } catch(e) {
@@ -110,10 +110,10 @@ const del = async(req, res) => {
 
         const result = await TasksList.findByIdAndDelete( req.params._id );
         if( !result ) return res.status(400).send('An error ocurred. Please try again later');
-        
-        setTimeout(() => {        
+        return res.status(200).send({ data: req.params._id });
+        /* setTimeout(() => {        
             return res.status(200).send({ data: req.params._id });
-        }, 2000);
+        }, 2000); */
 
     } catch(e) {
         console.log(`tasks list controller del error: ${e}`);

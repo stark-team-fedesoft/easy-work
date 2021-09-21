@@ -21,6 +21,7 @@ import { DialogContentExampleDialog, MainBoardComponent } from './components/boa
 import { MAT_COLOR_FORMATS, NgxMatColorPickerModule, NGX_MAT_COLOR_FORMATS } from '@angular-material-components/color-picker';
 
 import { CreateTaskComponent } from './components/dialogs/create-task/create-task.component';
+import { CreateListComponent } from './components/dialogs/create-list/create-list.component';
 
 @NgModule({
   entryComponents: [DialogContentExampleDialog],
@@ -37,6 +38,7 @@ import { CreateTaskComponent } from './components/dialogs/create-task/create-tas
     MainBoardComponent,
     DialogContentExampleDialog,
     CreateTaskComponent,
+    CreateListComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,12 +1,29 @@
-<div class="toolbar">
-    <!-- [style]="isLoggedIn ? 'width: 17px' : ''" -->
+<!-- <mat-toolbar>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>Easy Work</span>
+    <span class="example-spacer"></span>
+    <button *ngIf="isLoggedIn" routerLink="/home" mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+      <mat-icon>home</mat-icon>
+    </button>
+    <button *ngIf="!isLoggedIn" routerLink="/register" mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+        <mat-icon>person</mat-icon>
+        Registro
+      </button>
+      <button *ngIf="!isLoggedIn" routerLink="/login" mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+        <mat-icon>sigin</mat-icon>
+        Login
+      </button>
+      <button *ngIf="isLoggedIn" (click)="logout()" mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+        <mat-icon>person</mat-icon>
+        Salir
+      </button>
+  </mat-toolbar> -->
+<div class="toolbar" color="primary">
     <div class="item left">
         <div *ngIf="isLoggedIn">
             <a mat-button routerLink="/home"> <mat-icon>home</mat-icon> </a>
-            <a mat-button routerLink="/board"> 
-                <mat-icon>star</mat-icon>
-                Tareas (Temporal) 
-            </a>
         </div>
     </div>
 
