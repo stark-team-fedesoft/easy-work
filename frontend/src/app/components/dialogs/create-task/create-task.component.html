@@ -6,13 +6,20 @@
         <mat-form-field appearance="outline" class="w-full">
             <mat-label>Nombre</mat-label>
             <mat-icon matPrefix>light</mat-icon>
-            <input matInput [(ngModel)]="task.name" name="name" required autofocus>
+            <input matInput [(ngModel)]="task.name" name="name" required >
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="w-full">
             <mat-label>Descripción</mat-label>
             <textarea matInput [(ngModel)]="task.description" name="description"></textarea>
         </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Fecha de vencimiento</mat-label>
+            <input matInput [matDatepicker]="picker" disabled [(ngModel)]="task.end_date" name="end_date">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker disabled="false"></mat-datepicker>
+          </mat-form-field>
     </form>
 </div>
 

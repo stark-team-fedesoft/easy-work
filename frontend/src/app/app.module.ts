@@ -22,6 +22,8 @@ import { MAT_COLOR_FORMATS, NgxMatColorPickerModule, NGX_MAT_COLOR_FORMATS } fro
 
 import { CreateTaskComponent } from './components/dialogs/create-task/create-task.component';
 import { CreateListComponent } from './components/dialogs/create-list/create-list.component';
+import { EditBoardComponent } from './components/dialogs/edit-board/edit-board.component';
+import { AddUsersComponent } from './components/dialogs/add-users/add-users.component';
 
 
 @NgModule({
@@ -40,6 +42,9 @@ import { CreateListComponent } from './components/dialogs/create-list/create-lis
     DialogContentExampleDialog,
     CreateTaskComponent,
     CreateListComponent,
+    CreateTaskComponent,
+    EditBoardComponent,
+    AddUsersComponent
   ],
   imports: [
     BrowserModule,

@@ -16,7 +16,7 @@ const registerActivies = async (req, res) => {
 
 const listActivities = async (req, res) => {
 console.log(req.params["idBoard"]);
-  const activity = await history_activities.find({ idBoard: req.params["idBoard"]} );
+  const activity = await history_activities.find({ idBoard: req.params["idBoard"]} ).sort({_id:-1})
   console.log(activity);
   if (!activity || activity.length === 0)
     return res.status(400).send("no exists Activity");

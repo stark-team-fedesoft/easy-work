@@ -2,9 +2,29 @@
 
 <div class="board-options flex justify-between align-center">
     <h1 >{{ board.name }}</h1>
-    <button mat-icon-button matTooltipPosition="left" matTooltip="Opciones del tablero">
-        <mat-icon>more_horiz</mat-icon>
-    </button>
+
+    <div>
+        <button
+            mat-icon-button
+            matTooltipPosition="left"
+            matTooltip="Opciones del tablero"
+            [matMenuTriggerFor]="menu"
+        >
+            <mat-icon>more_horiz</mat-icon>
+        </button>
+
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="openEditBoardDialog()">
+                <mat-icon>edit</mat-icon>
+                Modificar información básica
+            </button>
+            <button mat-menu-item (click)="openAddUsersDialog()">
+                <mat-icon>group_add</mat-icon>
+                Agregar usuarios
+            </button>
+          </mat-menu>
+    </div>
+    
 </div>
 
 <div class="main flex justify-between align-center">

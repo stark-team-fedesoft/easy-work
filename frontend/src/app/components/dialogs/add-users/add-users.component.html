@@ -1,0 +1,45 @@
+<mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+<h1 mat-dialog-title>Agregar usuarios en el espacio de trabajo {{ workspace.name }}</h1>
+
+<div mat-dialog-content class="content">
+    <form (submit)="addUser($event)">
+        <div class="flex align-center">
+            <mat-form-field appearance="outline">
+                <mat-label>Correo electrónico</mat-label>
+                <mat-icon matPrefix>person</mat-icon>
+                <input type="email" matInput [(ngModel)]="email" name="email" autofocus>
+            </mat-form-field>
+            <button type="submit" mat-raised-button [disabled]="loading" color="primary">
+                <mat-icon>person_add</mat-icon>
+                Agregar
+            </button>
+        </div>
+
+        <mat-list role="list">
+            <mat-list-item *ngFor="let email of users" role="listitem" class="cursor-pointer">
+                <div class="avatar">
+                    M
+                </div>
+                <div class="flex align-center justify-between w-full">
+                    <span> {{ email }} </span>
+
+                    <button
+                        type="button"
+                        mat-icon-button
+                        color="accent"
+                        matTooltipPosition="left"
+                        matTooltip="Eliminar usuario del espacio de trabajo"
+                        (click)="removeUser( email )"
+                    >
+                        <mat-icon>close</mat-icon>
+                    </button>
+
+                </div>
+            </mat-list-item>
+        </mat-list>
+    </form>
+</div>
+
+<div mat-dialog-actions class="justify-end">
+    <button type="button" mat-raised-button (click)="onNoClick()" [disabled]="loading">Cerrar</button>
+</div>

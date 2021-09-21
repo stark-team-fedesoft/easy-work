@@ -19,8 +19,6 @@ export class ActivitiesComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    console.log("este es el id " + this.idBoard);
-    
     this._activityService.listActivities(this.idBoard).subscribe(
       (res) => {
         this.activityData = res.activity;

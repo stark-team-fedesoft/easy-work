@@ -323,8 +323,9 @@ mat-drawer,mat-drawer-content{
 .menu{
   background-color: cornflowerblue;
   position: absolute;
-  top: 5%;
+  top: 2%;
   left: 4%;
+  color: white;
 }
 mat-drawer p{
   color: black;

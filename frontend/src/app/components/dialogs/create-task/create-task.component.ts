@@ -33,16 +33,39 @@ export class CreateTaskComponent implements OnInit {
   }
 
   private clearData() {
+    const now = new Date();
+    const end = now.setDate(now.getDate() + 30); // thirty expiration dates
+    const end_obj = new Date( new Date(end) );
+
     this.task = {
       is_archived: false,
       list_id: this.data.list._id,
       name: '',
       priority: 1,
+      end_date: end_obj,
     }
   }
 
   createTask(ev: Event) {
     ev.preventDefault();
+
+    const now = new Date();
+    const end_date = this.task.end_date;
+
+    const currTimestamp = now.getTime();
+    const endTimestamp = end_date.getTime();
+
+    if( endTimestamp < currTimestamp )
+      return this.snackSvc.opensnack('Seleccione una fecha superior a la actual');    
+
+    const year  = end_date.getFullYear();
+    const month = end_date.getMonth() + 1;
+    const day   = end_date.getDate();
+    
+    const monthStr = month < 10 ? `0${ month }` : month;
+    const dayStr   = day < 10 ? `0${ day }` : day;
+
+    const end_date_str = `${ year }-${ monthStr }-${ dayStr }`;
 
     if( !this.task.name ) return this.snackSvc.opensnack('Ingrese un nombre valido');
 
