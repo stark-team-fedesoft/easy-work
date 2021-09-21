@@ -1,0 +1,23 @@
+mat-form-field{
+    width: 80%;
+}
+
+.content {
+    height: 80%;
+}
+
+.avatar {
+    background-color: orange;
+    margin: 0 10px;
+    padding: 10px;
+    border: 2px solid #000;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: .9rem;
+}
+
+mat-list-item {
+    &:hover {
+        background-color: #ccc;
+    }
+}

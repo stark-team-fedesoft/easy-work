@@ -1,0 +1,45 @@
+<mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+<h1 mat-dialog-title>Modificar tablero</h1>
+
+<div mat-dialog-content class="content">
+    <form (ngSubmit)="updateBoard($event)" id="board">
+        <mat-form-field appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <mat-icon matPrefix>light</mat-icon>
+            <input matInput [(ngModel)]="data.name" name="name" required autofocus>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Descripción</mat-label>
+            <textarea matInput [(ngModel)]="data.description" name="description"></textarea>
+        </mat-form-field>
+
+        <!-- <mat-divider></mat-divider> -->
+
+        <mat-radio-group aria-label="Select an option" >
+            <label for="" class="mt-2 font-bold mb-2">Seleccione imagen de fondo</label><br/><br/>
+            
+            <div class="flex">
+                <mat-form-field appearance="outline">
+                    <mat-label>Buscar fondo</mat-label>
+                    <input matInput [(ngModel)]="query" name="query" (keyup)="getWallpapers()"/>
+                </mat-form-field>
+            </div>
+
+            <mat-radio-group
+                [(ngModel)]="data.imageBackUrl"
+                name="imageBackUrl"
+                (ngModelChange)="setBodyBackground($event)"
+            >
+                <mat-radio-button *ngFor="let wallpaper of wallpapers" [value]="wallpaper.src.original">
+                    <img [src]="wallpaper.src.tiny" width="50px"/>
+                </mat-radio-button>
+            </mat-radio-group>
+        </mat-radio-group>
+    </form>
+</div>
+
+<div mat-dialog-actions class="justify-end">
+    <button type="button" mat-raised-button (click)="onNoClick()" [disabled]="loading">Cancelar</button>
+    <button type="submit" form="board" mat-raised-button color="primary" [disabled]="loading">Guardar</button>
+</div>

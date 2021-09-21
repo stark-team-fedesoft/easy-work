@@ -24,4 +24,8 @@ export class BoardService {
   getById(board_id: string): Observable<any> {
     return this.http.get<any>(`${ this.api }/board/get/${ board_id }`);
   }
+
+  update( board: BoardI ): Observable<any> {
+    return this.http.put<any>(`${ this.api }/board/update`, board);
+  }
 }

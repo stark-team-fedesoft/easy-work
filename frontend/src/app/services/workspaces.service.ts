@@ -20,4 +20,20 @@ export class WorkspacesService {
   list(): Observable<any> {
     return this.http.get<any>(`${ this.api }/workspaces/list`);
   }
+
+  get( workspace_id: string ): Observable<any> {
+    return this.http.get<any>(`${ this.api }/workspaces/get/${ workspace_id }`);
+  }
+
+  addUser( payload: any ): Observable<any> {
+    return this.http.post<any>(`${ this.api }/workspaces/add-users`, payload);
+  }
+
+  listUsers( workspace_id: string ): Observable<any> {
+    return this.http.get<any>(`${ this.api }/workspaces/list-users/${ workspace_id }`);
+  }
+
+  removeUser( payload: any ): Observable<any> {
+    return this.http.post<any>(`${ this.api }/workspaces/remove-users`, payload);
+  }
 }
