@@ -28,4 +28,8 @@ export class BoardService {
   update( board: BoardI ): Observable<any> {
     return this.http.put<any>(`${ this.api }/board/update`, board);
   }
+
+  delete(board_id: string): Observable<any> {
+    return this.http.delete<any>(`${ this.api }/board/delete/${ board_id }`);
+  }
 }

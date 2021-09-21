@@ -1,0 +1,44 @@
+<mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+<h1 mat-dialog-title> Tareas archivadas </h1>
+
+<div mat-dialog-content>
+    <mat-list role="list" *ngFor="let list of lists">
+        <mat-list-item *ngFor="let task of list.tasks" role="listitem" class="cursor-pointer">
+            <div class="flex align-center justify-between w-full">
+                <div>
+                    <b> {{ list.name }} </b><br/>
+                    <span> {{ task.name }} </span>
+
+                </div>
+
+                <div>
+                    <button
+                        type="button"
+                        mat-icon-button
+                        matTooltipPosition="left"
+                        matTooltip="Sacar de tareas archivadas"
+                        (click)="openArchiveDialog('tasks', task)"
+                    >
+                        <mat-icon>unarchive</mat-icon>
+                    </button>
+
+                    <button
+                        type="button"
+                        color="warn"
+                        mat-icon-button
+                        matTooltipPosition="right"
+                        matTooltip="Eliminar definitivamente"
+                        (click)="openDeleteDialog('tasks', task)"
+                    >
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+
+            </div>
+        </mat-list-item>
+    </mat-list>
+</div>
+
+<div mat-dialog-actions class="justify-end">
+    <button type="button" mat-raised-button (click)="onNoClick()" color="primary">Cerrar</button>
+</div>

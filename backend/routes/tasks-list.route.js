@@ -14,6 +14,9 @@ router.post('/create', auth, validateUser, tasksListController.create);
 console.log('[GET] /list/:board_id ');
 router.get('/list/:board_id', auth, validateUser, tasksListController.list);
 
+console.log('[GET] /list-archived/:board_id ');
+router.get('/list-archived/:board_id', auth, validateUser, tasksListController.listArchived);
+
 console.log('[PUT] /update ');
 router.put('/update', auth, validateUser, tasksListController.update);
 

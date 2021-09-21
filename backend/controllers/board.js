@@ -1,5 +1,8 @@
-const Board = require("../models/board");
+const Board      = require("../models/board");
+const Lists      = require("../models/tasks-list.model");
+const Tasks      = require("../models/tasks.model");
 const Workpspace = require("../models/spaceWork");
+
 const mongoose = require("mongoose");
 const fs = require("fs");
 const path = require("path");
@@ -111,11 +114,40 @@ const update = async (req, res) => {
     }
 };
 
-// TODO crear metodo delete
+const del = async(req, res) => {
+    try{
+        const lists = await Lists.find({ board_id: req.params._id });
+
+        for(let list of lists) {
+            const tasks = await Tasks.find({ list_id: list._id });
+            
+            for(let task of tasks ) {
+                const resTask = await Tasks.findByIdAndDelete( task._id );
+                if( !resTask )  return res.status(400).send('An error ocurred removing tasks of list. Please try again later');
+            }
+
+            const resList = await Lists.findByIdAndDelete( list._id );
+            if( !resList )  return res.status(400).send('An error ocurred removing lists of board. Please try again later');
+        }
+
+        const result = await Board.findByIdAndDelete( req.params._id );
+        if( !result ) return res.status(400).send('An error ocurred. Please try again later');
+
+        
+        setTimeout(() => {        
+            return res.status(200).send({ data: req.params._id });
+        }, 2000);
+
+    } catch(e) {
+        console.log(`tasks list controller del error: ${e}`);
+        return res.status(400).send('An error ocurred creating task');
+    }
+}
 
 module.exports = {
     create,
     list,
     getById,
     update,
+    del,
 };

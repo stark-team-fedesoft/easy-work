@@ -65,6 +65,29 @@ const list = async(req, res) => {
     }
 }
 
+const listArchived = async(req, res) => {
+    try {
+        const board = await Boards.findById( req.params.board_id );
+
+        if( !board ) return res.status(400).send('Enter a valid board');
+
+        const space = await Workspaces.findOne({
+            user_id: req.user._id,
+            _id: board.workspace_id,
+        });
+
+        if( !space ) return res.status(400).send('Enter a valid board');
+
+        const lists = await TasksList.find({ board_id: req.params.board_id, is_archived : true });
+        
+        return res.status(200).send({ data: lists });
+
+    } catch(e) {
+        console.log(`Tasks list controller create error: ${e}`);
+        return res.status(400).send('An error ocurred. Please try again');
+    }
+}
+
 const update = async(req, res) => {
     try {
         if( !req.body._id || !req.body.name || !req.body.board_id || !req.body.priority ) return res.status(400).send('Incomplete data');
@@ -119,4 +142,10 @@ const del = async(req, res) => {
     }
 }
 
-module.exports = { create, list, update, del };
+module.exports = {
+    create,
+    list,
+    listArchived,
+    update,
+    del
+};

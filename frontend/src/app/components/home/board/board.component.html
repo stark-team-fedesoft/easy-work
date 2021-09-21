@@ -23,6 +23,21 @@
                 <mat-icon>group_add</mat-icon>
                 Agregar usuarios
             </button>
+
+            <button mat-menu-item (click)="openArchivedListsDialog()">
+                <mat-icon>inventory_2</mat-icon>
+                <span> Ver listas archivadas </span>
+            </button>
+
+            <button mat-menu-item (click)="openArchivedTasksDialog()">
+                <mat-icon>archive</mat-icon>
+                <span> Ver tareas archivadas </span>
+            </button>
+
+            <button mat-menu-item (click)="openDeleteDialog('boards', board)">
+                <mat-icon color="warn">delete</mat-icon>
+                <span> Eliminar tablero </span>
+            </button>
         </mat-menu>
     </div>
     

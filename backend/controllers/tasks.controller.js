@@ -90,6 +90,37 @@ const list = async(req, res) => {
     }
 }
 
+const listArchived = async(req, res) => {
+    try {
+        const list = await TasksList.findById(req.params.list_id);
+
+        if( !list ) return res.status(400).send('Enter a valid task list');
+
+        const board = await Boards.findById( list.board_id );
+
+        if( !board ) return res.status(400).send('Enter a valid board');
+
+        const space = await Workspaces.findOne({
+            user_id: req.user._id,
+            _id: board.workspace_id,
+        });
+
+        if( !space ) return res.status(400).send('Enter a valid board');
+
+        const tasks = await Tasks
+            .find({ list_id: req.params.list_id, is_archived: true })
+            .sort( { "priority": "asc" } )
+            .exec();
+
+            // console.log(tasks);
+        return res.status(200).send({ data: tasks });
+
+    } catch (e) {
+        console.log(`tasks controller create error: ${e}`);
+        return res.status(400).send('An error ocurred listing tasks');
+    }
+}
+
 const update = async(req, res) => {
     try {
         if( !req.body._id || !req.body.name || !req.body.list_id || !req.body.priority ) return res.status(400).send('Incomplete data');
@@ -181,4 +212,10 @@ const del = async(req, res) => {
     }
 }
 
-module.exports = { create, list, update, del };
+module.exports = {
+    create,
+    list,
+    listArchived,
+    update,
+    del,
+};

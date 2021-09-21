@@ -1,5 +1,5 @@
 <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
-<h1 mat-dialog-title *ngIf="!data.data.is_archived">
+<h1 mat-dialog-title>
     <span> ¿Está seguro que desea </span>
     <span *ngIf="!data.data.is_archived"> archivar </span>
     <span *ngIf="data.data.is_archived"> sacar del archvivo </span>
@@ -11,5 +11,8 @@
 
 <div mat-dialog-actions class="justify-end">
     <button type="button" mat-raised-button (click)="onNoClick()" [disabled]="loading">Cancelar</button>
-    <button type="button" mat-raised-button color="primary" (click)="archive()" [disabled]="loading">Archivar</button>
+    <button type="button" mat-raised-button color="primary" (click)="archive()" [disabled]="loading">
+        <span *ngIf="!data.data.is_archived"> Archivar </span>
+        <span *ngIf="data.data.is_archived"> Guardar </span>
+    </button>
 </div>

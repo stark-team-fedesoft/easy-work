@@ -22,6 +22,9 @@ import { EditTaskComponent } from './components/dialogs/edit-task/edit-task.comp
 import { ArchiveComponent } from './components/dialogs/archive/archive.component';
 import { DeleteComponent } from './components/dialogs/delete/delete.component';
 import { EditListComponent } from './components/dialogs/edit-list/edit-list.component';
+import { ArchivedListsComponent } from './components/dialogs/archived-lists/archived-lists.component';
+import { InitialPipe } from './pipes/initial.pipe';
+import { ArchivedTasksComponent } from './components/dialogs/archived-tasks/archived-tasks.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +42,10 @@ import { EditListComponent } from './components/dialogs/edit-list/edit-list.comp
     EditTaskComponent,
     ArchiveComponent,
     DeleteComponent,
-    EditListComponent
+    EditListComponent,
+    ArchivedListsComponent,
+    InitialPipe,
+    ArchivedTasksComponent
   ],
   imports: [
     BrowserModule,
