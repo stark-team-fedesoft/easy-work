@@ -1,17 +1,15 @@
-<div class="imgBack" [ngStyle]="{'background-image': 'url(' + (board.imageBackUrl)  + ')'}">
-  <div class="container-fluid">
-    <mat-drawer-container class="imgBack" [ngStyle]="{'background-image': 'url(' + (board.imageBackUrl)  + ')'}" >
 
-      <mat-drawer #drawer color="primary" mode="over" [(opened)]="opened" >
-        <button (click)="showFiller = !showFiller" mat-raised-button>
-          Actividades
-        </button>
-        <app-activities *ngIf="showFiller" [(idBoard)]="idBoard">
-        </app-activities>
-       
-      </mat-drawer>
-      
-      <mat-drawer-content><button class="menu" mat-button (click)="opened=!opened"><mat-icon>toc</mat-icon>Menu</button>
+  <mat-drawer-container class="imgBack" [ngStyle]="{'background-image': 'url(' + board.imageBackUrl + ')'}" >
+    <mat-drawer #drawer color="primary" mode="over" [(opened)]="opened" >
+      <button (click)="showFiller = !showFiller" mat-raised-button>
+        Actividades
+      </button>
+      <app-activities *ngIf="showFiller" [(idBoard)]="idBoard">
+      </app-activities>
+     
+    </mat-drawer>
+    <mat-drawer-content><button class="menu" mat-button (click)="opened=!opened">Menu</button>
+  <div class="container-fluid">
     <div class="">
 
       <div class="row">
@@ -141,10 +139,11 @@
 
       </ng-template>
     </div>
-   </mat-drawer-content>
-  </mat-drawer-container>
+
   </div>
-</div>
+  </mat-drawer-content>
+</mat-drawer-container>
+
 <!-- Modal List -->
 <div class="modal fade" id="modalList" tabindex="-1" aria-labelledby="modalList" aria-hidden="true">
   <div class="modal-dialog bg-dark">
