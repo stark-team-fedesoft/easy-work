@@ -6,7 +6,7 @@
     <mat-drawer-container class="imgBack" [ngStyle]="{'background-image': 'url(' + board.imageBackUrl + ')'}" >
 
       <mat-drawer #drawer color="primary" mode="over" [(opened)]="opened" >
-        <button (click)="listarActividades()" mat-raised-button>
+        <button (click)="showFiller = !showFiller" mat-raised-button>
           Actividades
         </button>
         <app-activities *ngIf="showFiller" [(idBoard)]="idBoard">
