@@ -18,6 +18,9 @@ import { MatSortModule } from '@angular/material/sort';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatDividerModule } from '@angular/material/divider';
 
 const modules = [
   MatToolbarModule,
@@ -47,6 +50,10 @@ const modules = [
   MatMenuModule,
   MatDialogModule,
   MatSidenavModule,
+  DragDropModule,
+  MatTooltipModule,
+  MatRadioModule,
+  MatDividerModule,
 ];
 
 @NgModule({

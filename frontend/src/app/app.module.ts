@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './components/layout/header/header.component';
-import { MaterialModule } from './material.module';
+import { MaterialModule } from './material/material.module';
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -17,8 +17,11 @@ import { CreateBoardComponent } from './components/dialogs/create-board/create-b
 import { BoardComponent } from './components/home/board/board.component';
 import { ActivitiesComponent } from './components/activities/activities.component';
 import { ActivitiesService } from './services/activities.service';
-import { DialogContentExampleDialog, MainBoardComponent } from './views/board/main-board/main-board.component';
+import { DialogContentExampleDialog, MainBoardComponent } from './components/board/main-board/main-board.component';
 import { MAT_COLOR_FORMATS, NgxMatColorPickerModule, NGX_MAT_COLOR_FORMATS } from '@angular-material-components/color-picker';
+
+import { CreateTaskComponent } from './components/dialogs/create-task/create-task.component';
+import { CreateListComponent } from './components/dialogs/create-list/create-list.component';
 
 
 @NgModule({
@@ -35,6 +38,8 @@ import { MAT_COLOR_FORMATS, NgxMatColorPickerModule, NGX_MAT_COLOR_FORMATS } fro
     ActivitiesComponent,
     MainBoardComponent,
     DialogContentExampleDialog,
+    CreateTaskComponent,
+    CreateListComponent,
   ],
   imports: [
     BrowserModule,

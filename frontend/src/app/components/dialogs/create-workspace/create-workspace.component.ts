@@ -8,10 +8,9 @@ import { WorkspacesService } from 'src/app/services/workspaces.service';
 @Component({
   selector: 'app-create-workspace',
   templateUrl: './create-workspace.component.html',
-  styleUrls: ['./create-workspace.component.scss']
+  styleUrls: ['./create-workspace.component.scss'],
 })
 export class CreateWorkspaceComponent {
-
   workspace: WorkspaceI;
   loading = false;
 
@@ -29,15 +28,19 @@ export class CreateWorkspaceComponent {
 
   clearData(): void {
     this.workspace = {
-      name        : '',
-      description : '',
+      name: '',
+      description: '',
     };
   }
 
   createWorkspace(ev: Event): void {
     ev.preventDefault();
 
-    if( !this.workspace.name ) return this.snackSvc.opensnack('Ingrese el nombre del Espacio de trabajo');
+    if (!this.workspace.name) {
+      return this.snackSvc.opensnack(
+        'Ingrese el nombre del Espacio de trabajo'
+      );
+    }
 
     this.loading = true;
     this.workspaceSvc.create(this.workspace).subscribe(
@@ -49,9 +52,7 @@ export class CreateWorkspaceComponent {
       (err: HttpErrorResponse) => {
         this.loading = false;
         this.snackSvc.opensnack(err.error);
-        
       }
-    )
+    );
   }
-
 }

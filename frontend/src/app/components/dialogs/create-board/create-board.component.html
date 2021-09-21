@@ -1,7 +1,7 @@
 <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
 <h1 mat-dialog-title>Crear tablero en {{ data.workspace_name }}</h1>
 
-<div mat-dialog-content>
+<div mat-dialog-content class="content">
     <form (ngSubmit)="createBoard($event)" id="board">
         <mat-form-field appearance="outline">
             <mat-label>Nombre</mat-label>
@@ -13,6 +13,25 @@
             <mat-label>Descripción</mat-label>
             <textarea matInput [(ngModel)]="board.description" name="description"></textarea>
         </mat-form-field>
+
+        <!-- <mat-divider></mat-divider> -->
+
+        <mat-radio-group aria-label="Select an option" >
+            <label for="" class="mt-2 font-bold mb-2">Seleccione imagen de fondo</label><br/><br/>
+            
+            <div class="flex">
+                <mat-form-field appearance="outline">
+                    <mat-label>Buscar fondo</mat-label>
+                    <input matInput [(ngModel)]="query" name="query" (keyup)="getWallpapers()"/>
+                </mat-form-field>
+            </div>
+
+            <mat-radio-group [(ngModel)]="board.imageBackUrl" name="imageBackUrl">
+                <mat-radio-button *ngFor="let wallpaper of wallpapers" [value]="wallpaper.src.original">
+                    <img [src]="wallpaper.src.tiny" width="50px"/>
+                </mat-radio-button>
+            </mat-radio-group>
+        </mat-radio-group>
     </form>
 </div>
 

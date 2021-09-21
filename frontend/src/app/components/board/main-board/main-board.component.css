@@ -65,7 +65,7 @@
 }
 
 .accordion_size {
-  min-width: 150px;
+  min-width: 400px;
   max-width: 500px;
   width: 100%;
   padding: 100px 16px 0px;
@@ -118,7 +118,7 @@
   max-width: 450px;
 }
 .example-container {
-  width: 400px;
+  width: 286px;
   max-width: 100%;
   margin: 0 25px 25px 0;
   display: inline-block;
@@ -128,6 +128,7 @@
 .example-list {
   /* border: solid 1px #ccc; */
   min-height: 60px;
+  width: 318px;
   /* background: white; */
   border-radius: 4px;
   overflow: hidden;
@@ -135,8 +136,8 @@
 }
 
 .example-box {
-  padding: 20px 10px;
-  /* border-bottom: solid 1px #ccc; */
+  padding: 10px 10px;
+  border-bottom: solid 1px #ccc;
   color: rgba(0, 0, 0, 0.87);
   display: flex;
   flex-direction: row;
@@ -156,7 +157,7 @@
 }
 
 .cdk-drag-placeholder {
-  opacity: 0;
+  opacity: 0.3;
 }
 
 .cdk-drag-animating {
@@ -202,11 +203,12 @@
 }
 
 .mat-expansion-panel{
-  width: 376px;
+  width: 330px;
 }
 
 .table-main-list {
-  height: 459px;
+  height: 500px;
+  width: 100%;
 }
 .td-body {
   border-right: dashed #ccc;
@@ -218,111 +220,21 @@
   background-attachment: fixed;
   background-size: cover;
 }
-/* .imgBack:before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: rgba(0, 0, 0, 0.3);
-}
-.imgBack h1,
-h2,
-div {
-  color: #fff;
-  position: relative;
-} */
-/* .title {
-  color: #fff;
-  padding: 0.2em;
-}
-
-.accordion_display {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.accordion_size {
-  min-width: 150px;
-  max-width: 500px;
+.new-task {
   width: 100%;
-  padding: 100px 16px 0px;
+  background-color:rgba(76, 175, 80, 0.3);
+  color: black;
 }
-
-.spacer {
-  flex: 1 0 auto;
+.priority {
+  width: 70px;
 }
-
-.btnDone {
-  background-color: #3cb44b;
-  color: #ffffff;
+.tree-iconn {
+  float: right;
 }
-
-.btnInProgress {
-  background-color: #f58231;
-  color: #ffffff;
+.icon-menu {
+  padding-bottom: 35px;
 }
-
-.btnToDo {
-  background-color: #e6194b;
-  color: #ffffff;
-}
-
-.btnSelectDone {
-  color: #3cb44b;
-}
-
-.btnSelectInProgress {
-  color: #f58231;
-}
-
-.btnSelectTodo {
-  color: #e6194b;
-}
-
-.mat-icon {
-  padding-right: 15px;
-}
-
-.mat-icon:hover {
-  color: #ff0000;
-  cursor: pointer;
-  padding-right: 15px;
-}
-
-.image_center {
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 450px;
-}
-.example-container {
-  width: 400px;
-  max-width: 100%;
-  margin: 0 25px 25px 0;
-  display: inline-block;
-  vertical-align: top;
-}
-
-.example-list {
-  border: solid 1px #ccc;
-  min-height: 60px;
-  background: white;
-  border-radius: 4px;
-  overflow: hidden;
-  display: block;
-}
-
-.example-box {
-  padding: 20px 10px;
-  border-bottom: solid 1px #ccc;
-  color: rgba(0, 0, 0, 0.87);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
+.t-header {
   cursor: move;
   background: white;
   font-size: 14px;
@@ -397,7 +309,7 @@ div {
 .caja-grid {
   height: 470px;
   overflow: scroll;
-} */
+} 
 
 mat-drawer-container{
   height: 100%;
@@ -417,3 +329,4 @@ mat-drawer,mat-drawer-content{
 mat-drawer p{
   color: black;
 }
+

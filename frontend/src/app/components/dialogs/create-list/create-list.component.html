@@ -1,0 +1,23 @@
+<!-- <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+<h1 mat-dialog-title> Crear tarea en {{ data.list.name }}</h1>
+
+<div mat-dialog-content>
+    <form (ngSubmit)="createTask($event)" id="task">
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Nombre</mat-label>
+            <mat-icon matPrefix>light</mat-icon>
+            <input matInput [(ngModel)]="task.name" name="name" required autofocus>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Descripción</mat-label>
+            <textarea matInput [(ngModel)]="task.description" name="description"></textarea>
+        </mat-form-field>
+    </form>
+</div>
+
+<div mat-dialog-actions class="justify-end">
+    <button type="button" mat-raised-button (click)="onNoClick()" [disabled]="loading">Cancelar</button>
+    <button type="submit" form="task" mat-raised-button color="primary" [disabled]="loading">Guardar</button>
+</div>
+ -->
