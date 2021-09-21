@@ -36,6 +36,33 @@ const listSpaceWork = async (req, res) => {
   return res.status(200).send({ data: spaces });
 };
 
+const get = async (req, res) => {
+  // only spaces linked to users
+  const space = await SpaceWork.findOne({
+    user_id: req.user._id,
+    _id : req.params._id,
+  });
+
+  return res.status(200).send({ data: space });
+};
+
+const getUsers = async (req, res) => {
+  // only spaces linked to users
+  const space = await SpaceWork.findOne({
+    user_id: req.user._id,
+    _id : req.params.workspace_id,
+  });
+
+  let users = [];
+
+  for( let user_id of space.user_id ) {
+    const user = await User.findById(user_id);
+    users.push(user.email);
+  }
+
+  return res.status(200).send({ data: users });
+};
+
 const updateSpaceWork = async (req, res) => {
   if (!req.body._id || !req.body.name ) return res.status(400).send("Incomplete data");
 
@@ -81,11 +108,16 @@ const deleteSpaceWork = async(req, res) => {
 
 const addUsers = async(req, res) => {
   try {
-    if( !req.body.user_id || !req.body.workspace_id ) return res.status(400).send('incomplete data');
+    if( !req.body.email || !req.body.workspace_id ) return res.status(400).send('incomplete data');
 
-    const validUser = await User.findById( req.body.user_id );
+    const validUser = await User.findOne({ email: req.body.email });
 
-    if( !validUser ) return res.status(400).send('enter a valid user');
+    if( !validUser ) {
+      console.log(`Invalid email ${req.body.email}`);
+      return res.status(200).send({ data : 'ok'});
+    }
+
+    if( !validUser.dbStatus ) return res.status(400).send('The user is disabled');
 
     const space = await SpaceWork.findOne({
       _id: req.body.workspace_id,
@@ -99,10 +131,10 @@ const addUsers = async(req, res) => {
     for(let user_id of arrUsers ){
       const userstr = user_id.toString();
       
-      if( userstr == req.body.user_id ) return res.status(400).send('user already added');
-
+      if( userstr == validUser._id ) return res.status(400).send('user already added');
+      
       arrUs.push(userstr);
-      arrUs.push(req.body.user_id);
+      arrUs.push( validUser._id );
     }
 
     space.user_id = arrUs;
@@ -111,7 +143,51 @@ const addUsers = async(req, res) => {
     
     if( !result ) return res.status(400).send('An error ocurred. Please try again later');
 
-    return res.status(200).send({ data: space });
+    return res.status(201).send({ data: space });
+
+  } catch(e) {
+    console.log(`spaceWorks controller addusers error: ${e}`);
+    return res.status(400).send('An error ocurred adding users on spaceWork');
+  }
+}
+
+const removeUser = async(req, res) => {
+  try {
+    if( !req.body.email || !req.body.workspace_id ) return res.status(400).send('incomplete data');
+
+    const validUser = await User.findOne({ email: req.body.email });
+
+    if( validUser._id == req.user._id ) return res.status(400).send('Your user is not have sufficent perms');
+
+    if( !validUser ) {
+      console.log(`Invalid email ${req.body.email}`);
+      return res.status(200).send({ data : 'ok'});
+    }
+
+    const space = await SpaceWork.findOne({
+      _id: req.body.workspace_id,
+      user_id: req.user._id,
+    });
+
+    const arrUsers = Object.keys(space.user_id).map( (key) => space.user_id[key] );
+
+    let arrUs = [];
+
+    for(let user_id of arrUsers ){
+      const userstr = user_id.toString();
+      
+      if( userstr == validUser._id ) continue;
+      
+      arrUs.push(userstr);
+    }
+
+    space.user_id = arrUs;
+
+    const result = await space.save();
+    
+    if( !result ) return res.status(400).send('An error ocurred. Please try again later');
+
+    return res.status(201).send({ data: space });
 
   } catch(e) {
     console.log(`spaceWorks controller addusers error: ${e}`);
@@ -125,4 +201,7 @@ module.exports = {
   updateSpaceWork,
   deleteSpaceWork,
   addUsers,
+  get,
+  getUsers,
+  removeUser,
 };

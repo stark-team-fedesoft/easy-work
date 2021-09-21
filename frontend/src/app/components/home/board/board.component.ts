@@ -1,6 +1,6 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { BoardI } from 'src/app/interfaces/board';
@@ -10,14 +10,16 @@ import { BoardService } from 'src/app/services/board.service';
 import { ListsService } from 'src/app/services/lists.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { TasksService } from 'src/app/services/tasks.service';
+import { AddUsersComponent } from '../../dialogs/add-users/add-users.component';
 import { CreateTaskComponent } from '../../dialogs/create-task/create-task.component';
+import { EditBoardComponent } from '../../dialogs/edit-board/edit-board.component';
 
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.scss']
 })
-export class BoardComponent implements OnInit {
+export class BoardComponent implements OnInit, OnDestroy {
 
   newList: ListI;
   board: BoardI;
@@ -41,6 +43,10 @@ export class BoardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy(): void {
+    document.body.style.backgroundImage = "url()";
   }
 
   private getBoard( board_id: string ): void {
@@ -265,6 +271,30 @@ export class BoardComponent implements OnInit {
         this.snackSvc.opensnack(err.error);
       }
     )
+  }
+
+  openEditBoardDialog(): void {
+    const dialogRef = this.dialog.open(EditBoardComponent, {
+      width: '50%',
+      height: '70%',
+      data: this.board ,
+    });
+
+    dialogRef.afterClosed().subscribe( res => {
+      
+    });
+  }
+
+  openAddUsersDialog(): void {
+    const dialogRef = this.dialog.open(AddUsersComponent, {
+      width: '50%',
+      height: '70%',
+      data: this.board,
+    });
+
+    dialogRef.afterClosed().subscribe( res => {
+      
+    });
   }
 
 }

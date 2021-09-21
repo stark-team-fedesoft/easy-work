@@ -8,7 +8,7 @@ const multiparty = require("connect-multiparty");
 const mult = multiparty();
 
 router.post("/create", Auth, ValidateUser, BoardController.create);
-router.post("/createImgBack", mult, Upload, Auth, ValidateUser, BoardController.createImgBack);
+// router.post("/createImgBack", mult, Upload, Auth, ValidateUser, BoardController.createImgBack);
 router.get("/list/:workspace_id", Auth, ValidateUser, BoardController.list);
 router.get("/get/:board_id", Auth, ValidateUser, BoardController.getById);
 router.put("/update", Auth, ValidateUser, BoardController.update);

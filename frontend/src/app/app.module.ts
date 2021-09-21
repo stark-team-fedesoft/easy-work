@@ -16,6 +16,8 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
 import { CreateBoardComponent } from './components/dialogs/create-board/create-board.component';
 import { BoardComponent } from './components/home/board/board.component';
 import { CreateTaskComponent } from './components/dialogs/create-task/create-task.component';
+import { EditBoardComponent } from './components/dialogs/edit-board/edit-board.component';
+import { AddUsersComponent } from './components/dialogs/add-users/add-users.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { CreateTaskComponent } from './components/dialogs/create-task/create-tas
     CreateWorkspaceComponent,
     CreateBoardComponent,
     BoardComponent,
-    CreateTaskComponent
+    CreateTaskComponent,
+    EditBoardComponent,
+    AddUsersComponent
   ],
   imports: [
     BrowserModule,

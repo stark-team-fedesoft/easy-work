@@ -5,5 +5,5 @@ export interface TaskI {
     list_id: string;
     priority: number;
     description?: string;
-    end_date?: string;
+    end_date?: any;
 }
