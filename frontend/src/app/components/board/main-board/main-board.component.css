@@ -206,7 +206,8 @@
 }
 
 .table-main-list {
-  height: 459px;
+  height: 480px;
+  width: 100%;
 }
 .td-body {
   border-right: dashed #ccc;

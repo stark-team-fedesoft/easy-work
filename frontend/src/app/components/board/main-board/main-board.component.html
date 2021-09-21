@@ -1,7 +1,7 @@
 <div class="imgBack" [ngStyle]="{'background-image': 'url(' + board.imageBackUrl + ')'}">
   <div class="container-fluid">
     <div class="">
-      <div class="container">
+
         <div class="row">
           <div class="col-sm-12">
             <br>
@@ -12,9 +12,10 @@
             </button>
           </div>
         </div>
+        
         <div class="row">
-          <div class="col-sm-12">
-            <div cdkDropListGroup class="accordion_display">
+          <div class="col-sm-12 overflow-auto">
+            <div cdkDropListGroup class="">
               <table class="table table-borderless table-responsive table-main-list">
                 <thead>
                   <tr>
@@ -25,7 +26,7 @@
                           <mat-icon (click)="selectList(list, 'update')" data-bs-toggle="modal" data-bs-target="#modalList">edit</mat-icon>
                         </div>
                         <button mat-raised-button color="accent" (click)="selectNewTask(list._id)" data-bs-toggle="modal" data-bs-target="#modalTask">
-                          <mat-icon>add</mat-icon>
+                          New Task <mat-icon>add</mat-icon>
                         </button>
                       </h2>
                     </th>
@@ -84,7 +85,7 @@
             </div>
           </div>
         </div>
-      </div>
+
     </div>
 
   </div>

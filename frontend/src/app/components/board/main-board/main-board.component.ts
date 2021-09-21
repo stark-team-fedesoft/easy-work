@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
 import { AbstractControl, FormControl } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-board',
@@ -36,7 +37,8 @@ export class MainBoardComponent implements OnInit {
   constructor(
     private factory: FactoryService,
     private toast: ToastService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: ActivatedRoute
   ) {
     this.taskData = {};
     this.registerList = {};
@@ -48,12 +50,21 @@ export class MainBoardComponent implements OnInit {
       imageBackUrl: this.env.uploadURL + 'img/boards/' + 'defaultImgBack.jpg',
     };
     this.listTask = [];
+    this.board._id = this.router.snapshot.paramMap.get('board_id');
   }
 
   ngOnInit(): void {
-    this.cargarLists();
+    this.loadBoard();
+    this.loadLists();
   }
-  cargarLists(): void {
+  loadBoard(): void {
+    this.factory.getAll('api/board/get/' + this.board._id).subscribe((res: any) => {
+      console.log('Board', res);
+      this.board = res.data;
+      this.board.imageBackUrl = this.env.uploadURL + 'img/boards/' + this.board.imageBackUrl;
+    });
+  }
+  loadLists(): void {
     this.factory.getAll('api/tasks-list/list/' + this.board._id).subscribe(
       (res: any) => {
         this.listTask = res.data;
@@ -83,7 +94,7 @@ export class MainBoardComponent implements OnInit {
   }
 
   updateTask(task: any, indice: any, indicePre?: any) {
-    let templist = task.list_id;
+    const templist = task.list_id;
     console.log('Lista temporal', templist);
     task.list_id = this.listTask[indice]._id;
     console.log(task);
@@ -107,7 +118,7 @@ export class MainBoardComponent implements OnInit {
   deleteTask(task: any, indice: any) {
     this.factory.delete('api/tasks/delete/' + task._id, task).subscribe(
       (res: any) => {
-        let index = this.listTask[indice].tasks.indexOf(task);
+        const index = this.listTask[indice].tasks.indexOf(task);
         if (index > -1) {
           this.listTask[indice].tasks.splice(index, 1);
           this.toast.message = res.message;
@@ -160,7 +171,7 @@ export class MainBoardComponent implements OnInit {
     this.registerList.board_id = this.board._id;
     this.factory.post('api/tasks-list/create', this.registerList).subscribe(
       (res: any) => {
-        this.cargarLists();
+        this.loadLists();
         console.log('Register list', res);
         this.toast.message = 'Registro exitoso';
         this.toast.openSnackBarSuccesfull();
@@ -176,7 +187,7 @@ export class MainBoardComponent implements OnInit {
     this.registerList.board_id = this.board._id;
     this.factory.update('api/tasks-list/update', this.registerList).subscribe(
       (res: any) => {
-        this.cargarLists();
+        this.loadLists();
         console.log('Update list', res);
         this.toast.message = 'Actualizacion exitoso';
         this.toast.openSnackBarSuccesfull();
@@ -193,7 +204,7 @@ export class MainBoardComponent implements OnInit {
   newTask() {
     this.factory.post('api/tasks/create', this.registerTask).subscribe(
       (res: any) => {
-        this.cargarLists();
+        this.loadLists();
         console.log('Create task', res);
         this.toast.message = 'Registro exitoso';
         this.toast.openSnackBarSuccesfull();
