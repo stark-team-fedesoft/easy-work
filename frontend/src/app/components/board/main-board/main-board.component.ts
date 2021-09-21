@@ -133,6 +133,24 @@ export class MainBoardComponent implements OnInit {
     this.factory.delete('api/tasks/delete/' + task._id, task).subscribe(
       (res: any) => {
         const index = this.listTask[indice].tasks.indexOf(task);
+        this.activiadad = ' eliminado tarea ' + task.name;
+            
+            this.registerActivity = {
+              idBoard: this.idBoard,
+              description: this.activiadad,
+            };
+            this.activityService
+              .registerActivity(this.registerActivity)
+              .subscribe(
+                (res2) => {
+                  console.log('se guardo actividad borrado de tarea');
+                },
+                (err2) => {
+                  console.log('no se guardo actividad borrar');
+                
+                }
+              );
+        
         if (index > -1) {
           this.listTask[indice].tasks.splice(index, 1);
           this.toast.message = res.message;
