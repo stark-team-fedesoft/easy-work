@@ -46,7 +46,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    document.body.style.backgroundImage = "url()";
+    document.body.style.backgroundImage = 'url()';
   }
 
   private getBoard( board_id: string ): void {

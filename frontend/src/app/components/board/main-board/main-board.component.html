@@ -8,7 +8,10 @@
 
           <!-- <h1 class="text-center">My Panel</h1> -->
           <h1 class="text-center text-white"><strong>{{board.name}}</strong></h1>
-
+          <button (click)="selectList({}, 'save')" mat-raised-button color="accent"
+          data-bs-toggle="modal" data-bs-target="#calendarModal">
+          Ver calendario <mat-icon>calendar_today</mat-icon>
+        </button>
         </div>
       </div>
       <ng-container *ngIf="listTask.length === 0; else elseTemplate">
@@ -204,3 +207,17 @@
     </div>
   </div>
 </div>
+<!-- Modal Calendar -->
+<div class="modal fade" id="calendarModal" tabindex="-1" aria-labelledby="calendarModal" aria-hidden="true">
+  <div class="modal-dialog bg-dark">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="form">
+          <app-calendar></app-calendar>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

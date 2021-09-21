@@ -24,6 +24,10 @@ import { CreateTaskComponent } from './components/dialogs/create-task/create-tas
 import { CreateListComponent } from './components/dialogs/create-list/create-list.component';
 import { EditBoardComponent } from './components/dialogs/edit-board/edit-board.component';
 import { AddUsersComponent } from './components/dialogs/add-users/add-users.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { CalendarComponent } from './components/board/calendar/calendar.component';
+import { FlatpickrModule } from 'angularx-flatpickr';
 
 @NgModule({
   entryComponents: [DialogContentExampleDialog],
@@ -43,7 +47,8 @@ import { AddUsersComponent } from './components/dialogs/add-users/add-users.comp
     CreateListComponent,
     CreateTaskComponent,
     EditBoardComponent,
-    AddUsersComponent
+    AddUsersComponent,
+    CalendarComponent
   ],
   imports: [
     BrowserModule,
@@ -54,6 +59,8 @@ import { AddUsersComponent } from './components/dialogs/add-users/add-users.comp
     ReactiveFormsModule,
     HttpClientModule,
     NgxMatColorPickerModule,
+    FlatpickrModule.forRoot(),
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
   ],
   providers: [
     ActivitiesService,
