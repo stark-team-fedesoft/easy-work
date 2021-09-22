@@ -8,7 +8,7 @@
 
           <!-- <h1 class="text-center">My Panel</h1> -->
           <h1 class="text-center text-white"><strong>{{board.name}}</strong></h1>
-          <button (click)="selectList({}, 'save')" mat-raised-button color="accent"
+          <button (click)="calendarComponent.renderTask(listTask)" mat-raised-button color="accent"
           data-bs-toggle="modal" data-bs-target="#calendarModal">
           Ver calendario <mat-icon>calendar_today</mat-icon>
         </button>
@@ -214,7 +214,7 @@
     <div class="modal-content">
       <div class="modal-body">
         <div class="form">
-          <app-calendar></app-calendar>
+          <app-calendar #calendarComponent></app-calendar>
         </div>
       </div>
     </div>

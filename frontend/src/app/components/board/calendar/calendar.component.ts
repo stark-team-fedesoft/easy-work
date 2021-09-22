@@ -22,6 +22,7 @@ import {
   CalendarEventTimesChangedEvent,
   CalendarView,
 } from 'angular-calendar';
+import th from 'date-fns/esm/locale/th/index.js';
 
 const colors: any = {
   red: {
@@ -90,38 +91,35 @@ export class CalendarComponent {
         afterEnd: true,
       },
       draggable: true,
-    },
-    {
-      start: startOfDay(new Date()),
-      title: 'An event with no end date',
-      color: colors.yellow,
-      actions: this.actions,
-    },
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
-      color: colors.blue,
-      allDay: true,
-    },
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: addHours(new Date(), 2),
-      title: 'A draggable and resizable event',
-      color: colors.yellow,
-      actions: this.actions,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
+    }
   ];
 
-  activeDayIsOpen: boolean = true;
+  activeDayIsOpen: any = true;
 
-  constructor(private modal: NgbModal) {}
-
+  constructor(private modal: NgbModal) {
+    this.renderTask([]);
+  }
+  public renderTask(listTasks: any): void {
+    this.events = [];
+    listTasks.forEach((list: any) => {
+      list.tasks.forEach((task: any) => {
+        this.events.push(
+          {
+            start: new Date(task.date),
+            end: new Date(task.end_date),
+            title: task.name,
+            color: colors.yellow,
+            actions: this.actions,
+            resizable: {
+              beforeStart: true,
+              afterEnd: true,
+            },
+            draggable: true,
+          }
+        );
+      });
+    });
+  }
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
