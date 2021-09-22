@@ -370,4 +370,48 @@ export class BoardComponent implements OnInit, OnDestroy {
       this.getLists();
     });
   }
+
+  exportInJSON(): void {
+    this.loading = true;
+
+    const lists = this.lists.map((list: ListI) => {
+      const tasks = list.tasks.map((task: TaskI) => {
+        return {
+          name        : task.name,
+          description : task.description,
+          end_date    : task.end_date,
+          is_archived : task.is_archived,
+          priority    : task.priority,
+        }
+      });
+
+      return {
+        name : list.name,
+        is_archived : list.is_archived,
+        priority : list.priority,
+        tasks,
+      }
+    });
+
+    const board = {
+      name         : this.board.name,
+      description  : this.board.description,
+      date         : this.board.date,
+      imageBackUrl : this.board.imageBackUrl,
+      status       : this.board.status,
+      lists,
+    }
+    
+    const data = `text/json;charset=utf-8,${ encodeURIComponent(JSON.stringify(board))}`;
+    const link = document.createElement('a');
+
+    link.href = `data:${ data }`;
+    link.download = 'data.json';
+
+    link.click();
+    link.remove();
+    
+    this.loading = false;
+    
+  }
 }

@@ -5,4 +5,5 @@ export interface BoardI {
     description?: string;
     status: boolean;
     workspace_id: string;
+    date?: any;
 }
