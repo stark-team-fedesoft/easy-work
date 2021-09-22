@@ -110,7 +110,7 @@
                 [cdkDropListConnectedTo]="getDifferentList(list._id)"
                 (cdkDropListDropped)="drop($event)"
             >
-                <div class="box" *ngFor="let task of list.tasks" cdkDrag>
+                <div class="box" [class]="{'ended': isTaskEnded(task)}" *ngFor="let task of list.tasks" cdkDrag>
                     <div class="flex justify-between align-center">
                         <span> {{ task.name }} </span>
 

@@ -414,4 +414,16 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.loading = false;
     
   }
+
+  isTaskEnded( task: TaskI ): boolean {
+    const now          = new Date();
+    const nowTs        = now.getTime();
+    const end_date_str = task.end_date.substring(0,10);
+    const end_date_arr = end_date_str.split("-");
+    const end_date_obj = new Date(end_date_arr[0], end_date_arr[1] - 1, end_date_arr[2]);
+    const end_date_ts = end_date_obj.getTime();
+
+    if( nowTs > end_date_ts ) return true;
+    else return false;
+  }
 }

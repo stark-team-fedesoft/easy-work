@@ -68,7 +68,11 @@ div.list-tasks {
             box-sizing: border-box;
             overflow: hidden;
         }
-    }
+    } 
+}
+
+.ended {
+    background-color: pink;
 }
   
 .cdk-drag-preview {
