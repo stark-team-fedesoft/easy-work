@@ -1,5 +1,6 @@
 <mat-progress-bar mode="indeterminate" *ngIf="loading" class="w-full"></mat-progress-bar>
 
+<!-- opciones de tablero -->
 <div class="board-options flex justify-between align-center">
     <h1 >{{ board.name }}</h1>
 
@@ -22,7 +23,22 @@
                 <mat-icon>group_add</mat-icon>
                 Agregar usuarios
             </button>
-          </mat-menu>
+
+            <button mat-menu-item (click)="openArchivedListsDialog()">
+                <mat-icon>inventory_2</mat-icon>
+                <span> Ver listas archivadas </span>
+            </button>
+
+            <button mat-menu-item (click)="openArchivedTasksDialog()">
+                <mat-icon>archive</mat-icon>
+                <span> Ver tareas archivadas </span>
+            </button>
+
+            <button mat-menu-item (click)="openDeleteDialog('boards', board)">
+                <mat-icon color="warn">delete</mat-icon>
+                <span> Eliminar tablero </span>
+            </button>
+        </mat-menu>
     </div>
     
 </div>
@@ -37,8 +53,32 @@
     <div cdkDropList cdkDropListOrientation="horizontal" class="list-tasks" id="list-tasks" (cdkDropListDropped)="dropList($event)">
         <div *ngFor="let list of lists" class="list-container" cdkDrag>
             <mat-progress-bar mode="indeterminate" *ngIf="list.loading"></mat-progress-bar>
-    
-            <h2> {{ list.name }} </h2>
+
+            <div class="flex">
+                <h2> {{ list.name }} </h2>
+                <div>
+                    <button mat-icon-button [matMenuTriggerFor]="listMenu">
+                        <mat-icon>more_horiz</mat-icon>
+                    </button>
+
+                    <mat-menu #listMenu="matMenu">
+                        <button mat-menu-item (click)="openEditListDialog(list)">
+                            <mat-icon>edit</mat-icon>
+                            Modificar lista
+                        </button>
+
+                        <button mat-menu-item (click)="openArchiveDialog('lists', list)">
+                            <mat-icon>inventory_2</mat-icon>
+                            Archivar Lista
+                        </button>
+
+                        <button mat-menu-item (click)="openDeleteDialog('lists',list)" >
+                            <mat-icon color="warn">delete</mat-icon>
+                            <span color="warn"> Eliminar Lista </span>
+                        </button>
+                    </mat-menu>
+                </div>
+            </div>
             
             <div class="list mb-2">
                 <div class="box">
@@ -58,7 +98,32 @@
                 (cdkDropListDropped)="drop($event)"
             >
                 <div class="box" *ngFor="let task of list.tasks" cdkDrag>
-                    {{ task.name }}
+                    <div class="flex justify-between align-center">
+                        <span> {{ task.name }} </span>
+
+                        <div>
+                            <button mat-icon-button [matMenuTriggerFor]="taskMenu">
+                                <mat-icon>more_horiz</mat-icon>
+                            </button>
+
+                            <mat-menu #taskMenu="matMenu">
+                                <button mat-menu-item (click)="openEditTaskDialog(task)">
+                                    <mat-icon>edit</mat-icon>
+                                    Modificar tarea
+                                </button>
+
+                                <button mat-menu-item (click)="openArchiveDialog('tasks',task)">
+                                    <mat-icon>inventory_2</mat-icon>
+                                    Archivar Tarea
+                                </button>
+
+                                <button mat-menu-item (click)="openDeleteDialog('tasks',task)" >
+                                    <mat-icon color="warn">delete</mat-icon>
+                                    <span color="warn"> Eliminar Tarea </span>
+                                </button>
+                            </mat-menu>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

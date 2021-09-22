@@ -6,14 +6,14 @@ const tasksController = require('../controllers/tasks.controller');
 const auth         = require('../middleware/auth');
 const validateUser = require('../middleware/validateUser');
 
-console.log('\x1b[33m%s\x1b[0m', 'Registring tasks routing /api/tasks');
-router.get('/list', tasksController.listAll);
-
 console.log('[POST] /create ');
 router.post('/create', auth, validateUser, tasksController.create);
 
 console.log('[GET] /list/:list_id ');
 router.get('/list/:list_id', auth, validateUser, tasksController.list);
+
+console.log('[GET] /list-archived/:list_id ');
+router.get('/list-archived/:list_id', auth, validateUser, tasksController.listArchived);
 
 console.log('[PUT] /update ');
 router.put('/update', auth, validateUser, tasksController.update);

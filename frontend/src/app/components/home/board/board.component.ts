@@ -2,7 +2,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BoardI } from 'src/app/interfaces/board';
 import { ListI } from 'src/app/interfaces/list';
 import { TaskI } from 'src/app/interfaces/task';
@@ -11,8 +11,14 @@ import { ListsService } from 'src/app/services/lists.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { TasksService } from 'src/app/services/tasks.service';
 import { AddUsersComponent } from '../../dialogs/add-users/add-users.component';
+import { ArchiveComponent } from '../../dialogs/archive/archive.component';
+import { ArchivedListsComponent } from '../../dialogs/archived-lists/archived-lists.component';
+import { ArchivedTasksComponent } from '../../dialogs/archived-tasks/archived-tasks.component';
 import { CreateTaskComponent } from '../../dialogs/create-task/create-task.component';
+import { DeleteComponent } from '../../dialogs/delete/delete.component';
 import { EditBoardComponent } from '../../dialogs/edit-board/edit-board.component';
+import { EditListComponent } from '../../dialogs/edit-list/edit-list.component';
+import { EditTaskComponent } from '../../dialogs/edit-task/edit-task.component';
 
 @Component({
   selector: 'app-board',
@@ -29,6 +35,7 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private listSvc: ListsService,
     private taskSvc: TasksService,
     private boardSvc: BoardService,
@@ -297,4 +304,70 @@ export class BoardComponent implements OnInit, OnDestroy {
     });
   }
 
+  openEditTaskDialog(task: TaskI): void {
+    const dialogRef = this.dialog.open(EditTaskComponent, {
+      width: '50%',
+      data: task,
+    });
+
+    dialogRef.afterClosed().subscribe( res => {
+      
+    });
+  }
+
+  openArchiveDialog(module: string, data: TaskI | ListI): void {
+    const dialogRef = this.dialog.open(ArchiveComponent, {
+      width: '30%',
+      data: { module, data },
+    });
+
+    dialogRef.afterClosed().subscribe( res => {
+      this.getLists();
+    });
+  }
+
+  openDeleteDialog(module: string, data: TaskI | BoardI): void {
+    const dialogRef = this.dialog.open(DeleteComponent, {
+      width: '30%',
+      data: { module, data },
+    });
+
+    dialogRef.afterClosed().subscribe( res => {
+      if(module === 'boards') return this.router.navigate([`/home/${ this.board.workspace_id }`]);
+      this.getLists();
+    });
+  }
+
+  openEditListDialog(list: ListI): void {
+    const dialogRef = this.dialog.open(EditListComponent, {
+      width: '30%',
+      data: list,
+    });
+
+    dialogRef.afterClosed().subscribe( res => {
+      
+    });
+  }
+
+  openArchivedListsDialog(): void {
+    const dialogRef = this.dialog.open(ArchivedListsComponent, {
+      width: '30%',
+      data: { board_id: this.board._id },
+    });
+
+    dialogRef.afterClosed().subscribe( res => {
+      this.getLists();
+    });
+  }
+
+  openArchivedTasksDialog(): void {
+    const dialogRef = this.dialog.open(ArchivedTasksComponent, {
+      width: '30%',
+      data: { board_id: this.board._id },
+    });
+
+    dialogRef.afterClosed().subscribe( res => {
+      this.getLists();
+    });
+  }
 }

@@ -28,6 +28,13 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { CalendarComponent } from './components/board/calendar/calendar.component';
 import { FlatpickrModule } from 'angularx-flatpickr';
+import { EditTaskComponent } from './components/dialogs/edit-task/edit-task.component';
+import { ArchiveComponent } from './components/dialogs/archive/archive.component';
+import { DeleteComponent } from './components/dialogs/delete/delete.component';
+import { EditListComponent } from './components/dialogs/edit-list/edit-list.component';
+import { ArchivedListsComponent } from './components/dialogs/archived-lists/archived-lists.component';
+import { InitialPipe } from './pipes/initial.pipe';
+import { ArchivedTasksComponent } from './components/dialogs/archived-tasks/archived-tasks.component';
 
 @NgModule({
   entryComponents: [DialogContentExampleDialog],
@@ -48,7 +55,14 @@ import { FlatpickrModule } from 'angularx-flatpickr';
     CreateTaskComponent,
     EditBoardComponent,
     AddUsersComponent,
-    CalendarComponent
+    CalendarComponent,
+    EditTaskComponent,
+    ArchiveComponent,
+    DeleteComponent,
+    EditListComponent,
+    ArchivedListsComponent,
+    InitialPipe,
+    ArchivedTasksComponent
   ],
   imports: [
     BrowserModule,

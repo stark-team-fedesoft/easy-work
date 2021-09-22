@@ -1,0 +1,16 @@
+<mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+<h1 mat-dialog-title> Modificar lista </h1>
+
+<div mat-dialog-content>
+    <form (ngSubmit)="updateList($event)" id="task">
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Nombre</mat-label>
+            <input matInput [(ngModel)]="list.name" name="name" required autofocus>
+        </mat-form-field>
+    </form>
+</div>
+
+<div mat-dialog-actions class="justify-end">
+    <button type="button" mat-raised-button (click)="onNoClick()" [disabled]="loading">Cancelar</button>
+    <button type="submit" form="task" mat-raised-button color="primary" [disabled]="loading">Guardar</button>
+</div>

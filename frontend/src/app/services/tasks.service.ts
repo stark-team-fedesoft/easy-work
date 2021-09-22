@@ -21,8 +21,16 @@ export class TasksService {
     return this.http.get<any>(`${ this.api }/tasks/list/${ list_id }`);
   }
 
+  listArchived( list_id: string ): Observable<any> {
+    return this.http.get<any>(`${ this.api }/tasks/list-archived/${ list_id }`);
+  }
+
   update(task: TaskI ): Observable<any> {
     return this.http.put<any>(`${ this.api }/tasks/update`, task);
+  }
+
+  delete(task_id: string ): Observable<any> {
+    return this.http.delete<any>(`${ this.api }/tasks/delete/${ task_id }`);
   }
 
 }

@@ -57,7 +57,30 @@ const list = async(req, res) => {
 
         if( !space ) return res.status(400).send('Enter a valid board'); */
 
-        const lists = await TasksList.find({ board_id: req.params.board_id }).sort('priority');
+        const lists = await TasksList.find({ board_id: req.params.board_id, is_archived : false }).sort({priority: "asc"});
+        return res.status(200).send({ data: lists });
+
+    } catch(e) {
+        console.log(`Tasks list controller create error: ${e}`);
+        return res.status(400).send('An error ocurred. Please try again');
+    }
+}
+
+const listArchived = async(req, res) => {
+    try {
+        const board = await Boards.findById( req.params.board_id );
+
+        if( !board ) return res.status(400).send('Enter a valid board');
+
+        const space = await Workspaces.findOne({
+            user_id: req.user._id,
+            _id: board.workspace_id,
+        });
+
+        if( !space ) return res.status(400).send('Enter a valid board');
+
+        const lists = await TasksList.find({ board_id: req.params.board_id, is_archived : true });
+        
         return res.status(200).send({ data: lists });
 
     } catch(e) {
@@ -120,8 +143,11 @@ const del = async(req, res) => {
         return res.status(400).send('An error ocurred creating task');
     }
 }
-const listTemp = async(req, res) => {
-    const lists = await TasksList.find();
-    return res.status(200).send({ data: lists });
-}
-module.exports = { create, list, update, del, listTemp };
+
+module.exports = {
+    create,
+    list,
+    listArchived,
+    update,
+    del
+};

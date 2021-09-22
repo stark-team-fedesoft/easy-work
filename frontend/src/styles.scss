@@ -1,15 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 
-html,
+html, body { height: 100%; }
 body {
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-  padding: 0;
-  overflow-x: hidden;
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    padding: 0;
+    overflow-x: hidden;
+    background-position: center;
 }
 
 .cursor-pointer {
@@ -48,6 +45,10 @@ body {
 
 .mt-2 {
   margin-top: 50px;
+}
+
+.ml-2 {
+    margin-left: 5px;
 }
 
 .font-bold {

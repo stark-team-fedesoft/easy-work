@@ -36,4 +36,8 @@ export class WorkspacesService {
   removeUser( payload: any ): Observable<any> {
     return this.http.post<any>(`${ this.api }/workspaces/remove-users`, payload);
   }
+
+  delete( workspace_id: string ): Observable<any> {
+    return this.http.delete<any>(`${ this.api }/workspaces/delete/${ workspace_id }`);
+  }
 }
