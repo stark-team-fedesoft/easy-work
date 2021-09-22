@@ -370,4 +370,60 @@ export class BoardComponent implements OnInit, OnDestroy {
       this.getLists();
     });
   }
+
+  exportInJSON(): void {
+    this.loading = true;
+
+    const lists = this.lists.map((list: ListI) => {
+      const tasks = list.tasks.map((task: TaskI) => {
+        return {
+          name        : task.name,
+          description : task.description,
+          end_date    : task.end_date,
+          is_archived : task.is_archived,
+          priority    : task.priority,
+        }
+      });
+
+      return {
+        name : list.name,
+        is_archived : list.is_archived,
+        priority : list.priority,
+        tasks,
+      }
+    });
+
+    const board = {
+      name         : this.board.name,
+      description  : this.board.description,
+      date         : this.board.date,
+      imageBackUrl : this.board.imageBackUrl,
+      status       : this.board.status,
+      lists,
+    }
+    
+    const data = `text/json;charset=utf-8,${ encodeURIComponent(JSON.stringify(board))}`;
+    const link = document.createElement('a');
+
+    link.href = `data:${ data }`;
+    link.download = 'data.json';
+
+    link.click();
+    link.remove();
+    
+    this.loading = false;
+    
+  }
+
+  isTaskEnded( task: TaskI ): boolean {
+    const now          = new Date();
+    const nowTs        = now.getTime();
+    const end_date_str = task.end_date.substring(0,10);
+    const end_date_arr = end_date_str.split("-");
+    const end_date_obj = new Date(end_date_arr[0], end_date_arr[1] - 1, end_date_arr[2]);
+    const end_date_ts = end_date_obj.getTime();
+
+    if( nowTs > end_date_ts ) return true;
+    else return false;
+  }
 }

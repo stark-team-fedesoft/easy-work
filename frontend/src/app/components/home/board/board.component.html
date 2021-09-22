@@ -34,10 +34,23 @@
                 <span> Ver tareas archivadas </span>
             </button>
 
+            <button mat-menu-item [matMenuTriggerFor]="exportData">
+                <mat-icon>import_export</mat-icon>
+                <span> Importar / Exportar datos </span>
+            </button>
+
             <button mat-menu-item (click)="openDeleteDialog('boards', board)">
                 <mat-icon color="warn">delete</mat-icon>
                 <span> Eliminar tablero </span>
             </button>
+
+            <mat-menu #exportData="matMenu">
+                <button mat-menu-item (click)="exportInJSON()">
+                    <mat-icon>file_download</mat-icon>
+                    <span> Exportar datos en formato JSON </span>
+                </button>
+                
+              </mat-menu>
         </mat-menu>
     </div>
     
@@ -97,7 +110,7 @@
                 [cdkDropListConnectedTo]="getDifferentList(list._id)"
                 (cdkDropListDropped)="drop($event)"
             >
-                <div class="box" *ngFor="let task of list.tasks" cdkDrag>
+                <div class="box" [class]="{'ended': isTaskEnded(task)}" *ngFor="let task of list.tasks" cdkDrag>
                     <div class="flex justify-between align-center">
                         <span> {{ task.name }} </span>
 
