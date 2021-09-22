@@ -18,6 +18,15 @@
             <li> <a mat-raised-button color="warn" routerLink="/login"> Ingresar </a> </li>
         </ul>
 
-        <button *ngIf="isLoggedIn" mat-raised-button color="warn" (click)="logout()"> Salir </button>
+        <button *ngIf="isLoggedIn" mat-icon-button [matMenuTriggerFor]="listMenu">
+            <mat-icon>person</mat-icon>
+        </button>
+
+        <mat-menu #listMenu="matMenu">
+            <button mat-menu-item (click)="logout()" >
+                <mat-icon>exit_to_app</mat-icon>
+                Salir
+            </button>
+        </mat-menu>
     </div>
 </div>
