@@ -25,6 +25,7 @@ import { EditListComponent } from './components/dialogs/edit-list/edit-list.comp
 import { ArchivedListsComponent } from './components/dialogs/archived-lists/archived-lists.component';
 import { InitialPipe } from './pipes/initial.pipe';
 import { ArchivedTasksComponent } from './components/dialogs/archived-tasks/archived-tasks.component';
+import { UploadJsonComponent } from './components/dialogs/upload-json/upload-json.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { ArchivedTasksComponent } from './components/dialogs/archived-tasks/arch
     EditListComponent,
     ArchivedListsComponent,
     InitialPipe,
-    ArchivedTasksComponent
+    ArchivedTasksComponent,
+    UploadJsonComponent
   ],
   imports: [
     BrowserModule,
