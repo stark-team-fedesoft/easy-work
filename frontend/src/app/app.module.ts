@@ -36,6 +36,7 @@ import { ArchivedListsComponent } from './components/dialogs/archived-lists/arch
 import { InitialPipe } from './pipes/initial.pipe';
 import { ArchivedTasksComponent } from './components/dialogs/archived-tasks/archived-tasks.component';
 import { Header2Component } from './components/layout/header2/header2.component';
+import { UploadJsonComponent } from './components/dialogs/upload-json/upload-json.component';
 
 @NgModule({
   entryComponents: [DialogContentExampleDialog],
@@ -64,7 +65,8 @@ import { Header2Component } from './components/layout/header2/header2.component'
     ArchivedListsComponent,
     InitialPipe,
     ArchivedTasksComponent,
-    Header2Component
+    Header2Component,
+    UploadJsonComponent
   ],
   imports: [
     BrowserModule,

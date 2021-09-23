@@ -24,6 +24,7 @@ import { DeleteComponent } from '../../dialogs/delete/delete.component';
 import { EditBoardComponent } from '../../dialogs/edit-board/edit-board.component';
 import { EditListComponent } from '../../dialogs/edit-list/edit-list.component';
 import { EditTaskComponent } from '../../dialogs/edit-task/edit-task.component';
+import { UploadJsonComponent } from '../../dialogs/upload-json/upload-json.component';
 
 @Component({
   selector: 'app-board',
@@ -438,5 +439,16 @@ export class BoardComponent implements OnInit, OnDestroy {
 
     if (nowTs > end_date_ts) return true;
     else return false;
+  }
+
+  openUploadJsonDialog(): void {
+    const dialogRef = this.dialog.open(UploadJsonComponent, {
+      width: '30%',
+      data: { board_id: this.board._id }
+    });
+
+    dialogRef.afterClosed().subscribe( res => {
+      this.getLists();
+    });
   }
 }

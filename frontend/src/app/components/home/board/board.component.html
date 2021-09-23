@@ -90,6 +90,12 @@
                   <mat-icon color="warn">delete</mat-icon>
                   <span color="warn"> Eliminar Lista </span>
                 </button>
+
+                <button mat-menu-item (click)="openUploadJsonDialog()">
+                    <mat-icon>file_upload</mat-icon>
+                    <span> Importar datos usando archivo JSON </span>
+                </button>
+                
               </mat-menu>
             </div>
           </div>
@@ -105,8 +111,9 @@
 
           <div class="list overflow-auto" cdkDropList id="list-{{ list._id }}" [cdkDropListData]="list.tasks"
             [cdkDropListConnectedTo]="getDifferentList(list._id)" (cdkDropListDropped)="drop($event)">
-            <div class="box" [class]="{'ended': isTaskEnded(task)}" *ngFor="let task of list.tasks" cdkDrag>
+            <div class="box" [class]="{'ended': isTaskEnded(task)}" *ngFor="let task of list.tasks" cdkDrag >
               <div class="flex justify-between align-center">
+                <mat-icon [ngClass]="{'priorityUp': task.priority === 1, 'priorityMid': task.priority === 2, 'priorityLow': task.priority === 3 }"> info </mat-icon>
                 <span> {{ task.name }} </span>
 
                 <div>

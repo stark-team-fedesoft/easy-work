@@ -85,7 +85,6 @@ export class CalendarComponent {
       title: 'A 3 day event',
       color: colors.red,
       actions: this.actions,
-      allDay: true,
       resizable: {
         beforeStart: true,
         afterEnd: true,

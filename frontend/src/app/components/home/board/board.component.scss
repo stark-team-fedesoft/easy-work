@@ -50,9 +50,18 @@ div.list-tasks {
   overflow: hidden;
   display: block;
 }
+.priorityUp {
+ color: red;
+}
+.priorityMid {
+  color: orange;
+}
+.priorityLow {
+  color: yellowgreen;
+}
 
 .box {
-  height: 50px;
+  height: 55px;
   padding: 10px 40px 10px 10px;
   border-bottom: solid 1px #ccc;
   color: rgba(0, 0, 0, 0.87);
