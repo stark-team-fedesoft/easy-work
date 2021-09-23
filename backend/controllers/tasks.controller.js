@@ -47,7 +47,7 @@ const create = async(req, res) => {
             description : req.body.description,
             is_archived : false,
             list_id     : req.body.list_id,
-            priority    : tks.length + 1,
+            priority    : req.body.priority || tks.length + 1,
             end_date,
         });
 
@@ -149,7 +149,7 @@ const update = async(req, res) => {
 
         const priority = parseInt( req.body.priority );
 
-        if( priority > 5 || priority < 0 ) return res.status(400).send('Enter a valid priority');
+        // if( priority > 5 || priority < 0 ) return res.status(400).send('Enter a valid priority');
 
         let end_date = new Date().setDate( new Date().getDate() + 30 );
         

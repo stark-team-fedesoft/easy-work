@@ -2,11 +2,11 @@
 
     <!-- opciones de tablero -->
     <div class="board-options flex justify-between text-center align-center">
-      <h1>{{ board.name | titlecase }}</h1>
       <button (click)="calendarComponent.renderTask(lists)" mat-raised-button color="accent" data-bs-toggle="modal"
         data-bs-target="#calendarModal">
         Ver calendario <mat-icon>calendar_today</mat-icon>
       </button>
+      <h1>{{ board.name | titlecase }}</h1>
       <div>
         <button class="" mat-icon-button matTooltipPosition="left" matTooltip="Opciones del tablero"
           [matMenuTriggerFor]="menu">
@@ -68,7 +68,7 @@
           <mat-progress-bar mode="indeterminate" *ngIf="list.loading"></mat-progress-bar>
 
           <div class="flex" [ngStyle]="{'background-color': 
-          list.color ? ('#' + list.color)  : 'rgba(255, 255, 255, 0.384)', 'opacity': '0.7'   }">
+          list.color ? ('#' + list.color)  : 'rgba(255, 255, 255, 0.384)', 'opacity': '0.8'   }">
             <h2> {{ list.name }} </h2>
             <div>
               <button mat-icon-button [matMenuTriggerFor]="listMenu">

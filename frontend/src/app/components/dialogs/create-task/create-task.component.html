@@ -13,7 +13,14 @@
             <mat-label>Descripción</mat-label>
             <textarea matInput [(ngModel)]="task.description" name="description"></textarea>
         </mat-form-field>
-
+        <mat-form-field appearance="fill">
+            <mat-label>Por favor seleccione la prioridad </mat-label>
+            <mat-select [(ngModel)]="task.priority">
+              <mat-option value="1">Alta</mat-option>
+              <mat-option value="2">Media</mat-option>
+              <mat-option value="3">Baja</mat-option>
+            </mat-select>
+          </mat-form-field>
         <mat-form-field appearance="outline" class="w-full">
             <mat-label>Fecha de vencimiento</mat-label>
             <input matInput [matDatepicker]="picker" disabled [(ngModel)]="task.end_date" name="end_date">
