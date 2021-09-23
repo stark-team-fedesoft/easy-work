@@ -1,177 +1,184 @@
-<mat-progress-bar mode="indeterminate" *ngIf="loading" class="w-full"></mat-progress-bar>
+    <mat-progress-bar mode="indeterminate" *ngIf="loading" class="w-full"></mat-progress-bar>
 
-<!-- opciones de tablero -->
-<div class="board-options flex justify-between align-center">
-    <h1 >{{ board.name }}</h1>
-
-    <div>
-        <button
-            mat-icon-button
-            matTooltipPosition="left"
-            matTooltip="Opciones del tablero"
-            [matMenuTriggerFor]="menu"
-        >
-            <mat-icon>more_horiz</mat-icon>
+    <!-- opciones de tablero -->
+    <div class="board-options flex justify-between text-center align-center">
+      <h1>{{ board.name | titlecase }}</h1>
+      <button (click)="calendarComponent.renderTask(lists)" mat-raised-button color="accent" data-bs-toggle="modal"
+        data-bs-target="#calendarModal">
+        Ver calendario <mat-icon>calendar_today</mat-icon>
+      </button>
+      <div>
+        <button class="" mat-icon-button matTooltipPosition="left" matTooltip="Opciones del tablero"
+          [matMenuTriggerFor]="menu">
+          <mat-icon>more_horiz</mat-icon>
         </button>
 
         <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="openEditBoardDialog()">
-                <mat-icon>edit</mat-icon>
-                Modificar información básica
-            </button>
-            <button mat-menu-item (click)="openAddUsersDialog()">
-                <mat-icon>group_add</mat-icon>
-                Agregar usuarios
+          <button mat-menu-item (click)="openEditBoardDialog()">
+            <mat-icon>edit</mat-icon>
+            Modificar información básica
+          </button>
+          <button mat-menu-item (click)="openAddUsersDialog()">
+            <mat-icon>group_add</mat-icon>
+            Agregar usuarios
+          </button>
+
+          <button mat-menu-item (click)="openArchivedListsDialog()">
+            <mat-icon>inventory_2</mat-icon>
+            <span> Ver listas archivadas </span>
+          </button>
+
+          <button mat-menu-item (click)="openArchivedTasksDialog()">
+            <mat-icon>archive</mat-icon>
+            <span> Ver tareas archivadas </span>
+          </button>
+
+          <button mat-menu-item [matMenuTriggerFor]="exportData">
+            <mat-icon>import_export</mat-icon>
+            <span> Importar / Exportar datos </span>
+          </button>
+
+          <button mat-menu-item (click)="openDeleteDialog('boards', board)">
+            <mat-icon color="warn">delete</mat-icon>
+            <span> Eliminar tablero </span>
+          </button>
+
+          <mat-menu #exportData="matMenu">
+            <button mat-menu-item (click)="exportInJSON()">
+              <mat-icon>file_download</mat-icon>
+              <span> Exportar datos en formato JSON </span>
             </button>
 
-            <button mat-menu-item (click)="openArchivedListsDialog()">
-                <mat-icon>inventory_2</mat-icon>
-                <span> Ver listas archivadas </span>
-            </button>
-
-            <button mat-menu-item (click)="openArchivedTasksDialog()">
-                <mat-icon>archive</mat-icon>
-                <span> Ver tareas archivadas </span>
-            </button>
-
-            <button mat-menu-item [matMenuTriggerFor]="exportData">
-                <mat-icon>import_export</mat-icon>
-                <span> Importar / Exportar datos </span>
-            </button>
-
-            <button mat-menu-item (click)="openDeleteDialog('boards', board)">
-                <mat-icon color="warn">delete</mat-icon>
-                <span> Eliminar tablero </span>
-            </button>
-
-            <mat-menu #exportData="matMenu">
-                <button mat-menu-item (click)="exportInJSON()">
-                    <mat-icon>file_download</mat-icon>
-                    <span> Exportar datos en formato JSON </span>
-                </button>
-                
-              </mat-menu>
+          </mat-menu>
         </mat-menu>
-    </div>
-    
-</div>
+      </div>
 
-<div class="main flex justify-between align-center">
-    <div class="nav-buttons">
+    </div>
+
+    <div class="main flex justify-between align-center">
+      <div class="nav-buttons">
         <button (click)="controlScroll('left')" mat-icon-button>
-            <mat-icon>arrow_back_ios_new</mat-icon>
+          <mat-icon>arrow_back_ios_new</mat-icon>
         </button>
-    </div>
+      </div>
 
-    <div cdkDropList cdkDropListOrientation="horizontal" class="list-tasks" id="list-tasks" (cdkDropListDropped)="dropList($event)">
+      <div cdkDropList cdkDropListOrientation="horizontal" class="list-tasks" id="list-tasks"
+        (cdkDropListDropped)="dropList($event)">
         <div *ngFor="let list of lists" class="list-container" cdkDrag>
-            <mat-progress-bar mode="indeterminate" *ngIf="list.loading"></mat-progress-bar>
+          <mat-progress-bar mode="indeterminate" *ngIf="list.loading"></mat-progress-bar>
 
-            <div class="flex">
-                <h2> {{ list.name }} </h2>
+          <div class="flex" [ngStyle]="{'background-color': 
+          list.color ? ('#' + list.color)  : 'rgba(255, 255, 255, 0.384)', 'opacity': '0.7'   }">
+            <h2> {{ list.name }} </h2>
+            <div>
+              <button mat-icon-button [matMenuTriggerFor]="listMenu">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+
+              <mat-menu #listMenu="matMenu">
+                <button mat-menu-item (click)="openEditListDialog(list)">
+                  <mat-icon>edit</mat-icon>
+                  Modificar lista
+                </button>
+
+                <button mat-menu-item (click)="openArchiveDialog('lists', list)">
+                  <mat-icon>inventory_2</mat-icon>
+                  Archivar Lista
+                </button>
+
+                <button mat-menu-item (click)="openDeleteDialog('lists',list)">
+                  <mat-icon color="warn">delete</mat-icon>
+                  <span color="warn"> Eliminar Lista </span>
+                </button>
+              </mat-menu>
+            </div>
+          </div>
+
+          <div class="list mb-2">
+            <div class="box">
+              <button mat-button class="w-full" (click)="openCrateTaskDialog(list)">
+                <mat-icon>add</mat-icon>
+                Agregar tarea
+              </button>
+            </div>
+          </div>
+
+          <div class="list overflow-auto" cdkDropList id="list-{{ list._id }}" [cdkDropListData]="list.tasks"
+            [cdkDropListConnectedTo]="getDifferentList(list._id)" (cdkDropListDropped)="drop($event)">
+            <div class="box" [class]="{'ended': isTaskEnded(task)}" *ngFor="let task of list.tasks" cdkDrag>
+              <div class="flex justify-between align-center">
+                <span> {{ task.name }} </span>
+
                 <div>
-                    <button mat-icon-button [matMenuTriggerFor]="listMenu">
-                        <mat-icon>more_horiz</mat-icon>
+                  <button mat-icon-button [matMenuTriggerFor]="taskMenu">
+                    <mat-icon>more_horiz</mat-icon>
+                  </button>
+
+                  <mat-menu #taskMenu="matMenu">
+                    <button mat-menu-item (click)="openEditTaskDialog(task)">
+                      <mat-icon>edit</mat-icon>
+                      Modificar tarea
                     </button>
 
-                    <mat-menu #listMenu="matMenu">
-                        <button mat-menu-item (click)="openEditListDialog(list)">
-                            <mat-icon>edit</mat-icon>
-                            Modificar lista
-                        </button>
-
-                        <button mat-menu-item (click)="openArchiveDialog('lists', list)">
-                            <mat-icon>inventory_2</mat-icon>
-                            Archivar Lista
-                        </button>
-
-                        <button mat-menu-item (click)="openDeleteDialog('lists',list)" >
-                            <mat-icon color="warn">delete</mat-icon>
-                            <span color="warn"> Eliminar Lista </span>
-                        </button>
-                    </mat-menu>
-                </div>
-            </div>
-            
-            <div class="list mb-2">
-                <div class="box">
-                    <button mat-button class="w-full" (click)="openCrateTaskDialog(list)">
-                        <mat-icon>add</mat-icon>
-                        Agregar tarea
+                    <button mat-menu-item (click)="openArchiveDialog('tasks',task)">
+                      <mat-icon>inventory_2</mat-icon>
+                      Archivar Tarea
                     </button>
+
+                    <button mat-menu-item (click)="openDeleteDialog('tasks',task)">
+                      <mat-icon color="warn">delete</mat-icon>
+                      <span color="warn"> Eliminar Tarea </span>
+                    </button>
+                  </mat-menu>
                 </div>
+              </div>
             </div>
-    
-            <div
-                class="list"
-                cdkDropList
-                id="list-{{ list._id }}"
-                [cdkDropListData]="list.tasks"
-                [cdkDropListConnectedTo]="getDifferentList(list._id)"
-                (cdkDropListDropped)="drop($event)"
-            >
-                <div class="box" [class]="{'ended': isTaskEnded(task)}" *ngFor="let task of list.tasks" cdkDrag>
-                    <div class="flex justify-between align-center">
-                        <span> {{ task.name }} </span>
-
-                        <div>
-                            <button mat-icon-button [matMenuTriggerFor]="taskMenu">
-                                <mat-icon>more_horiz</mat-icon>
-                            </button>
-
-                            <mat-menu #taskMenu="matMenu">
-                                <button mat-menu-item (click)="openEditTaskDialog(task)">
-                                    <mat-icon>edit</mat-icon>
-                                    Modificar tarea
-                                </button>
-
-                                <button mat-menu-item (click)="openArchiveDialog('tasks',task)">
-                                    <mat-icon>inventory_2</mat-icon>
-                                    Archivar Tarea
-                                </button>
-
-                                <button mat-menu-item (click)="openDeleteDialog('tasks',task)" >
-                                    <mat-icon color="warn">delete</mat-icon>
-                                    <span color="warn"> Eliminar Tarea </span>
-                                </button>
-                            </mat-menu>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
-    
+
         <!-- crear lista  -->
         <div class="list-container">
-            <button *ngIf="!showForm" mat-button class="w-full" (click)="showForm = true;" >
-                <mat-icon>add</mat-icon>
-                Agregar lista
-            </button>
-    
-            <form *ngIf="showForm" id="add-list" (ngSubmit)="createList($event)">
-                <mat-form-field appearance="outline" class="w-full">
-                    <mat-label>Nombre</mat-label>
-                    <mat-icon matPrefix>edit</mat-icon>
-                    <input matInput [(ngModel)]="newList.name" name="name" required autofocus>
-                </mat-form-field>
-    
-                <div class="flex justify-between">
-                    <button type="button" mat-raised-button  (click)="showForm = false;" [disabled]="loading">
-                        Cancelar
-                    </button>
-                    
-                    <button type="submit" mat-raised-button color="primary" [disabled]="loading">
-                        <mat-icon>add</mat-icon>
-                        Agregar
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
+          <button *ngIf="!showForm" mat-button class="w-full" (click)="showForm = true;">
+            <mat-icon>add</mat-icon>
+            Agregar lista
+          </button>
 
-    <div class="nav-buttons">
+          <form *ngIf="showForm" id="add-list" (ngSubmit)="createList($event)">
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>Nombre</mat-label>
+              <mat-icon matPrefix>edit</mat-icon>
+              <input matInput [(ngModel)]="newList.name" name="name" required autofocus>
+            </mat-form-field>
+
+            <div class="flex justify-between">
+              <button type="button" mat-raised-button (click)="showForm = false;" [disabled]="loading">
+                Cancelar
+              </button>
+
+              <button type="submit" mat-raised-button color="primary" [disabled]="loading">
+                <mat-icon>add</mat-icon>
+                Agregar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="nav-buttons">
         <button (click)="controlScroll('right')" mat-icon-button>
-            <mat-icon>arrow_forward_ios_new</mat-icon>
+          <mat-icon>arrow_forward_ios_new</mat-icon>
         </button>
+      </div>
     </div>
-</div>
+    <!-- Modal Calendar -->
+    <div class="modal fade" id="calendarModal" tabindex="-1" aria-labelledby="calendarModal" aria-hidden="true">
+      <div class="modal-dialog modal-xl modal-dialog-scrollable bg-dark">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="form">
+              <app-calendar #calendarComponent></app-calendar>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

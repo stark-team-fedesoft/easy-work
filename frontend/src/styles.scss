@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
+html, body { height: 100%; width: 100%; }
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -29,10 +29,10 @@ body {
   align-items: center;
 }
 
-.cdk-global-overlay-wrapper,
+/* .cdk-global-overlay-wrapper,
 .cdk-overlay-container {
   z-index: 99999 !important;
-}
+} */
 
 .w-full {
   width: 100%;
@@ -73,6 +73,3 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background-color: #a8bbbf;
 }
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

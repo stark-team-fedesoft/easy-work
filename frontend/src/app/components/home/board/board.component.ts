@@ -1,4 +1,8 @@
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,6 +14,7 @@ import { BoardService } from 'src/app/services/board.service';
 import { ListsService } from 'src/app/services/lists.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { TasksService } from 'src/app/services/tasks.service';
+import { environment } from 'src/environments/environment';
 import { AddUsersComponent } from '../../dialogs/add-users/add-users.component';
 import { ArchiveComponent } from '../../dialogs/archive/archive.component';
 import { ArchivedListsComponent } from '../../dialogs/archived-lists/archived-lists.component';
@@ -23,15 +28,15 @@ import { EditTaskComponent } from '../../dialogs/edit-task/edit-task.component';
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
-  styleUrls: ['./board.component.scss']
+  styleUrls: ['./board.component.scss'],
 })
 export class BoardComponent implements OnInit, OnDestroy {
-
   newList: ListI;
   board: BoardI;
   lists: ListI[] = [];
   showForm = false;
   loading = false;
+  env = environment;
 
   constructor(
     private route: ActivatedRoute,
@@ -40,23 +45,21 @@ export class BoardComponent implements OnInit, OnDestroy {
     private taskSvc: TasksService,
     private boardSvc: BoardService,
     private snackSvc: SnackbarService,
-    public dialog: MatDialog,
+    public dialog: MatDialog
   ) {
     this.clearBoardData();
     this.route.params.subscribe((val) => {
       this.getBoard(val.board_id);
     });
-    
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     document.body.style.backgroundImage = 'url()';
   }
 
-  private getBoard( board_id: string ): void {
+  private getBoard(board_id: string): void {
     this.loading = true;
     this.boardSvc.getById(board_id).subscribe(
       (res: any) => {
@@ -64,22 +67,35 @@ export class BoardComponent implements OnInit, OnDestroy {
         this.board = res.data;
         this.clearData();
         this.getLists();
+        if (this.board.imageBackUrl === 'defaultImgBack.jpg') {
+          this.board.imageBackUrl =
+            this.env.uploadURL + 'img/boards/' + this.board.imageBackUrl;
+        }
         this.setBodyImage(this.board.imageBackUrl);
       },
       (err: HttpErrorResponse) => {
         this.loading = false;
         this.snackSvc.opensnack(err.error);
       }
-    )
+    );
   }
 
   private setBodyImage(src: string): void {
-    document.body.style.backgroundImage = `url(${ src })`;
+    document.body.style.backgroundImage = `url(${src})`;
+    /* document.body.style.backgroundColor = `rgba(0, 0, 0, 0.2)`; */
+    document.body.style.height = '90%';
+    document.body.style.backgroundRepeat = 'no-repeat';
+    document.body.style.backgroundAttachment = 'fixed';
+    document.body.style.backgroundSize = 'cover';
   }
 
   drop(event: CdkDragDrop<string[]>) {
-    if (event.previousContainer === event.container) {      
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    if (event.previousContainer === event.container) {
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
       this.updateTaskPriority(event.previousContainer.data[0]['list_id']);
     } else {
       transferArrayItem(
@@ -88,13 +104,12 @@ export class BoardComponent implements OnInit, OnDestroy {
         event.previousIndex,
         event.currentIndex
       );
-      
+
       this.updateTaskPriority(
         event.previousContainer.element.nativeElement.id.substring(5),
         event.container.element.nativeElement.id.substring(5),
-        event.currentIndex,
+        event.currentIndex
       );
-         
     }
   }
 
@@ -108,8 +123,8 @@ export class BoardComponent implements OnInit, OnDestroy {
       name: '',
       is_archived: false,
       board_id: this.board._id,
-      loading: false
-    }
+      loading: false,
+    };
   }
 
   private clearBoardData(): void {
@@ -117,13 +132,14 @@ export class BoardComponent implements OnInit, OnDestroy {
       name: '',
       status: true,
       workspace_id: '',
-    }
-  };
+    };
+  }
 
-  createList(ev: Event):void {
+  createList(ev: Event): void {
     ev.preventDefault();
 
-    if( !this.newList.name ) return this.snackSvc.opensnack('Ingrese un nombre valido');
+    if (!this.newList.name)
+      return this.snackSvc.opensnack('Ingrese un nombre valido');
 
     this.loading = true;
     this.listSvc.create(this.newList).subscribe(
@@ -136,7 +152,7 @@ export class BoardComponent implements OnInit, OnDestroy {
         this.loading = false;
         this.snackSvc.opensnack(err.error);
       }
-    )
+    );
   }
 
   private getLists() {
@@ -151,73 +167,74 @@ export class BoardComponent implements OnInit, OnDestroy {
         this.snackSvc.opensnack(err.error);
         this.loading = false;
       }
-    )
+    );
   }
 
-  openCrateTaskDialog( list: ListI ): void {
+  openCrateTaskDialog(list: ListI): void {
     const dialogRef = this.dialog.open(CreateTaskComponent, {
       width: '30%',
       data: { list },
     });
 
-    dialogRef.afterClosed().subscribe( res => {
+    dialogRef.afterClosed().subscribe((res) => {
       this.getLists();
     });
   }
 
   private getTasks(list_id: string) {
-    const list = this.lists.find(li => li._id === list_id);    
+    const list = this.lists.find((li) => li._id === list_id);
     list.loading = true;
 
     this.taskSvc.list(list_id).subscribe(
       (res) => {
         list.tasks = res.data;
         list.loading = false;
-
       },
       (err: HttpErrorResponse) => {
         list.loading = false;
         this.snackSvc.opensnack(err.error);
       }
-    )
-    
+    );
   }
 
   private getTasksOfList(): void {
-    this.lists.forEach(list => {
+    this.lists.forEach((list) => {
       this.getTasks(list._id);
     });
   }
 
-  getDifferentList( list_id: string ): string[] {
+  getDifferentList(list_id: string): string[] {
     const res = [];
-    const diff = this.lists.filter( li => li._id !== list_id );
-    
-    diff.forEach( d => {
-      res.push(`list-${ d._id }`);
+    const diff = this.lists.filter((li) => li._id !== list_id);
+
+    diff.forEach((d) => {
+      res.push(`list-${d._id}`);
     });
 
     return res;
   }
 
-  private updateTaskPriority(list_id: string, list_id2?: string, next_i?: number) {
-    const list  = this.lists.find(list => list._id === list_id);
+  private updateTaskPriority(
+    list_id: string,
+    list_id2?: string,
+    next_i?: number
+  ) {
+    const list = this.lists.find((list) => list._id === list_id);
     const tasks = list.tasks;
-    
+
     tasks.forEach((task, index) => {
       const newTask: TaskI = {
         ...task,
-        priority : index + 1,
-        end_date : task.end_date.substring(0, 10),
-      }
+        priority: index + 1,
+        end_date: task.end_date.substring(0, 10),
+      };
       this.updateTask(newTask);
-      
     });
-    
-    if( !list_id2 ) return;
-    
-    const list2  = this.lists.find(list => list._id === list_id2);
-    
+
+    if (!list_id2) return;
+
+    const list2 = this.lists.find((list) => list._id === list_id2);
+
     const tasks2 = list2.tasks;
     const task = tasks2[next_i];
 
@@ -226,12 +243,11 @@ export class BoardComponent implements OnInit, OnDestroy {
     tasks2.forEach((task, index) => {
       const newTask: TaskI = {
         ...task,
-        priority : index + 1,
-        end_date : task.end_date.substring(0, 10),
-      }
+        priority: index + 1,
+        end_date: task.end_date.substring(0, 10),
+      };
       this.updateTask(newTask);
     });
-    
   }
 
   private updateTask(task: TaskI) {
@@ -244,16 +260,15 @@ export class BoardComponent implements OnInit, OnDestroy {
         this.loading = false;
         this.snackSvc.opensnack(err.error);
       }
-    )
+    );
   }
 
   controlScroll(dir: string): void {
     let listTasks = document.getElementById('list-tasks');
 
-    if( dir === "right" ) listTasks.scrollLeft += 20;
-    if( dir === "left" ) listTasks.scrollLeft -= 20;
+    if (dir === 'right') listTasks.scrollLeft += 20;
+    if (dir === 'left') listTasks.scrollLeft -= 20;
     console.log(listTasks.scrollWidth);
-    
   }
 
   private updateListPriority() {
@@ -261,7 +276,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       const newList: ListI = {
         ...list,
         priority: index + 1,
-      }
+      };
       this.uupdateList(newList);
     });
   }
@@ -277,19 +292,17 @@ export class BoardComponent implements OnInit, OnDestroy {
         this.loading = false;
         this.snackSvc.opensnack(err.error);
       }
-    )
+    );
   }
 
   openEditBoardDialog(): void {
     const dialogRef = this.dialog.open(EditBoardComponent, {
       width: '50%',
       height: '70%',
-      data: this.board ,
+      data: this.board,
     });
 
-    dialogRef.afterClosed().subscribe( res => {
-      
-    });
+    dialogRef.afterClosed().subscribe((res) => {});
   }
 
   openAddUsersDialog(): void {
@@ -299,9 +312,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       data: this.board,
     });
 
-    dialogRef.afterClosed().subscribe( res => {
-      
-    });
+    dialogRef.afterClosed().subscribe((res) => {});
   }
 
   openEditTaskDialog(task: TaskI): void {
@@ -310,9 +321,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       data: task,
     });
 
-    dialogRef.afterClosed().subscribe( res => {
-      
-    });
+    dialogRef.afterClosed().subscribe((res) => {});
   }
 
   openArchiveDialog(module: string, data: TaskI | ListI): void {
@@ -321,7 +330,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       data: { module, data },
     });
 
-    dialogRef.afterClosed().subscribe( res => {
+    dialogRef.afterClosed().subscribe((res) => {
       this.getLists();
     });
   }
@@ -332,8 +341,9 @@ export class BoardComponent implements OnInit, OnDestroy {
       data: { module, data },
     });
 
-    dialogRef.afterClosed().subscribe( res => {
-      if(module === 'boards') return this.router.navigate([`/home/${ this.board.workspace_id }`]);
+    dialogRef.afterClosed().subscribe((res) => {
+      if (module === 'boards')
+        return this.router.navigate([`/home/${this.board.workspace_id}`]);
       this.getLists();
     });
   }
@@ -344,9 +354,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       data: list,
     });
 
-    dialogRef.afterClosed().subscribe( res => {
-      
-    });
+    dialogRef.afterClosed().subscribe((res) => {});
   }
 
   openArchivedListsDialog(): void {
@@ -355,7 +363,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       data: { board_id: this.board._id },
     });
 
-    dialogRef.afterClosed().subscribe( res => {
+    dialogRef.afterClosed().subscribe((res) => {
       this.getLists();
     });
   }
@@ -366,7 +374,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       data: { board_id: this.board._id },
     });
 
-    dialogRef.afterClosed().subscribe( res => {
+    dialogRef.afterClosed().subscribe((res) => {
       this.getLists();
     });
   }
@@ -377,53 +385,58 @@ export class BoardComponent implements OnInit, OnDestroy {
     const lists = this.lists.map((list: ListI) => {
       const tasks = list.tasks.map((task: TaskI) => {
         return {
-          name        : task.name,
-          description : task.description,
-          end_date    : task.end_date,
-          is_archived : task.is_archived,
-          priority    : task.priority,
-        }
+          name: task.name,
+          description: task.description,
+          end_date: task.end_date,
+          is_archived: task.is_archived,
+          priority: task.priority,
+        };
       });
 
       return {
-        name : list.name,
-        is_archived : list.is_archived,
-        priority : list.priority,
+        name: list.name,
+        is_archived: list.is_archived,
+        priority: list.priority,
         tasks,
-      }
+      };
     });
 
     const board = {
-      name         : this.board.name,
-      description  : this.board.description,
-      date         : this.board.date,
-      imageBackUrl : this.board.imageBackUrl,
-      status       : this.board.status,
+      name: this.board.name,
+      description: this.board.description,
+      date: this.board.date,
+      imageBackUrl: this.board.imageBackUrl,
+      status: this.board.status,
       lists,
-    }
-    
-    const data = `text/json;charset=utf-8,${ encodeURIComponent(JSON.stringify(board))}`;
+    };
+
+    const data = `text/json;charset=utf-8,${encodeURIComponent(
+      JSON.stringify(board)
+    )}`;
     const link = document.createElement('a');
 
-    link.href = `data:${ data }`;
+    link.href = `data:${data}`;
     link.download = 'data.json';
 
     link.click();
     link.remove();
-    
+
     this.loading = false;
-    
   }
 
-  isTaskEnded( task: TaskI ): boolean {
-    const now          = new Date();
-    const nowTs        = now.getTime();
-    const end_date_str = task.end_date.substring(0,10);
-    const end_date_arr = end_date_str.split("-");
-    const end_date_obj = new Date(end_date_arr[0], end_date_arr[1] - 1, end_date_arr[2]);
+  isTaskEnded(task: TaskI): boolean {
+    const now = new Date();
+    const nowTs = now.getTime();
+    const end_date_str = task.end_date.substring(0, 10);
+    const end_date_arr = end_date_str.split('-');
+    const end_date_obj = new Date(
+      end_date_arr[0],
+      end_date_arr[1] - 1,
+      end_date_arr[2]
+    );
     const end_date_ts = end_date_obj.getTime();
 
-    if( nowTs > end_date_ts ) return true;
+    if (nowTs > end_date_ts) return true;
     else return false;
   }
 }

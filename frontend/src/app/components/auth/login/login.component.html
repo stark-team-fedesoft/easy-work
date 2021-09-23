@@ -1,30 +1,32 @@
-<div>
+<div class="imgBack">
     <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
-    <mat-card>
-        <mat-card-title>Iniciar sesión</mat-card-title>
-
-        <mat-card-content>
-            <form (ngSubmit)="login($event)" id="login">
-                <mat-form-field appearance="outline">
-                    <mat-label>Correo electronico</mat-label>
-                    <mat-icon matPrefix>email</mat-icon>
-                    <input matInput [(ngModel)]="user.email" name="email" required autofocus>
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                    <mat-label>Contraseña</mat-label>
-                    <mat-icon matPrefix>vpn_key</mat-icon>
-                    <input type="password" matInput [(ngModel)]="user.password" name="password" required>
-                </mat-form-field>
-            </form>
-        </mat-card-content>
-
-        <mat-card-actions>
-            <button type="submit" mat-raised-button form="login" style="width: 100%;" color="primary" [disabled]="loading">
-                <mat-icon matPrefix>lock</mat-icon>
-                Ingresar
-            </button>
-            <button type="button" mat-button style="width: 100%; margin-top: 10px;" color="primary" routerLink="/register"> Registrarse </button>
-        </mat-card-actions>
-    </mat-card>
+    <div class="m-0 vh-100 row justify-content-center align-items-center">
+        <mat-card class="col-auto p-5 text-center">
+            <mat-card-title>Iniciar sesión</mat-card-title>
+    
+            <mat-card-content>
+                <form (ngSubmit)="login($event)" id="login">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Correo electronico</mat-label>
+                        <mat-icon matPrefix>email</mat-icon>
+                        <input matInput [(ngModel)]="user.email" name="email" required autofocus>
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Contraseña</mat-label>
+                        <mat-icon matPrefix>vpn_key</mat-icon>
+                        <input type="password" matInput [(ngModel)]="user.password" name="password" required>
+                    </mat-form-field>
+                </form>
+            </mat-card-content>
+    
+            <mat-card-actions>
+                <button type="submit" mat-raised-button form="login" style="width: 100%;" color="primary" [disabled]="loading">
+                    <mat-icon matPrefix>lock</mat-icon>
+                    Ingresar
+                </button>
+                <button type="button" mat-button style="width: 100%; margin-top: 10px;" color="primary" routerLink="/register"> Registrarse </button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
 </div>

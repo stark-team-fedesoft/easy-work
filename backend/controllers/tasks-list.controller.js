@@ -91,7 +91,8 @@ const listArchived = async(req, res) => {
 
 const update = async(req, res) => {
     try {
-        if( !req.body._id || !req.body.name || !req.body.board_id || !req.body.priority ) return res.status(400).send('Incomplete data');
+        console.log(req.body);
+        if( !req.body._id || !req.body.name || !req.body.board_id ) return res.status(400).send('Incomplete data');
 
         const board = await Boards.findById( req.body.board_id );
 
