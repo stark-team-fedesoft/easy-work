@@ -104,19 +104,26 @@
 <ng-template #modalContent let-close="close">
   <div class="modal-header">
     <h2 class="modal-title">Tarea</h2>
-    <button type="button" class="close" (click)="close()">
-      <span aria-hidden="true">&times;</span>
-    </button>
   </div>
   <div class="modal-body">
-    <div>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+
+        </div>
+      </div>
+    </div>
+    <h2>{{modalData?.event.title | titlecase}}</h2>
+    <strong> Fecha de vencimiento: </strong>
+    <h3>{{ modalData?.event.end | date:"MM/dd/yy" }}</h3>
+    <!-- <div>
       Action:
       <pre>{{ modalData?.action }}</pre>
-    </div>
-    <div>
+    </div> -->
+    <!-- <div>
       Event:
       <pre>{{ modalData?.event | json }}</pre>
-    </div>
+    </div> -->
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-secondary" (click)="close()">

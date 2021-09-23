@@ -41,7 +41,6 @@ export class CreateBoardComponent {
       },
       (err: HttpErrorResponse) => {
         this.loading = false;
-        this.snackSvc.opensnack(err.error);
       }
     );
   }
