@@ -35,6 +35,7 @@ import { EditListComponent } from './components/dialogs/edit-list/edit-list.comp
 import { ArchivedListsComponent } from './components/dialogs/archived-lists/archived-lists.component';
 import { InitialPipe } from './pipes/initial.pipe';
 import { ArchivedTasksComponent } from './components/dialogs/archived-tasks/archived-tasks.component';
+import { ProfileComponent } from './components/home/profile/profile.component';
 
 @NgModule({
   entryComponents: [DialogContentExampleDialog],
@@ -62,7 +63,8 @@ import { ArchivedTasksComponent } from './components/dialogs/archived-tasks/arch
     EditListComponent,
     ArchivedListsComponent,
     InitialPipe,
-    ArchivedTasksComponent
+    ArchivedTasksComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
