@@ -27,7 +27,7 @@ export class AddUsersComponent implements OnInit {
     public dialogRef: MatDialogRef<AddUsersComponent>,
     private snackSvc: SnackbarService,
     private workspaceSvc: WorkspacesService,
-    @Inject(MAT_DIALOG_DATA) public data: BoardI
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.getWorkspace();
   }
@@ -41,7 +41,10 @@ export class AddUsersComponent implements OnInit {
 
   getWorkspace(): void {
     this.loading = true;
-    this.workspaceSvc.get(this.data.workspace_id).subscribe(
+
+    const workspace_id = typeof this.data === 'string' ? this.data : this.data.workspace_id;
+    
+    this.workspaceSvc.get(workspace_id).subscribe(
       (res: any) => {
         this.loading = false;
         this.workspace = res.data;

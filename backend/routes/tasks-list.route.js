@@ -14,12 +14,13 @@ router.post('/create', auth, validateUser, tasksListController.create);
 console.log('[GET] /list/:board_id ');
 router.get('/list/:board_id', auth, validateUser, tasksListController.list);
 
+console.log('[GET] /list-archived/:board_id ');
+router.get('/list-archived/:board_id', auth, validateUser, tasksListController.listArchived);
+
 console.log('[PUT] /update ');
 router.put('/update', auth, validateUser, tasksListController.update);
 
 console.log('[DELETE] /delete/:_id ');
 router.delete('/delete/:_id', auth, validateUser, tasksListController.del);
 
-//task list temporal (Cambiar a la lista por board)
-router.get('/list/', tasksListController.listTemp);
 module.exports = router;

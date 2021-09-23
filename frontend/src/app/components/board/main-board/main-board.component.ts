@@ -70,7 +70,7 @@ export class MainBoardComponent implements OnInit {
     this.factory
       .getAll('api/board/get/' + this.board._id)
       .subscribe((res: any) => {
-        console.log('Board', res);
+        // console.log('Board', res);
         this.board = res.data;
         if (this.board.imageBackUrl === 'defaultImgBack.jpg') {
           this.board.imageBackUrl =
@@ -82,7 +82,7 @@ export class MainBoardComponent implements OnInit {
     this.factory.getAll('api/tasks-list/list/' + this.board._id).subscribe(
       (res: any) => {
         this.listTask = res.data;
-        console.log('lista de tareas', this.listTask);
+        // // console.log('lista de tareas', this.listTask);
         this.listTask.forEach((element: any) => {
           this.cargarTasks(element);
         });
@@ -97,7 +97,7 @@ export class MainBoardComponent implements OnInit {
     if (!list) { return; }
     this.factory.getAll('api/tasks/list/' + list._id).subscribe(
       (res: any) => {
-        console.log('Tareas', res);
+        // // console.log('Tareas', res);
         list.tasks = res.data;
       },
       (err: any) => {
@@ -109,9 +109,9 @@ export class MainBoardComponent implements OnInit {
 
   updateTask(task: any, indice: any, indicePre?: any) {
     const templist = task.list_id;
-    console.log('Lista temporal', templist);
+    // console.log('Lista temporal', templist);
     task.list_id = this.listTask[indice]._id;
-    console.log(task);
+    // console.log(task);
     this.factory.update('api/tasks/update', task).subscribe(
       (res: any) => {
         task.list_id = this.listTask[indice]._id;
@@ -122,7 +122,7 @@ export class MainBoardComponent implements OnInit {
       },
       (err: any) => {
         task.list_id = templist;
-        console.log(err);
+        // console.log(err);
         this.toast.message = err.error;
         this.toast.openSnackBarError();
       }
@@ -133,7 +133,7 @@ export class MainBoardComponent implements OnInit {
     this.factory.delete('api/tasks/delete/' + task._id, task).subscribe(
       (res: any) => {
         const index = this.listTask[indice].tasks.indexOf(task);
-        this.activiadad = ' eliminado tarea ' + task.name;
+        this.activiadad = ' eliminado tarea ' + task.name + "   " + this.getFecha();
             
             this.registerActivity = {
               idBoard: this.idBoard,
@@ -187,14 +187,14 @@ export class MainBoardComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogContentExampleDialog);
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
+      // console.log(`Dialog result: ${result}`);
     });
   }
   selectList(list: any, action: string, indice?: any) {
     this.registerList = list;
     this.registerList.action = action;
     this.registerList.priority = indice;
-    console.log(indice);
+    // console.log(indice);
   }
   saveList(): void {
     if (!this.registerList.name) {
@@ -209,7 +209,7 @@ export class MainBoardComponent implements OnInit {
     this.factory.post('api/tasks-list/create', this.registerList).subscribe(
       (res: any) => {
         this.loadLists();
-        console.log('Register list', res);
+        // console.log('Register list', res);
         this.toast.message = 'Registro exitoso';
         this.toast.openSnackBarSuccesfull();
       },
@@ -225,7 +225,7 @@ export class MainBoardComponent implements OnInit {
     this.factory.update('api/tasks-list/update', this.registerList).subscribe(
       (res: any) => {
         this.loadLists();
-        console.log('Update list', res);
+        // console.log('Update list', res);
         this.toast.message = 'Actualizacion exitoso';
         this.toast.openSnackBarSuccesfull();
       },
@@ -244,7 +244,7 @@ export class MainBoardComponent implements OnInit {
         this.loadLists();
         console.log('Create task', res);
         
-        this.activiadad=" creado tarea " + res.data.name;
+        this.activiadad=" creado tarea " + res.data.name + "   " + this.getFecha();
         console.log(this.activiadad);
         this.registerActivity = {
           idBoard:this.board._id ,
@@ -262,6 +262,7 @@ export class MainBoardComponent implements OnInit {
                 }
               );
         
+        // console.log('Create task', res);
         this.toast.message = 'Registro exitoso';
         this.toast.openSnackBarSuccesfull();
         console.log("se creo tarea test 1_1");
@@ -276,7 +277,7 @@ export class MainBoardComponent implements OnInit {
     );
   }
   deleteList(indice: any): void {
-    console.log('Eliminar', this.listTask[indice].tasks);
+    // console.log('Eliminar', this.listTask[indice].tasks);
     if (this.listTask[indice].tasks.length > 0) {
       Swal.fire(
         '¡Lista con elementos!',
@@ -307,6 +308,15 @@ export class MainBoardComponent implements OnInit {
           );
       }
     });
+  }
+
+  getFecha(){
+    let date =new Date();
+    let anio = date.getFullYear();
+    let mes = date.getMonth() + 1;
+    let dia = date.getDate();
+    let hora = date.getHours() + ":" + date.getMinutes();
+    return anio + "/" + mes + "/"+ dia +":" + hora;
   }
 }
 

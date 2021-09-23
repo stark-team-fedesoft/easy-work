@@ -14,30 +14,31 @@
                 Agregar
             </button>
         </div>
-
-        <mat-list role="list">
-            <mat-list-item *ngFor="let email of users" role="listitem" class="cursor-pointer">
-                <div class="avatar">
-                    M
-                </div>
-                <div class="flex align-center justify-between w-full">
-                    <span> {{ email }} </span>
-
-                    <button
-                        type="button"
-                        mat-icon-button
-                        color="accent"
-                        matTooltipPosition="left"
-                        matTooltip="Eliminar usuario del espacio de trabajo"
-                        (click)="removeUser( email )"
-                    >
-                        <mat-icon>close</mat-icon>
-                    </button>
-
-                </div>
-            </mat-list-item>
-        </mat-list>
     </form>
+
+    <mat-list role="list">
+        <mat-list-item *ngFor="let email of users" role="listitem" class="cursor-pointer">
+            <div class="avatar">
+                {{ email | initial }}
+            </div>
+            <div class="flex align-center justify-between w-full">
+                <span> {{ email }} </span>
+
+                <button
+                    type="button"
+                    mat-icon-button
+                    color="accent"
+                    matTooltipPosition="left"
+                    matTooltip="Eliminar usuario del espacio de trabajo"
+                    (click)="removeUser( email )"
+                >
+                    <mat-icon>close</mat-icon>
+                </button>
+
+            </div>
+        </mat-list-item>
+    </mat-list>
+    
 </div>
 
 <div mat-dialog-actions class="justify-end">

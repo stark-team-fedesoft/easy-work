@@ -7,8 +7,10 @@ import { WorkspaceI } from 'src/app/interfaces/workspace';
 import { BoardService } from 'src/app/services/board.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { WorkspacesService } from 'src/app/services/workspaces.service';
+import { AddUsersComponent } from '../../dialogs/add-users/add-users.component';
 import { CreateBoardComponent } from '../../dialogs/create-board/create-board.component';
 import { CreateWorkspaceComponent } from '../../dialogs/create-workspace/create-workspace.component';
+import { DeleteComponent } from '../../dialogs/delete/delete.component';
 
 @Component({
   selector: 'app-home',
@@ -18,7 +20,11 @@ import { CreateWorkspaceComponent } from '../../dialogs/create-workspace/create-
 export class HomeComponent implements OnInit {
 
   workspaces: WorkspaceI[];
-  workspace: WorkspaceI;
+  workspace: WorkspaceI = {
+    _id: '',
+    name: '',
+    description: '',
+  };
   boards: BoardI[] = [];
   loading = false;
 
@@ -93,6 +99,30 @@ export class HomeComponent implements OnInit {
         this.snackSvc.opensnack(err.error);
       }
     )
+  }
+
+  openAddUsersDialog(): void {
+    const dialogRef = this.dialog.open(AddUsersComponent, {
+      width: '50%',
+      height: '70%',
+      data: this.workspace._id,
+    });
+
+    dialogRef.afterClosed().subscribe( res => {
+      
+    });
+  }
+
+  openDeleteDialog(module: string, data: WorkspaceI): void {
+    const dialogRef = this.dialog.open(DeleteComponent, {
+      width: '30%',
+      data: { module, data },
+    });
+
+    dialogRef.afterClosed().subscribe( res => {
+      const del_id = dialogRef.componentInstance.deleted_id;
+      if( del_id ) this.router.navigate(['home']);
+    });
   }
 
 }

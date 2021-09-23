@@ -1,6 +1,8 @@
 const express        = require('express');
 const cors           = require('cors');
 const {dbconnection} = require('./db/db');
+
+const path = require("path");
 // rutas
 const History_activities = require("./routes/history_activities");
 const taskRoutes         = require('./routes/tasks.route');
@@ -31,6 +33,11 @@ app.use("/uploads", express.static("uploads"));
 app.use("/api/workspaces", SpaceWork);
 app.use("/api/task-comments", commentRoutes);
 app.use("/api/wallpapers", wallpaperRoutes);
+app.use(express.static("public"));
+
+app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "public/index.html"));
+});
 
 app.listen( process.env.PORT, () =>
     console.log("Backend server running on port: " + process.env.PORT )

@@ -1,14 +1,22 @@
 
   <mat-drawer-container class="imgBack" [ngStyle]="{'background-image': 'url(' + board.imageBackUrl + ')'}" >
     <mat-drawer #drawer color="primary" mode="over" [(opened)]="opened" >
-      <button class="w-100" (click)="showFiller = !showFiller" mat-raised-button>
-        Actividades
+      <button class="w-100" color="accent" (click)="showFiller = !showFiller" mat-raised-button>
+        Historial Actividades<mat-icon>assignment_turned_in</mat-icon>
       </button>
       <app-activities *ngIf="showFiller" [(idBoard)]="idBoard">
       </app-activities>
+      <button class="w-100" (click)="calendarComponent.renderTask(listTask)" mat-raised-button color="accent"
+          data-bs-toggle="modal" data-bs-target="#calendarModal">
+          Ver calendario <mat-icon>calendar_today</mat-icon>
+        </button>
+        
      
     </mat-drawer>
-    <mat-drawer-content><button class="menu" mat-button (click)="opened=!opened"><mat-icon>toc</mat-icon>Menu</button>
+
+    <mat-drawer-content>
+      
+      <button class="menu" mat-button (click)="opened=!opened"><mat-icon>toc</mat-icon>Menu</button>
   <div class="container-fluid">
     <div class="">
 
@@ -18,7 +26,11 @@
 
           <!-- <h1 class="text-center">My Panel</h1> -->
           <h1 class="text-center text-white"><strong>{{board.name}}</strong></h1>
-
+          <button (click)="calendarComponent.renderTask(listTask)" mat-raised-button color="accent"
+          data-bs-toggle="modal" data-bs-target="#calendarModal">
+          Ver calendario <mat-icon>calendar_today</mat-icon>
+        </button>
+        
         </div>
       </div>
       <ng-container *ngIf="listTask.length === 0; else elseTemplate">
@@ -216,3 +228,18 @@
     </div>
   </div>
 </div>
+
+<!-- Modal Calendar -->
+<div class="modal fade" id="calendarModal" tabindex="-1" aria-labelledby="calendarModal" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable bg-dark">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="form">
+          <app-calendar #calendarComponent></app-calendar>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
