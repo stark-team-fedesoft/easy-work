@@ -151,6 +151,14 @@ const getRole = async (req, res) => {
   return res.status(200).send({ role });
 };
 
+const getMiNombre = async (req, res) => {
+  const nombre = await User.findOne({ email: req.params.email })
+  if (!nombre || nombre.length === 0)
+    return res.status(400).send("No search results");
+  const miNombre = nombre.name;
+  return res.status(200).send({ miNombre });
+};
+
 module.exports = {
   registerUser,
   login,
@@ -160,4 +168,5 @@ module.exports = {
   deleteUser,
   registerAdmin,
   getRole,
+  getMiNombre,
 };
