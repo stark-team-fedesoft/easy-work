@@ -10,7 +10,12 @@ import { WorkspacesService } from 'src/app/services/workspaces.service';
 import { AddUsersComponent } from '../../dialogs/add-users/add-users.component';
 import { CreateBoardComponent } from '../../dialogs/create-board/create-board.component';
 import { CreateWorkspaceComponent } from '../../dialogs/create-workspace/create-workspace.component';
+import { AuthService } from 'src/app/services/auth.service';
 import { DeleteComponent } from '../../dialogs/delete/delete.component';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { UserI } from 'src/app/interfaces/user';
+
 
 @Component({
   selector: 'app-home',
@@ -19,6 +24,9 @@ import { DeleteComponent } from '../../dialogs/delete/delete.component';
 })
 export class HomeComponent implements OnInit {
 
+
+
+  private api = environment.BASE_URL;
   workspaces: WorkspaceI[];
   workspace: WorkspaceI = {
     _id: '',
@@ -28,13 +36,19 @@ export class HomeComponent implements OnInit {
   boards: BoardI[] = [];
   loading = false;
 
+  users: UserI[];
+  
+
   constructor(
+    private http: HttpClient,
     public dialog: MatDialog,
     private workspaceSvc: WorkspacesService,
     private boardSvc: BoardService,
     private snackSvc: SnackbarService,
     private route: ActivatedRoute,
     private router: Router,
+    private authSvc: AuthService,
+
   ) {
     this.getWorkspaces();
     this.route.params.subscribe( (val) => {
@@ -43,9 +57,11 @@ export class HomeComponent implements OnInit {
 
       }, 500);
     });
+    
   }
 
-  ngOnInit(): void {    
+  ngOnInit(): void {   
+
   }
 
   openCrateWorkspaceDialog(): void {
@@ -125,4 +141,15 @@ export class HomeComponent implements OnInit {
     });
   }
 
+
+  getUsers() {
+    this.authSvc.list().subscribe(
+      (res: any) => {
+        this.users = res.data;
+      },
+      (err: HttpErrorResponse) => {
+        this.snackSvc.opensnack(err.error);
+      }
+    )
+  }
 }

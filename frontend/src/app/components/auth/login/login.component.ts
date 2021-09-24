@@ -19,8 +19,10 @@ export class LoginComponent implements OnInit {
     private snackSvc: SnackbarService,
     private router: Router
   ) {
+    
     this.clearData();
     if( this.authSvc.isLoggedIn() ) this.router.navigate(['/home']);
+    
   }
 
   ngOnInit(): void {
@@ -38,20 +40,33 @@ export class LoginComponent implements OnInit {
     
     if( !this.user.email || !this.user.password ) return this.snackSvc.opensnack('Complete todos los datos');
 
+    
     this.loading = true;
     this.authSvc.login(this.user).subscribe(
       (res: any) => {
         this.loading = false;
         this.snackSvc.opensnack('Bienvenido');
-        this.clearData();
+        this.authSvc.setEmail(this.user.email);
         this.authSvc.setToken(res.jwtToken);
         this.router.navigate(['/home']);
+        this.clearData();
       },
       (err: any) => {
         this.loading = false;
         this.snackSvc.opensnack(`${ err.error }`);
       }
     )
+  }
+
+  getEmailAdmin(email: string) {
+    this.authSvc.getEmailAdmin(email).subscribe(
+      (res) => {
+        localStorage.setItem('email', res.email);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 
 }
