@@ -30,5 +30,6 @@ router.post(
 );
 router.get("/getRole/:email", UserController.getRole);
 router.get("/getEmailAdmin/", UserController.getEmailAdmin);
+router.get("/getMyInfo", Auth, ValidateUser, UserController.getMyInfo);
 
 module.exports = router;

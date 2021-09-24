@@ -51,6 +51,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 
 
+import { ProfileComponent } from './components/home/profile/profile.component';
+import { UserService } from './services/user.service';
 
 @NgModule({
   entryComponents: [DialogContentExampleDialog],
@@ -80,7 +82,8 @@ import { MatSortModule } from '@angular/material/sort';
     InitialPipe,
     ArchivedTasksComponent,
     Header2Component,
-    UploadJsonComponent
+    UploadJsonComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -107,6 +110,7 @@ import { MatSortModule } from '@angular/material/sort';
     MatSortModule,
   ],
   providers: [
+    UserService, 
     ActivitiesService,
     {
       provide: HTTP_INTERCEPTORS,

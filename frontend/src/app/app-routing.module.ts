@@ -6,6 +6,7 @@ import { BoardComponent } from './components/home/board/board.component';
 import { HomeComponent } from './components/home/home/home.component';
 import { AuthGuard } from './guards/auth.guard';
 import { MainBoardComponent } from './components/board/main-board/main-board.component';
+import { ProfileComponent } from './components/home/profile/profile.component';
 
 
 const routes: Routes = [
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'home/:workspace_id', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'boards/:board_id', component: BoardComponent, canActivate: [AuthGuard] },
   { path: 'boards2/:board_id', component: MainBoardComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
