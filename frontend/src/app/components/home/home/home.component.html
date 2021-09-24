@@ -1,74 +1,97 @@
 <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
 <div>
-    <div class="panels">
-        <div class="workspaces">
-            <h3>ESPACIOS DE TRABAJO</h3>
-            <hr/>
-            <button mat-button (click)="openCrateWorkspaceDialog()">
-                <mat-icon>add</mat-icon>
-                Agregar espacio de trabajo
-            </button>
+  <div class="panels">
+    <div class="workspaces">
+      <h3>ESPACIOS DE TRABAJO</h3>
+      <hr />
+      <button mat-button (click)="openCrateWorkspaceDialog()">
+        <mat-icon>add</mat-icon>
+        Agregar espacio de trabajo
+      </button>
 
-            <mat-list>
-                <mat-list-item
-                    *ngFor="let space of workspaces"
-                    class="cursor-pointer"
-                    [ngClass]="[ workspace && space._id === workspace._id ? 'actived' : '']"
-                    matRipple
-                    [routerLink]="'/home/' + space._id "
-                >
-                    {{ space.name }}
-                </mat-list-item>
-            </mat-list>
-        </div>
-
-        <div class="boards">
-            <div class="flex justify-between">
-                <h3>TABLEROS</h3>
-                <div *ngIf="!workspace._id" class="menu">
-                    <button mat-raised-button color="primary" (click)="openCrateWorkspaceDialog()">
-                        <mat-icon>add</mat-icon>
-                        Agregar espacio de trabajo
-                    </button>
-                </div>
-
-                <div *ngIf="workspace._id" class="menu">
-                    <button mat-raised-button color="primary" (click)="openAddUsersDialog()" class="ml-2">
-                        <mat-icon>group</mat-icon>
-                        Ver miembros
-                    </button>&nbsp;
-
-                    <button mat-raised-button color="warn" (click)="openDeleteDialog('workspaces', workspace)">
-                        <mat-icon>delete</mat-icon>
-                        Eliminar
-                    </button>
-                </div>
-            </div>
-            <hr>
-
-            <div class="no-workspace" *ngIf="!workspace._id">
-                Seleccione un espacio de trabajo para continuar!
-            </div>
-
-            <div class="boards-list" *ngIf="workspace._id">
-                <mat-card class="new-board cursor-pointer" mat-ripple (click)="openCrateBoardDialog()">
-                    <div class="flex align-center" >
-                        <mat-icon>add</mat-icon>
-                        <h4>Agregar nuevo tablero</h4>
-                    </div>
-                </mat-card>
-
-                <mat-card
-                    *ngFor="let board of boards"
-                    mat-ripple
-                    class="cursor-pointer board-card"
-                    [routerLink]="'/boards/' + board._id "
-                >
-                    <h4>{{ board.name }}</h4>
-                    <br>
-                    <p>{{ board.description }}</p>
-                </mat-card>
-            </div>
-        </div>
+      <mat-list>
+        <mat-list-item
+          *ngFor="let space of workspaces"
+          class="cursor-pointer"
+          [ngClass]="[
+            workspace && space._id === workspace._id ? 'actived' : ''
+          ]"
+          matRipple
+          [routerLink]="'/home/' + space._id"
+        >
+          {{ space.name }}
+        </mat-list-item>
+      </mat-list>
     </div>
+
+    <div class="boards">
+      <div class="flex justify-between">
+        <h3>TABLEROS</h3>
+        <div *ngIf="!workspace._id" class="menu">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="openCrateWorkspaceDialog()"
+          >
+            <mat-icon>add</mat-icon>
+            Agregar espacio de trabajo
+          </button>
+        </div>
+
+        <div *ngIf="workspace._id" class="menu">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="openAddUsersDialog()"
+            class="ml-2"
+          >
+            <mat-icon>group</mat-icon>
+            Ver miembros</button
+          >&nbsp;
+
+          <button
+            mat-raised-button
+            color="warn"
+            (click)="openDeleteDialog('workspaces', workspace)"
+          >
+            <mat-icon>delete</mat-icon>
+            Eliminar
+          </button>
+        </div>
+      </div>
+      <hr />
+
+      <div class="no-workspace" *ngIf="!workspace._id">
+        Seleccione un espacio de trabajo para continuar!
+      </div>
+
+      <div class="boards-list" *ngIf="workspace._id">
+        <mat-card
+          class="new-board cursor-pointer"
+          mat-ripple
+          (click)="openCrateBoardDialog()"
+          style="width: 40%;
+          height: 110px;"
+        >
+          <div class="flex align-center">
+            <mat-icon>add</mat-icon>
+            <h4>Agregar nuevo tablero</h4>
+          </div>
+        </mat-card>
+
+        <mat-card
+          *ngFor="let board of boards"
+          mat-ripple
+          class="cursor-pointer alto"
+          style="background-image: url({{board.imageBackUrl}}); width: 40%;
+          height: 110px; color: white"
+          [routerLink]="'/boards/' + board._id"
+        >
+          <h4>{{ board.name }}</h4>
+          <br>
+          <p>{{ board.description }}</p>
+        </mat-card>
+      </div>
+    </div>
+  </div>
 </div>

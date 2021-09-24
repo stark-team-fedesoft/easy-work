@@ -10,15 +10,19 @@ import { WorkspacesService } from 'src/app/services/workspaces.service';
 import { AddUsersComponent } from '../../dialogs/add-users/add-users.component';
 import { CreateBoardComponent } from '../../dialogs/create-board/create-board.component';
 import { CreateWorkspaceComponent } from '../../dialogs/create-workspace/create-workspace.component';
+import { AuthService } from 'src/app/services/auth.service';
 import { DeleteComponent } from '../../dialogs/delete/delete.component';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { UserI } from 'src/app/interfaces/user';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-
+  private api = environment.BASE_URL;
   workspaces: WorkspaceI[];
   workspace: WorkspaceI = {
     _id: '',
@@ -28,46 +32,55 @@ export class HomeComponent implements OnInit {
   boards: BoardI[] = [];
   loading = false;
 
+  users: UserI[];
+
   constructor(
+    private http: HttpClient,
     public dialog: MatDialog,
     private workspaceSvc: WorkspacesService,
     private boardSvc: BoardService,
     private snackSvc: SnackbarService,
     private route: ActivatedRoute,
     private router: Router,
+    private authSvc: AuthService
   ) {
     this.getWorkspaces();
-    this.route.params.subscribe( (val) => {
+    this.route.params.subscribe((val) => {
       setTimeout(() => {
-        if(val.workspace_id) this.getBoards(val.workspace_id);      
-
+        if (val.workspace_id) this.getBoards(val.workspace_id);
       }, 500);
     });
   }
 
-  ngOnInit(): void {    
-  }
+  ngOnInit(): void {}
 
   openCrateWorkspaceDialog(): void {
     const dialogRef = this.dialog.open(CreateWorkspaceComponent, {
       width: '50%',
     });
 
-    dialogRef.afterClosed().subscribe( res => {
+    dialogRef.afterClosed().subscribe((res) => {
       this.getWorkspaces();
-    })
+    });
   }
 
   openCrateBoardDialog(): void {
     const dialogRef = this.dialog.open(CreateBoardComponent, {
       width: '50%',
       height: '70%',
-      data: { workspace_id: this.workspace._id, workspace_name: this.workspace.name },
+      data: {
+        workspace_id: this.workspace._id,
+        workspace_name: this.workspace.name,
+      },
     });
 
-    dialogRef.afterClosed().subscribe( res => {
-      if( dialogRef.componentInstance.boardCreated._id )
-        this.router.navigate(['/boards', dialogRef.componentInstance.boardCreated._id]);
+    dialogRef.afterClosed().subscribe((res) => {
+      if (dialogRef.componentInstance.boardCreated._id) {
+        this.router.navigate([
+          '/boards',
+          dialogRef.componentInstance.boardCreated._id,
+        ]);
+      }
     });
   }
 
@@ -79,11 +92,11 @@ export class HomeComponent implements OnInit {
       (err: HttpErrorResponse) => {
         this.snackSvc.opensnack(err.error);
       }
-    )
+    );
   }
 
-  getBoards( workspace_id: string ) {
-    const workspace = this.workspaces.find( work => work._id === workspace_id);
+  getBoards(workspace_id: string) {
+    const workspace = this.workspaces.find((work) => work._id === workspace_id);
 
     this.workspace = workspace;
     this.loading = true;
@@ -92,13 +105,12 @@ export class HomeComponent implements OnInit {
       (res: any) => {
         this.loading = false;
         this.boards = res.data;
-        
       },
       (err: HttpErrorResponse) => {
         this.loading = false;
         this.snackSvc.opensnack(err.error);
       }
-    )
+    );
   }
 
   openAddUsersDialog(): void {
@@ -108,9 +120,7 @@ export class HomeComponent implements OnInit {
       data: this.workspace._id,
     });
 
-    dialogRef.afterClosed().subscribe( res => {
-      
-    });
+    dialogRef.afterClosed().subscribe((res) => {});
   }
 
   openDeleteDialog(module: string, data: WorkspaceI): void {
@@ -119,10 +129,20 @@ export class HomeComponent implements OnInit {
       data: { module, data },
     });
 
-    dialogRef.afterClosed().subscribe( res => {
+    dialogRef.afterClosed().subscribe((res) => {
       const del_id = dialogRef.componentInstance.deleted_id;
-      if( del_id ) this.router.navigate(['home']);
+      if (del_id) this.router.navigate(['home']);
     });
   }
 
+  getUsers() {
+    this.authSvc.list().subscribe(
+      (res: any) => {
+        this.users = res.data;
+      },
+      (err: HttpErrorResponse) => {
+        this.snackSvc.opensnack(err.error);
+      }
+    );
+  }
 }

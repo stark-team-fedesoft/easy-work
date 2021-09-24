@@ -1,0 +1,306 @@
+
+  <div >
+  
+  <div class="container-fluid">
+    
+    <mat-drawer-container class="imgBack" [ngStyle]="{'background-image': 'url(' + board.imageBackUrl + ')'}" >
+
+      <mat-drawer #drawer color="primary" mode="over" [(opened)]="opened" >
+        <button (click)="showFiller = !showFiller" mat-raised-button>
+          Actividades
+        </button>
+        <app-activities *ngIf="showFiller" [(idBoard)]="idBoard">
+        </app-activities>
+       
+      </mat-drawer>
+      
+      <mat-drawer-content><button class="menu" mat-button (click)="opened=!opened">Menu</button>
+
+      <!-- <mat-drawer-content><button class="menu" mat-button (click)="listarActividades()">Menu</button>
+       -->
+    <div class="">
+     
+      <div class="container">
+
+        <div class="row">    
+          <div class="col-sm-12">
+            <!-- <h1 class="text-center">My Panel</h1> -->
+            <h1 class="text-center"><strong>{{board.name}}</strong></h1>
+            <button (click)="selectList({}, 'save')" class="task" mat-button data-bs-toggle="modal" data-bs-target="#modalList">Create new list
+            </button>
+            
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <div cdkDropListGroup class="accordion_display">
+              <table class="table table-borderless table-responsive table-main-list">
+                <thead>
+                  <tr>
+                    <th scope="col" *ngFor="let list of listTask; index as i">
+                      <h2 class="text-center text-white">
+                        <div class="cabecera" [ngStyle]="{'background-color': '#' + list.color}">
+                          {{list.name}}
+                          <mat-icon (click)="selectList(list, 'update')" data-bs-toggle="modal" data-bs-target="#modalList">edit</mat-icon>
+                        </div>
+                        <button mat-raised-button color="accent" (click)="selectNewTask(list._id)" data-bs-toggle="modal" data-bs-target="#modalTask">Create new task
+                        </button>
+                      </h2>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="td-body" *ngFor="let list of listTask;index as z">
+                      <div class="example-container ">
+
+                        <div cdkDropList [cdkDropListData]="list.tasks" class="example-list"
+                          (cdkDropListDropped)="drop($event, z)">
+                          <mat-accordion class="example-box" *ngFor="let task of list.tasks" multi="true" cdkDrag>
+                            <mat-expansion-panel hideToggle="false">
+                              <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                  <span class="name-center">{{ task.name }}</span>
+                                  <span class="spacer"></span>
+
+                                  <button class="btnDone" *ngIf="task.priority == '1'" mat-raised-button>
+                                    Alta
+                                  </button>
+                                  <button class="btnInProgress" *ngIf="task.priority == '2'" mat-raised-button>
+                                    Media
+                                  </button>
+                                  <button class="btnToDo" *ngIf="task.priority > '2'" mat-raised-button>
+                                    Baja
+                                  </button>
+                                </mat-panel-title>
+                              </mat-expansion-panel-header>
+                              <mat-panel-description>
+                                {{ task.description }}
+                              </mat-panel-description>
+                              <mat-panel-description>
+                                <img class="card-img-top image_center" src="{{ task.imageUrl }}" />
+                              </mat-panel-description>
+                              <mat-action-row>
+                                <button *ngFor="let listB of listTask; index as y" class="btnSelectTodo" mat-button
+                                  (click)="updateTask(task, y, z)">
+                                  {{listB.name}}
+                                </button>
+                                <span class="spacer"></span>
+                                <mat-icon color="primary" (click)="deleteTask(task, z)">delete
+                                </mat-icon>
+                              </mat-action-row>
+                            </mat-expansion-panel>
+                          </mat-accordion>
+                        </div>
+                      </div>
+
+                    </td>
+                  </tr>
+                </tbody>
+
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    </mat-drawer-content>
+  
+    </mat-drawer-container>
+</div>
+ 
+  </div>
+
+<!-- Modal List -->
+<div class="modal fade" id="modalList" tabindex="-1" aria-labelledby="modalList" aria-hidden="true">
+  <div class="modal-dialog bg-dark">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">List</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="form">
+          <mat-card class="card">
+            <mat-card-title>List</mat-card-title>
+            <mat-card-content>
+              <div class="container">
+                <mat-form-field>
+                  <input [(ngModel)]="registerList.name" matInput placeholder="List name" required />
+                </mat-form-field>
+                <br>
+                <mat-form-field>
+                    <input  matInput [ngxMatColorPicker]="picker" [formControl]="colorCtr">
+                    <ngx-mat-color-toggle  matSuffix [for]="picker"></ngx-mat-color-toggle>
+                    <ngx-mat-color-picker #picker [touchUi]="touchUi" [color]="color"></ngx-mat-color-picker>
+                </mat-form-field>
+              </div>
+            </mat-card-content>
+            <mat-card-actions>
+              <button (click)="saveList()" class="button" mat-raised-button>
+                Save
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal List Update -->
+<div class="modal fade" id="modalTask" tabindex="-1" aria-labelledby="modalTask" aria-hidden="true">
+    <div class="modal-dialog bg-dark">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="exampleModalLabel">Task</h3>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="form">
+            <mat-card class="card">
+              <mat-card-title>New Task</mat-card-title>
+              <mat-card-content>
+                <div class="container">
+                  <mat-form-field>
+                    <input [(ngModel)]="registerTask.name" matInput placeholder="List name" required />
+                  </mat-form-field>
+                  <br>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Por favor seleccione la prioridad </mat-label>
+                    <mat-select [(ngModel)]="registerTask.priority">
+                        <mat-option value="1">Alta</mat-option>
+                        <mat-option value="2">Media</mat-option>
+                        <mat-option value="3">Baja</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                </div>
+              </mat-card-content>
+              <mat-card-actions>
+                <button (click)="newTask()" class="button" mat-raised-button>
+                  Save
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- <!-- <div class="imgBack" [ngStyle]="{'background-image': 'url(' + board.imageBackUrl + ')'}">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <h1 class="title">{{board.name}}</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div cdkDropListGroup class="accordion_display">
+                    <table class="table table-borderless table-responsive">
+                        <thead>
+                            <tr>
+                                <th scope="col" *ngFor="let list of listTask; index as i">
+                                    <div class="cabecera">
+                                        <h2 class="text-white text-center ">{{list.name}}
+
+                                        <mat-icon (click)="openDialog()">edit</mat-icon>
+                                    </h2>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="grid-lists">
+
+                            <td *ngFor="let list of listTask;index as z">
+                                <div class="example-container">
+
+                                    <div cdkDropList [cdkDropListData]="list.tasks"
+                                        (cdkDropListDropped)="drop($event, z)">
+                                        <mat-accordion class="example-box" *ngFor="let task of list.tasks" multi="true"
+                                            cdkDrag>
+                                            <mat-expansion-panel hideToggle="false">
+                                                <mat-expansion-panel-header>
+                                                    <mat-panel-title>
+                                                        <span>{{ task.name }}</span>
+                                                        <span class="spacer"></span>
+                                                        <button class="btnDone" *ngIf="task.priority == '1'"
+                                                            mat-raised-button>
+                                                            Alta
+                                                        </button>
+                                                        <button class="btnInProgress" *ngIf="task.priority == '2'"
+                                                            mat-raised-button>
+                                                            Media
+                                                        </button>
+                                                        <button class="btnToDo" *ngIf="task.priority > '2'"
+                                                            mat-raised-button>
+                                                            Baja
+                                                        </button>
+                                                    </mat-panel-title>
+                                                </mat-expansion-panel-header>
+                                                <mat-panel-description>
+                                                    {{ task.description }}
+                                                </mat-panel-description>
+                                                <mat-panel-description>
+                                                    <img class="card-img-top image_center" src="{{ task.imageUrl }}" />
+                                                </mat-panel-description>
+                                                <mat-action-row>
+                                                    <button *ngFor="let listB of listTask; index as y"
+                                                        class="btnSelectTodo" mat-button (click)="updateTask(task, y, z)">
+                                                        {{listB.name}}
+                                                    </button>
+
+                                                    <span class="spacer"></span>
+                                                    <mat-icon color="primary" (click)="deleteTask(task, z)">delete
+                                                    </mat-icon>
+                                                </mat-action-row>
+                                            </mat-expansion-panel>
+                                        </mat-accordion>
+                                    </div>
+                                </div>
+                            </td>
+
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<mat-menu #menu="matMenu">
+    <button mat-menu-item>
+        <mat-form-field>
+            <input style="display: none" matInput [ngxMatColorPicker]="picker" [formControl]="colorCtr">
+            <ngx-mat-color-toggle  matSuffix [for]="picker"></ngx-mat-color-toggle>
+            <ngx-mat-color-picker #picker [touchUi]="touchUi" [color]="color"></ngx-mat-color-picker>
+        </mat-form-field>
+    </button>
+  </mat-menu>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Editar</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Editar</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <mat-form-field>
+                <input style="display: none" matInput [ngxMatColorPicker]="picker" [formControl]="colorCtr">
+                <ngx-mat-color-toggle  matSuffix [for]="picker"></ngx-mat-color-toggle>
+                <ngx-mat-color-picker #picker [touchUi]="touchUi" [color]="color"></ngx-mat-color-picker>
+            </mat-form-field>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div> -->

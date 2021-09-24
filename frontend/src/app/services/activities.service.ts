@@ -14,5 +14,8 @@ export class ActivitiesService {
   registerActivity(activity: any) {
     return this._http.post<any>(this.env + '/Activities/registerActivity', activity);
   }
+  listActivities(idBoard: string) {
+    return this._http.get<any>(this.env + '/Activities/listActivities/'+idBoard);
+  }
   
 }

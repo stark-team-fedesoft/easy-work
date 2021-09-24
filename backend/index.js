@@ -33,10 +33,11 @@ app.use("/uploads", express.static("uploads"));
 app.use("/api/workspaces", SpaceWork);
 app.use("/api/task-comments", commentRoutes);
 app.use("/api/wallpapers", wallpaperRoutes);
+app.use("/api/user", User);
 app.use(express.static("public"));
 
 app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "public/index.html"));
+    res.sendFile(path.resolve(__dirname, "/public/index.html"));
 });
 
 app.listen( process.env.PORT, () =>

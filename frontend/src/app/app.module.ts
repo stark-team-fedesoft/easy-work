@@ -37,6 +37,20 @@ import { InitialPipe } from './pipes/initial.pipe';
 import { ArchivedTasksComponent } from './components/dialogs/archived-tasks/archived-tasks.component';
 import { Header2Component } from './components/layout/header2/header2.component';
 import { UploadJsonComponent } from './components/dialogs/upload-json/upload-json.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+
+
 
 @NgModule({
   entryComponents: [DialogContentExampleDialog],
@@ -79,6 +93,18 @@ import { UploadJsonComponent } from './components/dialogs/upload-json/upload-jso
     NgxMatColorPickerModule,
     FlatpickrModule.forRoot(),
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
+    MatToolbarModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatCardModule,
+    MatInputModule,
+    MatSnackBarModule,
+    MatExpansionModule,
+    MatIconModule,
+    MatSelectModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
   ],
   providers: [
     ActivitiesService,

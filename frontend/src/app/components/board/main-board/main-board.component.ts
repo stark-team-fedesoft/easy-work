@@ -12,6 +12,7 @@ import { ThemePalette } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { ActivitiesService } from 'src/app/services/activities.service';
 
 @Component({
   selector: 'app-main-board',
@@ -31,6 +32,11 @@ export class MainBoardComponent implements OnInit {
   public disabledU = false;
   public colorU: ThemePalette = 'primary';
   public touchUiU = false;
+  opened=false;
+  showFiller = false;
+  idBoard : string;
+  activiadad: any = "";
+  registerActivity: { idBoard: any; description: any; };
 
   colorCtr: AbstractControl = new FormControl(null);
   colorCtrUpdate: AbstractControl = new FormControl(null);
@@ -39,7 +45,8 @@ export class MainBoardComponent implements OnInit {
     private factory: FactoryService,
     private toast: ToastService,
     public dialog: MatDialog,
-    private router: ActivatedRoute
+    private router: ActivatedRoute,
+    private activityService: ActivitiesService,
   ) {
     this.taskData = {};
     this.registerList = {};
@@ -52,6 +59,7 @@ export class MainBoardComponent implements OnInit {
     };
     this.listTask = [];
     this.board._id = this.router.snapshot.paramMap.get('board_id');
+    this.idBoard = this.board._id;
   }
 
   ngOnInit(): void {
@@ -125,6 +133,24 @@ export class MainBoardComponent implements OnInit {
     this.factory.delete('api/tasks/delete/' + task._id, task).subscribe(
       (res: any) => {
         const index = this.listTask[indice].tasks.indexOf(task);
+        this.activiadad = ' eliminado tarea ' + task.name + "   " + this.getFecha();
+            
+            this.registerActivity = {
+              idBoard: this.idBoard,
+              description: this.activiadad,
+            };
+            this.activityService
+              .registerActivity(this.registerActivity)
+              .subscribe(
+                (res2) => {
+                  console.log('se guardo actividad borrado de tarea');
+                },
+                (err2) => {
+                  console.log('no se guardo actividad borrar');
+                
+                }
+              );
+        
         if (index > -1) {
           this.listTask[indice].tasks.splice(index, 1);
           this.toast.message = res.message;
@@ -216,9 +242,33 @@ export class MainBoardComponent implements OnInit {
     this.factory.post('api/tasks/create', this.registerTask).subscribe(
       (res: any) => {
         this.loadLists();
+        console.log('Create task', res);
+        
+        this.activiadad=" creado tarea " + res.data.name + "   " + this.getFecha();
+        console.log(this.activiadad);
+        this.registerActivity = {
+          idBoard:this.board._id ,
+          description: this.activiadad,
+        };
+        this.activityService
+              .registerActivity(this.registerActivity)
+              .subscribe(
+                (res2) => {
+                  console.log('se guardo actividad');
+                },
+                (err2) => {
+                  console.log('no se guardo actividad');
+                  console.log(err2.error);
+                }
+              );
+        
         // console.log('Create task', res);
         this.toast.message = 'Registro exitoso';
         this.toast.openSnackBarSuccesfull();
+        console.log("se creo tarea test 1_1");
+       
+
+        
       },
       (err: any) => {
         this.toast.message = err.error;
@@ -258,6 +308,15 @@ export class MainBoardComponent implements OnInit {
           );
       }
     });
+  }
+
+  getFecha(){
+    let date =new Date();
+    let anio = date.getFullYear();
+    let mes = date.getMonth() + 1;
+    let dia = date.getDate();
+    let hora = date.getHours() + ":" + date.getMinutes();
+    return anio + "/" + mes + "/"+ dia +":" + hora;
   }
 }
 

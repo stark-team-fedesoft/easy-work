@@ -1,4 +1,22 @@
-<div class="imgBack" [ngStyle]="{'background-image': 'url(' + (board.imageBackUrl)  + ')'}">
+
+  <mat-drawer-container class="imgBack" [ngStyle]="{'background-image': 'url(' + board.imageBackUrl + ')'}" >
+    <mat-drawer #drawer color="primary" mode="over" [(opened)]="opened" >
+      <button class="w-100" color="accent" (click)="showFiller = !showFiller" mat-raised-button>
+         Actividades
+      </button>
+      <app-activities *ngIf="showFiller" >
+      </app-activities>
+      <button class="w-100" (click)="calendarComponent.renderTask(listTask)" mat-raised-button color="accent"
+          data-bs-toggle="modal" data-bs-target="#calendarModal">
+          Ver calendario <mat-icon>calendar_today</mat-icon>
+        </button>
+        
+     
+    </mat-drawer>
+
+    <mat-drawer-content>
+      
+      <button class="menu" mat-button (click)="opened=!opened"><mat-icon>toc</mat-icon>Menu</button>
   <div class="container-fluid">
     <div class="">
 
@@ -7,11 +25,12 @@
           <br>
 
           <!-- <h1 class="text-center">My Panel</h1> -->
-          <h1 class="text-center text-white"><strong>{{board.name}}</strong></h1>
+          <h1 class="text-center text-white"><strong>{{board.name}} asdfasfasdfasd</strong></h1>
           <button (click)="calendarComponent.renderTask(listTask)" mat-raised-button color="accent"
           data-bs-toggle="modal" data-bs-target="#calendarModal">
           Ver calendario <mat-icon>calendar_today</mat-icon>
         </button>
+     
         </div>
       </div>
       <ng-container *ngIf="listTask.length === 0; else elseTemplate">
@@ -134,7 +153,9 @@
     </div>
 
   </div>
-</div>
+  </mat-drawer-content>
+</mat-drawer-container>
+
 <!-- Modal List -->
 <div class="modal fade" id="modalList" tabindex="-1" aria-labelledby="modalList" aria-hidden="true">
   <div class="modal-dialog bg-dark">

@@ -151,6 +151,12 @@ const getRole = async (req, res) => {
   return res.status(200).send({ role });
 };
 
+const getEmailAdmin = async (req, res) => {
+  const existingUser = await User.findOne({ email: req.body.email });
+  if (existingUser === "administrador@gmail.com")
+    return res.status(200).send("The user is already registered");
+};
+
 module.exports = {
   registerUser,
   login,
@@ -160,4 +166,5 @@ module.exports = {
   deleteUser,
   registerAdmin,
   getRole,
+  getEmailAdmin
 };

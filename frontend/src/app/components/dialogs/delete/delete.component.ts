@@ -8,6 +8,7 @@ import { ListsService } from 'src/app/services/lists.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { TasksService } from 'src/app/services/tasks.service';
 import { WorkspacesService } from 'src/app/services/workspaces.service';
+import { ActivitiesService } from 'src/app/services/activities.service';
 
 @Component({
   selector: 'app-delete',
@@ -18,6 +19,8 @@ export class DeleteComponent implements OnInit {
 
   loading = false;
   deleted_id: string = '';
+  actividad: any = "";
+  registerActivity: { idBoard: any; description: any; };
 
   constructor(
     public dialogRef: MatDialogRef<DeleteComponent>,
@@ -27,6 +30,7 @@ export class DeleteComponent implements OnInit {
     private listSvc: ListsService,
     private boardSvc: BoardService,
     private spaceSvc: WorkspacesService,
+    private activityService: ActivitiesService,
   ) {
 
   }
@@ -50,7 +54,23 @@ export class DeleteComponent implements OnInit {
     this.taskSvc.delete(this.data.data._id).subscribe(
       (res: any) => {
         this.loading = false;
-        this.deleted_id = this.data.data._id;
+        this.deleted_id = this.data.data._id;  
+         this.actividad=" eliminado tarea " + this.data.data.name + "  en la fecha " + this.getFecha();
+       
+        this.registerActivity = {
+          idBoard:this.data.board_id ,
+          description: this.actividad,
+        };
+        this.activityService
+              .registerActivity(this.registerActivity)
+              .subscribe(
+                (res2) => {
+                  
+                },
+                (err2) => {
+                 
+                }
+              );
         this.onNoClick();
       },
       (err: HttpErrorResponse) => {
@@ -65,6 +85,23 @@ export class DeleteComponent implements OnInit {
     this.listSvc.delete(this.data.data._id).subscribe(
       (res: any) => {
         this.loading = false;
+       
+        this.actividad=" eliminado lista " + this.data.data.name + "  en la fecha " + this.getFecha();
+       
+        this.registerActivity = {
+          idBoard:this.data.board_id ,
+          description: this.actividad,
+        };
+        this.activityService
+              .registerActivity(this.registerActivity)
+              .subscribe(
+                (res2) => {
+                  
+                },
+                (err2) => {
+                 
+                }
+              );
         this.deleted_id = this.data.data._id;
         this.onNoClick();
       },
@@ -104,5 +141,25 @@ export class DeleteComponent implements OnInit {
       }
     )
   }
+
+  getFecha(){
+    let date =new Date();
+    let anio = date.getFullYear();
+    let mes = date.getMonth() + 1;
+    let dia = date.getDate();
+    let dd = "AM";
+    let hh =date.getHours();
+    let h = hh;
+      if (h >= 12) {
+        h = hh - 12;
+        dd = "PM";
+      }
+      if (h == 0) {
+        h = 12;
+      }
+    let hour = h + ":" + date.getMinutes() + " " + dd;
+    return anio + "/" + mes + "/"+ dia +":" + hour;
+  }
+
 
 }

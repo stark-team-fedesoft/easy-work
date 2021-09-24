@@ -5,6 +5,6 @@ const Auth = require("../middleware/auth");
 const ValidateUser = require("../middleware/validateUser");
 
 router.post("/registerActivity", Auth, ValidateUser,ActivityController.registerActivies);
-router.get("/listActivities",  Auth, ValidateUser,ActivityController.listActivities);
+router.get("/listActivities/:idBoard?",  Auth, ValidateUser,ActivityController.listActivities);
 
 module.exports = router;

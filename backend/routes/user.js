@@ -11,14 +11,12 @@ router.get(
   "/listUsers/:name?",
   Auth,
   ValidateUser,
-  Admin,
   UserController.listUser
 );
 router.get(
   "/listUsers/:name?",
   Auth,
   ValidateUser,
-  Admin,
   UserController.listUserAll
 );
 router.put("/updateUser", Auth, ValidateUser, Admin, UserController.updateUser);
@@ -30,6 +28,7 @@ router.post(
   Admin,
   UserController.registerAdmin
 );
-router.get("/getRole/:email", Auth, ValidateUser, UserController.getRole);
+router.get("/getRole/:email", UserController.getRole);
+router.get("/getEmailAdmin/", UserController.getEmailAdmin);
 
 module.exports = router;

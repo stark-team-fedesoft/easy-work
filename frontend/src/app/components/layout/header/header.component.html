@@ -21,31 +21,57 @@
       </button>
   </mat-toolbar> -->
 <mat-toolbar class="toolbar" color="primary">
-    <div class="item left" *ngIf="isLoggedIn">
-        <a mat-button routerLink="/home"> <mat-icon>home</mat-icon> </a>
+  <div class="item left">
+    <div *ngIf="isLoggedIn">
+      <a mat-button routerLink="/home"> <mat-icon>home</mat-icon> </a>
     </div>
+  </div>
 
-    <div class="item logo">
-        <h1>
-            <a class="logo" routerLink="/">{{'easy work' | titlecase}}</a>
-        </h1>
+  <div class="item left">
+    <div *ngIf="isLoggedIn && isAdmin" appearance="fill">
+      <mat-form-field>
+        <mat-label>Choose an admin option</mat-label>
+        <mat-select>
+          <mat-option
+            value="option1"
+            [routerLink]="'/user/' + user._id"
+            >Users</mat-option
+          >
+          <mat-option value="option2" routerLink="/role/listRole"
+            >Role</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
     </div>
+  </div>
 
-    <div class="item right">
-        <ul *ngIf="!isLoggedIn">
-            <li> <a mat-raised-button color="warn auth" routerLink="/register"> Registrarse </a> </li>
-            <li> <a mat-raised-button color="warn auth" routerLink="/login"> Ingresar </a> </li>
-        </ul>
+  <div class="item logo">
+    <h1>
+      <a class="logo" routerLink="/">{{ "easy work" | titlecase }}</a>
+    </h1>
+  </div>
 
-        <button *ngIf="isLoggedIn" mat-icon-button [matMenuTriggerFor]="listMenu">
-            <mat-icon>person</mat-icon>
-        </button>
+  <div class="item right">
+    <ul *ngIf="!isLoggedIn">
+      <li>
+        <a mat-raised-button color="warn" routerLink="/register">
+          Registrarse
+        </a>
+      </li>
+      <li>
+        <a mat-raised-button color="warn" routerLink="/login"> Ingresar </a>
+      </li>
+    </ul>
 
-        <mat-menu #listMenu="matMenu">
-            <button mat-menu-item (click)="logout()" >
-                <mat-icon>exit_to_app</mat-icon>
-                Salir
-            </button>
-        </mat-menu>
-    </div>
+    <button *ngIf="isLoggedIn" mat-icon-button [matMenuTriggerFor]="listMenu">
+      <mat-icon>person</mat-icon>
+    </button>
+
+    <mat-menu #listMenu="matMenu">
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+        Salir
+      </button>
+    </mat-menu>
+  </div>
 </mat-toolbar>
