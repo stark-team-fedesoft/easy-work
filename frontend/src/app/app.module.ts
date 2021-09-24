@@ -38,6 +38,7 @@ import { ArchivedTasksComponent } from './components/dialogs/archived-tasks/arch
 import { Header2Component } from './components/layout/header2/header2.component';
 import { UploadJsonComponent } from './components/dialogs/upload-json/upload-json.component';
 import { ProfileComponent } from './components/home/profile/profile.component';
+import { UserService } from './services/user.service';
 
 @NgModule({
   entryComponents: [DialogContentExampleDialog],
@@ -83,6 +84,7 @@ import { ProfileComponent } from './components/home/profile/profile.component';
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
   ],
   providers: [
+    UserService, 
     ActivitiesService,
     {
       provide: HTTP_INTERCEPTORS,

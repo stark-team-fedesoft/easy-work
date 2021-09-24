@@ -142,21 +142,21 @@ const registerAdmin = async (req, res) => {
 };
 
 const getRole = async (req, res) => {
-  const users = await User.findOne({ email: req.params.email })
-    .populate("roleId")
-    .exec();
+  const users = await User.findOne({ email: req.body.email });
   if (!users || users.length === 0)
     return res.status(400).send("No search results");
   const role = users.roleId.name;
   return res.status(200).send({ role });
 };
 
-const getMiNombre = async (req, res) => {
-  const nombre = await User.findOne({ email: req.params.email })
-  if (!nombre || nombre.length === 0)
+const getMyInfo = async (req, res) => {
+  console.log(req.user);
+  const users = await User.findById( req.user._id );
+  if (!users || users.length === 0)
     return res.status(400).send("No search results");
-  const miNombre = nombre.name;
-  return res.status(200).send({ miNombre });
+  const MyName = users; 
+  MyName.password="";
+  return res.status(200).send({ MyName });
 };
 
 module.exports = {
@@ -168,5 +168,5 @@ module.exports = {
   deleteUser,
   registerAdmin,
   getRole,
-  getMiNombre,
+  getMyInfo,
 };
