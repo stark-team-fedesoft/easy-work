@@ -12,7 +12,7 @@ router.post(
   Admin,
   RoleController.registerRole
 );
-router.get("/listRole", Auth, ValidateUser, Admin, RoleController.listRole);
+router.get("/listRole", Auth, ValidateUser,  RoleController.listRole);
 router.put("/updateRole", Auth, ValidateUser, Admin, RoleController.updateRole);
 
 module.exports = router;
