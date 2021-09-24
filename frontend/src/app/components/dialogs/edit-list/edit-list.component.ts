@@ -1,5 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
+import { AbstractControl, FormControl } from '@angular/forms';
+import { ThemePalette } from '@angular/material/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ListI } from 'src/app/interfaces/list';
 import { ListsService } from 'src/app/services/lists.service';
@@ -8,22 +10,22 @@ import { SnackbarService } from 'src/app/services/snackbar.service';
 @Component({
   selector: 'app-edit-list',
   templateUrl: './edit-list.component.html',
-  styleUrls: ['./edit-list.component.scss']
+  styleUrls: ['./edit-list.component.scss'],
 })
 export class EditListComponent implements OnInit {
-
   loading = false;
-
+  public disabled = false;
+  public color: ThemePalette = 'primary';
+  public touchUi = false;
+  colorCtr: AbstractControl = new FormControl(null);
   constructor(
     public dialogRef: MatDialogRef<EditListComponent>,
     private snackSvc: SnackbarService,
     @Inject(MAT_DIALOG_DATA) public list: ListI,
-    private listSvc: ListsService,
-  ) {
-  }
+    private listSvc: ListsService
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -31,10 +33,13 @@ export class EditListComponent implements OnInit {
 
   updateList(ev: Event): void {
     ev.preventDefault();
-    
-    if( !this.list.name ) return this.snackSvc.opensnack('Ingrese un nombre valido');
-    
+
+    if (!this.list.name) {
+      return this.snackSvc.opensnack('Ingrese un nombre valido');
+    }
+
     this.loading = true;
+    this.list.color = this.colorCtr.value?.hex;
     this.listSvc.update(this.list).subscribe(
       (res: any) => {
         this.loading = false;
@@ -44,7 +49,6 @@ export class EditListComponent implements OnInit {
         this.loading = false;
         this.snackSvc.opensnack(err.error);
       }
-    )
+    );
   }
-
 }

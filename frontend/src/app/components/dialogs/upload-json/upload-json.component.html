@@ -1,0 +1,10 @@
+<mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+<h1 mat-dialog-title>Escoja un archivo JSON válido</h1>
+
+<div mat-dialog-content style="text-align: center;">
+    <button mat-raised-button (click)="fileInput.click()" color="primary" [disabled]="loading">
+        <mat-icon>attach_file</mat-icon>
+        <span>Seleccionar archivo</span>
+        <input #fileInput type="file" (change)="onFileInput($event)" style="display:none;" accept=".json"/>
+    </button>
+</div>

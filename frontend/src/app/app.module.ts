@@ -35,7 +35,12 @@ import { EditListComponent } from './components/dialogs/edit-list/edit-list.comp
 import { ArchivedListsComponent } from './components/dialogs/archived-lists/archived-lists.component';
 import { InitialPipe } from './pipes/initial.pipe';
 import { ArchivedTasksComponent } from './components/dialogs/archived-tasks/archived-tasks.component';
+<<<<<<< HEAD
 import { ProfileComponent } from './components/home/profile/profile.component';
+=======
+import { Header2Component } from './components/layout/header2/header2.component';
+import { UploadJsonComponent } from './components/dialogs/upload-json/upload-json.component';
+>>>>>>> dev
 
 @NgModule({
   entryComponents: [DialogContentExampleDialog],
@@ -64,7 +69,12 @@ import { ProfileComponent } from './components/home/profile/profile.component';
     ArchivedListsComponent,
     InitialPipe,
     ArchivedTasksComponent,
+<<<<<<< HEAD
     ProfileComponent
+=======
+    Header2Component,
+    UploadJsonComponent
+>>>>>>> dev
   ],
   imports: [
     BrowserModule,

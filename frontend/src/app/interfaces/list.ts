@@ -8,4 +8,5 @@ export class ListI {
     tasks?: TaskI[];
     loading? = false;
     priority?: number;
+    color?: any;
 }

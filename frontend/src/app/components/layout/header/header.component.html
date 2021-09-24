@@ -20,7 +20,7 @@
         Salir
       </button>
   </mat-toolbar> -->
-<div class="toolbar" color="primary">
+<mat-toolbar class="toolbar" color="primary">
     <div class="item left">
         <div *ngIf="isLoggedIn">
             <a mat-button routerLink="/home"> <mat-icon>home</mat-icon> </a>
@@ -29,7 +29,7 @@
 
     <div class="item logo">
         <h1>
-            <a class="logo" routerLink="/">easy work</a>
+            <a class="logo" routerLink="/">{{'easy work' | titlecase}}</a>
         </h1>
     </div>
 
@@ -54,4 +54,4 @@
             </button>
         </mat-menu>
     </div>
-</div>
+</mat-toolbar>
