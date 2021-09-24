@@ -1,3 +1,11 @@
-<mat-list  *ngFor="let activity of activityData">
-    <mat-list-item ><mat-icon>check</mat-icon>{{activity.description}} </mat-list-item>   
-</mat-list>
+<div class="example-container mat-elevation-z8">
+<mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="description">
+      <mat-header-cell class="fs-2" mat-header-cell *matHeaderCellDef>Historial de Actividades</mat-header-cell>
+      <mat-cell class="fs-5" mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
+    </ng-container>
+  
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row matRipple *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</div>

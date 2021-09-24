@@ -25,6 +25,7 @@ import { EditBoardComponent } from '../../dialogs/edit-board/edit-board.componen
 import { EditListComponent } from '../../dialogs/edit-list/edit-list.component';
 import { EditTaskComponent } from '../../dialogs/edit-task/edit-task.component';
 import { UploadJsonComponent } from '../../dialogs/upload-json/upload-json.component';
+import { ActivitiesComponent } from "../../activities/activities.component";
 
 @Component({
   selector: 'app-board',
@@ -339,7 +340,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   openDeleteDialog(module: string, data: TaskI | BoardI): void {
     const dialogRef = this.dialog.open(DeleteComponent, {
       width: '30%',
-      data: { module, data },
+      data: { module, data,board_id: this.board._id },
     });
 
     dialogRef.afterClosed().subscribe((res) => {
@@ -451,4 +452,12 @@ export class BoardComponent implements OnInit, OnDestroy {
       this.getLists();
     });
   }
+  openActivityDialog(): void{
+    const dialogRef = this.dialog.open(ActivitiesComponent, {
+      width: '40%',
+      data: { board_id: this.board._id }
+    });
+
+    
+  };
 }

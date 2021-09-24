@@ -2,9 +2,9 @@
   <mat-drawer-container class="imgBack" [ngStyle]="{'background-image': 'url(' + board.imageBackUrl + ')'}" >
     <mat-drawer #drawer color="primary" mode="over" [(opened)]="opened" >
       <button class="w-100" color="accent" (click)="showFiller = !showFiller" mat-raised-button>
-        Historial Actividades<mat-icon>assignment_turned_in</mat-icon>
+         Actividades
       </button>
-      <app-activities *ngIf="showFiller" [(idBoard)]="idBoard">
+      <app-activities *ngIf="showFiller" >
       </app-activities>
       <button class="w-100" (click)="calendarComponent.renderTask(listTask)" mat-raised-button color="accent"
           data-bs-toggle="modal" data-bs-target="#calendarModal">
@@ -25,12 +25,12 @@
           <br>
 
           <!-- <h1 class="text-center">My Panel</h1> -->
-          <h1 class="text-center text-white"><strong>{{board.name}}</strong></h1>
+          <h1 class="text-center text-white"><strong>{{board.name}} asdfasfasdfasd</strong></h1>
           <button (click)="calendarComponent.renderTask(listTask)" mat-raised-button color="accent"
           data-bs-toggle="modal" data-bs-target="#calendarModal">
           Ver calendario <mat-icon>calendar_today</mat-icon>
         </button>
-        
+     
         </div>
       </div>
       <ng-container *ngIf="listTask.length === 0; else elseTemplate">

@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TaskI } from 'src/app/interfaces/task';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { TasksService } from 'src/app/services/tasks.service';
+import { ActivitiesService } from 'src/app/services/activities.service';
 
 @Component({
   selector: 'app-create-task',
@@ -15,12 +16,16 @@ export class CreateTaskComponent implements OnInit {
   task: TaskI;
   loading = false;
   taskCreated: TaskI;
+  idBoard : string;
+  activiadad: any = "";
+  registerActivity: { idBoard: any; description: any; };
 
   constructor(
     public dialogRef: MatDialogRef<CreateTaskComponent>,
     private snackSvc: SnackbarService,
     @Inject(MAT_DIALOG_DATA) public data,
     private taskSvc: TasksService,
+    private activityService: ActivitiesService,
   ) {
     this.clearData();
   }
@@ -80,6 +85,42 @@ export class CreateTaskComponent implements OnInit {
       (res: any) => {
         this.loading = false;
         this.taskCreated = res.data;
+        let date =new Date();
+        let anio = date.getFullYear();
+        let mes = date.getMonth() + 1;
+        let dia = date.getDate();
+
+        let dd = "AM";
+        let hh =date.getHours();
+        let h = hh;
+          if (h >= 12) {
+            h = hh - 12;
+            dd = "PM";
+          }
+          if (h == 0) {
+            h = 12;
+          }
+        let hour = h + ":" + date.getMinutes() + " " + dd;
+
+        this.activiadad=" creado tarea " + res.data.name + "  en la fecha " + anio + "/" + mes + "/"+ dia +" :" + hour;
+        console.log(this.activiadad);
+        this.registerActivity = {
+          idBoard:this.data.list.board_id ,
+          description: this.activiadad,
+        };
+        this.activityService
+              .registerActivity(this.registerActivity)
+              .subscribe(
+                (res2) => {
+                  console.log('se guardo actividad');
+                },
+                (err2) => {
+                  console.log('no se guardo actividad');
+                  console.log(err2.error);
+                }
+              );
+      
+        
         this.clearData();
         this.onNoClick();
       },
