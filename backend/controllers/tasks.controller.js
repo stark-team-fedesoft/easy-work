@@ -47,7 +47,8 @@ const create = async(req, res) => {
             description : req.body.description,
             is_archived : false,
             list_id     : req.body.list_id,
-            priority    : req.body.priority || tks.length + 1,
+            priority    : tks.length + 1,
+            priorityTask: req.body.priorityTask || 4,
             end_date,
         });
 

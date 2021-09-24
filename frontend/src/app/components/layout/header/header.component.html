@@ -21,10 +21,8 @@
       </button>
   </mat-toolbar> -->
 <mat-toolbar class="toolbar" color="primary">
-    <div class="item left">
-        <div *ngIf="isLoggedIn">
-            <a mat-button routerLink="/home"> <mat-icon>home</mat-icon> </a>
-        </div>
+    <div class="item left" *ngIf="isLoggedIn">
+        <a mat-button routerLink="/home"> <mat-icon>home</mat-icon> </a>
     </div>
 
     <div class="item logo">
@@ -35,8 +33,8 @@
 
     <div class="item right">
         <ul *ngIf="!isLoggedIn">
-            <li> <a mat-raised-button color="warn" routerLink="/register"> Registrarse </a> </li>
-            <li> <a mat-raised-button color="warn" routerLink="/login"> Ingresar </a> </li>
+            <li> <a mat-raised-button color="warn auth" routerLink="/register"> Registrarse </a> </li>
+            <li> <a mat-raised-button color="warn auth" routerLink="/login"> Ingresar </a> </li>
         </ul>
 
         <button *ngIf="isLoggedIn" mat-icon-button [matMenuTriggerFor]="listMenu">

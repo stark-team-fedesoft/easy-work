@@ -4,6 +4,7 @@ export interface TaskI {
     is_archived: boolean;
     list_id: string;
     priority: number;
+    priorityTask?: number;
     description?: string;
     end_date?: any;
 }
