@@ -38,6 +38,11 @@
             <span> Importar / Exportar datos </span>
           </button>
 
+          <button mat-menu-item (click)="openActivityDialog()" >
+            <mat-icon>assignment_turned_in </mat-icon>
+            Movimientos Actividades
+         </button>
+         
           <button mat-menu-item (click)="openDeleteDialog('boards', board)">
             <mat-icon color="warn">delete</mat-icon>
             <span> Eliminar tablero </span>
@@ -50,10 +55,7 @@
             </button>
 
           </mat-menu>
-          <button mat-menu-item (click)="openActivityDialog()" >
-            <mat-icon>assignment_turned_in </mat-icon>
-            Movimientos Actividades
-         </button>
+          
         
         </mat-menu>
       </div>
