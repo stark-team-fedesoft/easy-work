@@ -19,6 +19,7 @@ export class ActivitiesComponent implements OnInit {
   constructor(
     private _activityService: ActivitiesService,
     private _router: Router,
+    public dialogRef: MatDialogRef<ActivitiesComponent>,
     @Inject(MAT_DIALOG_DATA) public data,
   ) {
     this.activityData = {};
@@ -35,6 +36,10 @@ export class ActivitiesComponent implements OnInit {
         console.log(err.error);
       }
     );
+  }
+  
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 
 }

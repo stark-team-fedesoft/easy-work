@@ -26,6 +26,7 @@ import { EditListComponent } from '../../dialogs/edit-list/edit-list.component';
 import { EditTaskComponent } from '../../dialogs/edit-task/edit-task.component';
 import { UploadJsonComponent } from '../../dialogs/upload-json/upload-json.component';
 import { ActivitiesComponent } from "../../activities/activities.component";
+import { ActivitiesService } from 'src/app/services/activities.service';
 
 @Component({
   selector: 'app-board',
@@ -39,6 +40,8 @@ export class BoardComponent implements OnInit, OnDestroy {
   showForm = false;
   loading = false;
   env = environment;
+  actividad: any = "";
+  registerActivity: { idBoard: any; description: any; };
 
   constructor(
     private route: ActivatedRoute,
@@ -47,7 +50,8 @@ export class BoardComponent implements OnInit, OnDestroy {
     private taskSvc: TasksService,
     private boardSvc: BoardService,
     private snackSvc: SnackbarService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private activityService: ActivitiesService,
   ) {
     this.clearBoardData();
     this.route.params.subscribe((val) => {
@@ -146,6 +150,25 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.listSvc.create(this.newList).subscribe(
       (res: any) => {
+        console.log("creado lista ",res.data.board_id,res);
+        
+        this.actividad=" creado lista " + res.data.name + "  en la fecha " + this.getFecha();
+       
+        this.registerActivity = {
+          idBoard:res.data.board_id ,
+          description: this.actividad,
+        };
+        this.activityService
+              .registerActivity(this.registerActivity)
+              .subscribe(
+                (res2) => {
+  
+                },
+                (err2) => {
+                 console.log("no se guardo la actividad");            
+                }
+              );
+        
         this.loading = false;
         this.showForm = false;
         this.getLists();
@@ -329,7 +352,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   openArchiveDialog(module: string, data: TaskI | ListI): void {
     const dialogRef = this.dialog.open(ArchiveComponent, {
       width: '30%',
-      data: { module, data },
+      data: { module, data,board_id: this.board._id },
     });
 
     dialogRef.afterClosed().subscribe((res) => {
@@ -460,4 +483,22 @@ export class BoardComponent implements OnInit, OnDestroy {
 
     
   };
+  getFecha(){
+    let date =new Date();
+    let anio = date.getFullYear();
+    let mes = date.getMonth() + 1;
+    let dia = date.getDate();
+    let dd = "AM";
+    let hh =date.getHours();
+    let h = hh;
+      if (h >= 12) {
+        h = hh - 12;
+        dd = "PM";
+      }
+      if (h == 0) {
+        h = 12;
+      }
+    let hour = h + ":" + date.getMinutes() + " " + dd;
+    return anio + "/" + mes + "/"+ dia +":" + hour;
+  }
 }

@@ -6,6 +6,7 @@ import { TaskI } from 'src/app/interfaces/task';
 import { ListsService } from 'src/app/services/lists.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { TasksService } from 'src/app/services/tasks.service';
+import { ActivitiesService } from 'src/app/services/activities.service';
 
 @Component({
   selector: 'app-archive-task',
@@ -15,6 +16,8 @@ import { TasksService } from 'src/app/services/tasks.service';
 export class ArchiveComponent implements OnInit {
 
   loading = false;
+  actividad: any = "";
+  registerActivity: { idBoard: any; description: any; };
 
   constructor(
     public dialogRef: MatDialogRef<ArchiveComponent>,
@@ -22,6 +25,7 @@ export class ArchiveComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private taskSvc: TasksService,
     private listSvc: ListsService,
+    private activityService: ActivitiesService,
   ) {
 
   }
@@ -54,6 +58,24 @@ export class ArchiveComponent implements OnInit {
     this.taskSvc.update(payload).subscribe(
       (res:any) => {
         this.loading = false;
+        
+        this.actividad=" archivado tarea " + this.data.data.name + "  en la fecha " + this.getFecha();
+       
+        this.registerActivity = {
+          idBoard:this.data.board_id ,
+          description: this.actividad,
+        };
+        this.activityService
+              .registerActivity(this.registerActivity)
+              .subscribe(
+                (res2) => {
+                  
+                },
+                (err2) => {
+                 console.log("no se guardo la actividad");            
+                }
+              );
+        
         this.onNoClick();
       },
       (err: HttpErrorResponse) => {
@@ -61,6 +83,8 @@ export class ArchiveComponent implements OnInit {
         this.snackSvc.opensnack(err.error);
       }
     )
+
+    
 
   }
 
@@ -75,6 +99,22 @@ export class ArchiveComponent implements OnInit {
     this.listSvc.update(payload).subscribe(
       (res:any) => {
         this.loading = false;
+        this.actividad=" archivado lista " + this.data.data.name + "  en la fecha " + this.getFecha();
+       
+        this.registerActivity = {
+          idBoard:this.data.board_id ,
+          description: this.actividad,
+        };
+        this.activityService
+              .registerActivity(this.registerActivity)
+              .subscribe(
+                (res2) => {
+                  
+                },
+                (err2) => {
+                 console.log("no se guardo la actividad");            
+                }
+              );
         this.onNoClick();
       },
       (err: HttpErrorResponse) => {
@@ -83,6 +123,25 @@ export class ArchiveComponent implements OnInit {
       }
     )
 
+  }
+
+  getFecha(){
+    let date =new Date();
+    let anio = date.getFullYear();
+    let mes = date.getMonth() + 1;
+    let dia = date.getDate();
+    let dd = "AM";
+    let hh =date.getHours();
+    let h = hh;
+      if (h >= 12) {
+        h = hh - 12;
+        dd = "PM";
+      }
+      if (h == 0) {
+        h = 12;
+      }
+    let hour = h + ":" + date.getMinutes() + " " + dd;
+    return anio + "/" + mes + "/"+ dia +":" + hour;
   }
 
 }
