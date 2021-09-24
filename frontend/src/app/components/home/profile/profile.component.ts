@@ -13,7 +13,7 @@ import {
 })
 export class ProfileComponent implements OnInit {
   MyName: any;
-  MySpaces:any;
+  MySpaces: any;
 
   constructor(private _userService: UserService) {
     this.MyName = {};
@@ -27,22 +27,19 @@ export class ProfileComponent implements OnInit {
         this.MyName = res.MyName;
       },
       (err) => {
-        console.log("NO HAY NADA F");
+        console.log('NO HAY NADA F');
       }
-    )
+    );
 
     this._userService.listSpaceWork().subscribe(
       (res) => {
-        console.log("HAY ALGO??");
+        console.log('HAY ALGO??');
         this.MySpaces = res.data.length;
         console.log(this.MySpaces);
-
-
       },
       (err) => {
-        console.log("NO HAY NADA F");
+        console.log('NO HAY NADA F');
       }
-    )
-
+    );
   }
 }

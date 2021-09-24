@@ -26,7 +26,11 @@
       <a mat-button routerLink="/home"> <mat-icon>home</mat-icon> </a>
     </div>
   </div>
-
+  <div class="item logo">
+    <h1>
+      <a class="logo" routerLink="/">{{ "easy work" | titlecase }}</a>
+    </h1>
+  </div>
   <div class="item left">
     <div *ngIf="isLoggedIn && isAdmin" appearance="fill">
       <mat-form-field>
@@ -43,12 +47,6 @@
         </mat-select>
       </mat-form-field>
     </div>
-  </div>
-
-  <div class="item logo">
-    <h1>
-      <a class="logo" routerLink="/">{{ "easy work" | titlecase }}</a>
-    </h1>
   </div>
 
   <div class="item right">
